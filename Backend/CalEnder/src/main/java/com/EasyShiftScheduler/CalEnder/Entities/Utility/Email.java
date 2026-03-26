@@ -1,4 +1,4 @@
-package com.EasyShiftScheduler.Misc;
+package com.EasyShiftScheduler.CalEnder.Entities.Utility;
 
 public class Email {
     public String emailAccount;

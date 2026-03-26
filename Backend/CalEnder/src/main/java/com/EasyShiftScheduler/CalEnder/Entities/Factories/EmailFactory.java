@@ -1,4 +1,4 @@
-package com.EasyShiftScheduler.Factory;
+package com.EasyShiftScheduler.CalEnder.Entities.Factories;
 
 public class EmailFactory implements NotificationFactory {
     public String emailAccount;
