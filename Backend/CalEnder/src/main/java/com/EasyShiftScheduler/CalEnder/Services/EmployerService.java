@@ -13,8 +13,8 @@ public class EmployerService {
         return employerRepository.save(employer);
     }
 
-    public Employer updateEmployer(Employer employer) {
-        return employerRepository.save(employer);
+    public Employer updateEmployer(Long id, Employer employer) {
+        return employerRepository.save(id, employer);
     }
 
     public void deleteEmployer(Long id) {

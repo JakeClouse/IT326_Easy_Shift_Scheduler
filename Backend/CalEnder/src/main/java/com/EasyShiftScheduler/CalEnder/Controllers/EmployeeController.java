@@ -13,12 +13,12 @@ public class EmployeeController {
 
     @PostMapping
     public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeService.saveUser(user);
+        return employeeService.saveEmployee(employee);
     }
 
     @PostMapping
     public Employee updateEmployee(@RequestBody Employee employee) {
-            return employeeService.saveUser(user);
+            return employeeService.saveEmployee(employee.getId(), employee);
     }
 
     @DeleteMapping("/{id}")

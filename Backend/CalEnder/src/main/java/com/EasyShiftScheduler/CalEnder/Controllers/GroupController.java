@@ -13,12 +13,12 @@ public class GroupController {
 
     @PostMapping
     public Group createGroup(@RequestBody Group group) {
-        return groupService.saveUser(user);
+        return groupService.saveGroup(group);
     }
 
     @PostMapping
     public Group updateGroup(@RequestBody Group group) {
-        return groupService.saveUser(user);
+        return groupService.saveGroup(group.getId(), group);
     }
 
     @DeleteMapping("/{id}")
