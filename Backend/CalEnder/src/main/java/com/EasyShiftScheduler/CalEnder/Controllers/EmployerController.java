@@ -13,12 +13,12 @@ public class EmployerController {
 
     @PostMapping
     public Employer createEmployer(@RequestBody Employer employer) {
-        return employerService.saveUser(user);
+        return employerService.saveEmployer(employer);
     }
 
     @PostMapping
     public Employer updateEmployer(@RequestBody Employer employer) {
-        return employerService.saveUser(user);
+        return employerService.saveEmployer(employer.getId(), employer);
     }
 
     @DeleteMapping("/{id}")

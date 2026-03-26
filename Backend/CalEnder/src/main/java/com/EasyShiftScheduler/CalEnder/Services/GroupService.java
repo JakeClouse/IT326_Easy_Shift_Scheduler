@@ -14,8 +14,8 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
-    public Group updateGroup(Group group) {
-        return groupRepository.save(group);
+    public Group updateGroup(Long id, Group group) {
+        return groupRepository.save(id, group);
     }
 
     public void deleteGroup(Long id) {

@@ -15,8 +15,8 @@ public class EmployeeService {
         return employeeRepository.save(user);
     }
 
-    public Employee updateEmployee(Employee employee) {
-        return employeeRepository.save(user);
+    public Employee updateEmployee(Long id, Employee employee) {
+        return employeeRepository.save(id, user);
     }
 
     public void deleteEmployee(Long id) {
