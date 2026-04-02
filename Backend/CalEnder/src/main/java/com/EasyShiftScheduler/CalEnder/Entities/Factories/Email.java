@@ -1,14 +1,12 @@
 package com.EasyShiftScheduler.CalEnder.Entities.Factories;
 
-public class EmailFactory implements NotificationFactory {
+public class Email implements Notification {
     public String emailAccount;
     private String password;
+    public String notificationBody;
 
-    public static void main(String[] args) {
-
-    }
-
+    @Override
     public void makeNotification(byte[] payload) {
-
+        //TODO
     }
 }
