@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
-
+    //This is cool too!
 }
