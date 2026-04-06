@@ -1,4 +1,4 @@
-import "../CSS/InputSection.css"
+import "./CSS/InputSection.css"
 
 interface InputSectionProps {
     title: string;
