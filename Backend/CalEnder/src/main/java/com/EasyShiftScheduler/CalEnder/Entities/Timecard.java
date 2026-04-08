@@ -16,6 +16,6 @@ public class Timecard{
     }
 
     public Punch[] getTimecard(){
-        return punchTimes
+        return punchTimes;
     }
 }
