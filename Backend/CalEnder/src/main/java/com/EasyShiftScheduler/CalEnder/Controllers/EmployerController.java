@@ -1,6 +1,8 @@
 package com.EasyShiftScheduler.CalEnder.Controllers;
 
+import com.EasyShiftScheduler.CalEnder.Entities.Employer;
 import com.EasyShiftScheduler.CalEnder.Services.EmployeeService;
+import com.EasyShiftScheduler.CalEnder.Services.EmployerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,5 +32,8 @@ public class EmployerController {
     public Employer getEmployer(@PathVariable Long id) {
         employerService.getById(id);
     }
+
+    @GetMapping("/{id}")
+    public void deleteEmployeeSchedule(@PathVariable Long id) { employerService.deleteEmployeeSchedule(id);}
 
 }
