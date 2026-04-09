@@ -47,4 +47,10 @@ public class Employee extends User {
         // TODO: implement
         return null;
     }
+
+    public void dropShift(String shift) {
+        //TODO: Parse string to get shift info
+        LocalDateTime startTime = null;
+        schedule.removeShift(startTime);
+    }
 }

@@ -27,4 +27,6 @@ public class EmployeeService {
         employeeRepository.getById(id);
     }
 
+    public void dropShift(Long id, String shift) { employeeRepository.dropShift(id, shift); }
+
 }
