@@ -3,7 +3,7 @@ package com.EasyShiftScheduler.CalEnder.Entities;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Employee {
+public class Employee extends User {
     
     // Private variables
     private double compensationRate;
@@ -12,7 +12,8 @@ public class Employee {
     private Timecard timecard;
     
     // Constructor
-    public Employee(double compensationRate, AvailabilitySchedule[] availability, EmployeeSchedule[] schedule, Timecard timecard) {
+    public Employee(String username, String email, String password, UserOperations userOperations, double compensationRate, AvailabilitySchedule[] availability, EmployeeSchedule[] schedule, Timecard timecard) {
+        super(username, email, password, userOperations);
         this.compensationRate = compensationRate;
         this.availability = availability;
         this.schedule = schedule;
