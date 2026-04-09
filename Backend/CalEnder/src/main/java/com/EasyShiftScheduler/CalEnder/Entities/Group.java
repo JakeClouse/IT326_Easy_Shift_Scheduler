@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class Group {
     
-    GroupOperations groupOperations;
+    public GroupOperations groupOperations;
 
     // Private variables
     private User[] groupMembers;
