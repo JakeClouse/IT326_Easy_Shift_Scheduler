@@ -7,7 +7,8 @@ public class EmailHandler {
     private String password;
     private NotificationFactory notificationFactory;
 
-    public void email(byte[] payload) {
-        notificationFactory.makeNotification(payload);
+    // Test Comments
+    public void email(Email email) {
+        
     }
 }

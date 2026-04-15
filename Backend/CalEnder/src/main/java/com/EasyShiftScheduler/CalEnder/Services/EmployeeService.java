@@ -1,5 +1,6 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
+import com.EasyShiftScheduler.CalEnder.Entities.Employee;
 import com.EasyShiftScheduler.CalEnder.Repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

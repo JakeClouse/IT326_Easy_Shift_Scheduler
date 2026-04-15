@@ -24,4 +24,8 @@ public class EmployerService {
     public Employer getEmployer(Long id) {
         employerRepository.getById(id);
     }
+
+    public void deleteEmployeeSchedule(Long id) {
+        employerRepository.deleteEmployeeSchedule(id);
+    }
 }
