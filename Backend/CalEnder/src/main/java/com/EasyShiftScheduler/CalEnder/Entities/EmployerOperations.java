@@ -1,4 +1,4 @@
-package com.EasyShiftScheduler.CalEnder.Entities.Utility;
+package com.EasyShiftScheduler.CalEnder.Entities;
 
 import com.EasyShiftScheduler.CalEnder.Entities.Employee;
 
@@ -7,7 +7,7 @@ public class EmployerOperations {
         //METHOD TBD
     }
 
-    public void acceptTimeOffRequest(TimeOfRequest request){
+    public void acceptTimeOffRequest(TimeOffRequest request){
         //METHOD TBD
     }
 }

@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import java.util.List;
 
 @Entity
-public class Employee {
+public class Employee extends User {
     
     // Private variables
     private double compensationRate;
@@ -43,7 +43,8 @@ public class Employee {
     }
 
     // Constructor
-    public Employee(double compensationRate, List<AvailabilitySchedule> availability, List<EmployeeSchedule> schedule, Timecard timecard) {
+    public Employee(String username, String email, String password, UserOperations userOperations, double compensationRate, AvailabilitySchedule[] availability, EmployeeSchedule[] schedule, Timecard timecard) {
+        super(username, email, password, userOperations);
         this.compensationRate = compensationRate;
         this.availability = availability;
         this.schedule = schedule;
@@ -78,7 +79,9 @@ public class Employee {
         return null;
     }
 
-    public void setSchedule(List<EmployeeSchedule> schedule) {
-        this.schedule = schedule;
+    public void dropShift(String shift) {
+        //TODO: Parse string to get shift info
+        LocalDateTime startTime = null;
+        schedule.removeShift(startTime);
     }
 }

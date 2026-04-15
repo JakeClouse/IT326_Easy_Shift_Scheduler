@@ -33,5 +33,7 @@ public class EmployeeScheduleService {
     public void DeleteEmployeeSchedule(Long id) {
         employeeScheduleRepository.deleteById(id);
     }
+
+    public void removeEmployeeShift(Long id, LocalDateTime startTime) { employeeScheduleRepository.removeEmployeeShift(id, startTime); }
     
 }

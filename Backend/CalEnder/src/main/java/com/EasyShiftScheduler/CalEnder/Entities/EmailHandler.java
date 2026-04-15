@@ -1,11 +1,11 @@
 package com.EasyShiftScheduler.CalEnder.Entities;
 
-import com.EasyShiftScheduler.CalEnder.Entities.Factories.Email;
+import com.EasyShiftScheduler.CalEnder.Entities.Factories.NotificationFactory;
 
 public class EmailHandler {
     public String emailAccount;
     private String password;
-    private EmailFactory emailFactory;
+    private NotificationFactory notificationFactory;
 
     // Test Comments
     public void email(Email email) {

@@ -1,13 +1,26 @@
 package com.EasyShiftScheduler.CalEnder.Entities;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+
 public class EmployeeSchedule {
-    public Calendar schedule;
+    public ArrayList<LocalDateTime[]> schedule;
 
-    public void setSchedule(Calendar newSchedule) {
-
+    public void setSchedule(ArrayList<LocalDateTime[]> newSchedule) {
+        this.schedule = newSchedule;
     }
 
-    public Calendar getSchedule() {
-        
+    public ArrayList<LocalDateTime[]> getSchedule() {
+        return this.schedule;
+    }
+
+    public void removeShift(LocalDateTime startTime) {
+        for(int i = 0; i < schedule.size(); i++) {
+            if(schedule.get()[0] == startTime) {
+                schedule.remove(i);
+                break;
+            }
+        }
     }
 }

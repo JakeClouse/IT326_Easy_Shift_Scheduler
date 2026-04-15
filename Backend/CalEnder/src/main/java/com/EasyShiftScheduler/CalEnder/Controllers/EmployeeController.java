@@ -31,4 +31,6 @@ public class EmployeeController {
         employeeService.getById(id);
     }
 
+    public void dropShift(Long id, String shift) { employeeService.dropShift(id, shift); }
+
 }

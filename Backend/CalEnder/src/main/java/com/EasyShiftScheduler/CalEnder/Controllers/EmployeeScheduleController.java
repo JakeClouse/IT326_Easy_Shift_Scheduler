@@ -40,5 +40,7 @@ public class EmployeeScheduleController {
     public void DeleteEmployeeSchedule(@PathVariable long id) {
         employeeScheduleService.DeleteEmployeeSchedule(id);
     }
-      
+
+    public void removeEmployeeShift(Long id, LocalDateTime startTime) {  employeeScheduleService.removeEmployeeShift(id, startTime); }
+
 }

@@ -18,4 +18,12 @@ public class Punch {
     public void setTime(LocalDateTime time) {
         this.time = time;
     }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 }
