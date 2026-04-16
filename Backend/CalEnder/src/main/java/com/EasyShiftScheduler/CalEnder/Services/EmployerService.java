@@ -1,8 +1,10 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
-import com.EasyShiftScheduler.CalEnder.Repositories.EmployerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.EasyShiftScheduler.CalEnder.Entities.Employer;
+import com.EasyShiftScheduler.CalEnder.Repositories.EmployerRepository;
 
 @Service
 public class EmployerService {
@@ -13,8 +15,9 @@ public class EmployerService {
         return employerRepository.save(employer);
     }
 
-    public Employer updateEmployer(Long id, Employer employer) {
-        return employerRepository.save(id, employer);
+    public Employer updateEmployer(Employer employer, String username, String email) {
+        employer.getUserOperations().updateProfile(employer, username, email);
+        return employerRepository.save(employer);
     }
 
     public void deleteEmployer(Long id) {
@@ -22,7 +25,7 @@ public class EmployerService {
     }
 
     public Employer getEmployer(Long id) {
-        employerRepository.getById(id);
+        return employerRepository.findById(id).orElse(null);
     }
 
     public void deleteEmployeeSchedule(Long id) {

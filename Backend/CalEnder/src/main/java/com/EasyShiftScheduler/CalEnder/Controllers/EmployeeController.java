@@ -1,5 +1,6 @@
 package com.EasyShiftScheduler.CalEnder.Controllers;
 
+import com.EasyShiftScheduler.CalEnder.Entities.Employee;
 import com.EasyShiftScheduler.CalEnder.Services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,9 @@ public class EmployeeController {
         return employeeService.saveEmployee(employee);
     }
 
-    @PostMapping
-    public Employee updateEmployee(@RequestBody Employee employee) {
-            return employeeService.saveEmployee(employee.getId(), employee);
+    @PostMapping("/{id}/{username}/{email}")
+    public Employee updateEmployee(@RequestBody Employee employee, @PathVariable String username, @PathVariable String email) {
+            return employeeService.updateEmployee(employee, username, email);
     }
 
     @DeleteMapping("/{id}")
@@ -28,9 +29,12 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public Employee getEmployee(@PathVariable Long id) {
-        employeeService.getById(id);
+        return employeeService.getById(id);
     }
 
-    public void dropShift(Long id, String shift) { employeeService.dropShift(id, shift); }
+    @DeleteMapping("/shifts/{id}")
+    public void dropShift(@PathVariable Long id, @RequestParam String shift) {
+        employeeService.dropShift(id, shift);
+    }
 
 }

@@ -1,6 +1,9 @@
 package com.EasyShiftScheduler.CalEnder.Controllers;
 
+import com.EasyShiftScheduler.CalEnder.Entities.Group;
 import com.EasyShiftScheduler.CalEnder.Services.EmployeeService;
+import com.EasyShiftScheduler.CalEnder.Services.GroupService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +31,12 @@ public class GroupController {
 
     @GetMapping("/{id}")
     public Group getGroup(@PathVariable Long id) {
-        groupService.getById(id);
+        return groupService.getById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void removeEmployeeFromGroup(@PathVariable Long id, @RequestParam Long employeeId) {
+        groupService.removeMemberFromGroup(id, employeeId);
     }
 
 }
