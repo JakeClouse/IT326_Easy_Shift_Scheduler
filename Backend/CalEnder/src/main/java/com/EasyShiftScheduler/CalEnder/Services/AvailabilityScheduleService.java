@@ -13,23 +13,18 @@ public class AvailabilityScheduleService {
     @Autowired
     private AvailabilityScheduleRepository availabilityScheduleRepository;
 
-    @PostMapping
     public AvailabilitySchedule CreateAvailabilitySchedule(AvailabilitySchedule availabilitySchedule) {
         return availabilityScheduleRepository.save(availabilitySchedule);
     }
 
-    @PostMapping
     public AvailabilitySchedule ReadAvailabilitySchedule(Long id) {
         return availabilityScheduleRepository.findById(id).orElse(null);
     }
 
-
-    @PostMapping
     public AvailabilitySchedule UpdateAvailabilitySchedule(AvailabilitySchedule availabilitySchedule, Long id) {
         return availabilityScheduleRepository.save(availabilitySchedule);
     }
 
-    @DeleteMapping
     public void DeleteAvailabilitySchedule(Long id) {
         availabilityScheduleRepository.deleteById(id);
     }
