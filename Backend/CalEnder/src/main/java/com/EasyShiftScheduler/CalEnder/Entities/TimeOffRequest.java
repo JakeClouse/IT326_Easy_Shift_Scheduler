@@ -1,69 +1,90 @@
 package com.EasyShiftScheduler.CalEnder.Entities;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 public class TimeOffRequest {
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long time_off_request_id;
+
     // Private variables
-    private String startDate;
-    private String endDate;
+    @Column
+    private LocalDateTime startDate;
+
+    @Column
+    private LocalDateTime endDate;
+
+    @Column
     private String reason;
+
+    @Column
     private boolean approved;
-    private Employee employee;
-    private Employer employer;
-    
-    // Constructor
-    public TimeOffRequest(String startDate, String endDate, String reason, boolean approved, Employee employee, Employer employer) {
+
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user_that_requested;
+
+    public TimeOffRequest() {
+    }
+
+    public TimeOffRequest(Long time_off_request_id, LocalDateTime startDate, LocalDateTime endDate, String reason, boolean approved, User user_that_requested) {
+        this.time_off_request_id = time_off_request_id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.reason = reason;
         this.approved = approved;
-        this.employee = employee;
-        this.employer = employer;
+        this.user_that_requested = user_that_requested;
     }
-    
-    // Getter for startDate
-    public String getStartDate() {
-        // TODO: implement
-        return null;
+
+    public Long getTime_off_request_id() {
+        return time_off_request_id;
     }
-    
-    // Getter for endDate
-    public String getEndDate() {
-        // TODO: implement
-        return null;
+
+    public void setTime_off_request_id(Long time_off_request_id) {
+        this.time_off_request_id = time_off_request_id;
     }
-    
-    // Getter for reason
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
     public String getReason() {
-        // TODO: implement
-        return null;
+        return reason;
     }
-    
-    // Getter for approved
-    public boolean getApproved() {
-        // TODO: implement
-        return false;
-    }
-    
-    // Setter for startDate
-    public void setStartDate(String startDate) {
-        // TODO: implement
-    }
-    
-    // Setter for endDate
-    public void setEndDate(String endDate) {
-        // TODO: implement
-    }
-    
-    // Setter for reason
+
     public void setReason(String reason) {
-        // TODO: implement
+        this.reason = reason;
     }
-    
-    // Setter for approved
-    public void setApproved(Boolean isApproved) {
-        // TODO: implement
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public User getUser_that_requested() {
+        return user_that_requested;
+    }
+
+    public void setUser_that_requested(User user_that_requested) {
+        this.user_that_requested = user_that_requested;
     }
 }

@@ -1,50 +1,46 @@
 package com.EasyShiftScheduler.CalEnder.Entities;
 
-import com.EasyShiftScheduler.CalEnder.Entities.Abstract.User;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
+@Table(name="USER_GROUPS")
 public class Group {
-    
-    // Private variables
-    private User[] groupMembers;
-    
-    // Constructor
-    public Group(User[] groupMembers) {
-        this.groupMembers = groupMembers;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long group_id;
+
+    @ManyToMany
+    @JoinTable(
+            name="group_user",
+            joinColumns = @JoinColumn(name="group_id"),
+            inverseJoinColumns = @JoinColumn(name="user_id")
+    )
+    private List<User> group_users;
+
+    public Group() {
     }
-    
-    // Getter for groupMembers
-    public User[] getGroupMembers() {
-        // TODO: implement
-        return null;
+
+    public Group(Long group_id, List<User> group_users) {
+        this.group_id = group_id;
+        this.group_users = group_users;
     }
-    
-    // Setter for groupMembers
-    public void setGroupMembers(User[] groupMembers) {
-        // TODO: implement
+
+    public Long getGroup_id() {
+        return group_id;
     }
-    
-    // Getter for members
-    public User[] getMembers() {
-        // TODO: implement
-        return null;
+
+    public void setGroup_id(Long group_id) {
+        this.group_id = group_id;
     }
-    
-    // Remove a member from the group
-    public void removeMember(User userToRemove) {
-        // TODO: implement
+
+    public List<User> getGroup_users() {
+        return group_users;
     }
-    
-    // Add a member to the group
-    public void addMember(User userToAdd) {
-        // TODO: implement
-    }
-    
-    // Getter for schedule
-    public Object getSchedule() {
-        // TODO: implement
-        return null;
+
+    public void setGroup_users(List<User> group_users) {
+        this.group_users = group_users;
     }
 }
