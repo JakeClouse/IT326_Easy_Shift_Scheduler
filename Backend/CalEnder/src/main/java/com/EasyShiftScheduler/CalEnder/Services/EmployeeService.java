@@ -13,11 +13,12 @@ public class EmployeeService {
     private EmployeeRepository employeeRepository;
 
     public Employee createEmployee(Employee employee) {
-        return employeeRepository.save(user);
+        return employeeRepository.save(employee);
     }
 
-    public Employee updateEmployee(Long id, Employee employee) {
-        return employeeRepository.save(id, user);
+    public Employee updateEmployee(Employee employee, String username, String email) {
+        employee.getUserOperations().updateProfile(employee, username, email);
+        return employeeRepository.save(employee);
     }
 
     public void deleteEmployee(Long id) {
@@ -25,9 +26,11 @@ public class EmployeeService {
     }
 
     public Employee getEmployee(Long id) {
-        employeeRepository.getById(id);
+        return employeeRepository.findById(id).orElse(null);
     }
 
-    public void dropShift(Long id, String shift) { employeeRepository.dropShift(id, shift); }
+    public void dropShift(Long id, String shift) { 
+        employeeRepository.dropShift(id, shift); 
+    }
 
 }

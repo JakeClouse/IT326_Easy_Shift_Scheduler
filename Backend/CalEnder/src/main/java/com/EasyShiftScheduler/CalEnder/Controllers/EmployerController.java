@@ -18,9 +18,9 @@ public class EmployerController {
         return employerService.saveEmployer(employer);
     }
 
-    @PostMapping
-    public Employer updateEmployer(@RequestBody Employer employer) {
-        return employerService.saveEmployer(employer.getId(), employer);
+    @PostMapping("/{id}/{username}/{email}")
+    public Employer updateEmployer(@RequestBody Employer employer, @PathVariable String username, @PathVariable String email) {
+        return employerService.updateEmployer(employer, username, email);
     }
 
     @DeleteMapping("/{id}")
@@ -30,7 +30,7 @@ public class EmployerController {
 
     @GetMapping("/{id}")
     public Employer getEmployer(@PathVariable Long id) {
-        employerService.getById(id);
+        return employerService.getById(id);
     }
 
     @GetMapping("/{id}")

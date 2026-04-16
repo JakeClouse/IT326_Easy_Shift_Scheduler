@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.EasyShiftScheduler.CalEnder.Entities.Employer;
 
+@Repository
 public interface EmployerRepository extends CrudRepository<Employer, Long> {
     // TEST ASAP WHEN WE MAKE DB
     @Modifying

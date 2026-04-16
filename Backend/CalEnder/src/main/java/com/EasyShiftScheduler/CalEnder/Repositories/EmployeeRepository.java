@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.EasyShiftScheduler.CalEnder.Entities.Employee;
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
-    //This is cool too!
+    public void dropShift(Long id, String shift);
 }

@@ -1,7 +1,5 @@
 package com.EasyShiftScheduler.CalEnder.Entities;
 
-import javax.management.ConstructorParameters;
-
 public class UserOperations {
 
     public void login(String username, String password){
@@ -27,4 +25,11 @@ public class UserOperations {
         boolean hasSpecial = password.matches(".*[!@#$%^&*()\\-+].*$");
         return noSpaces && hasUpper && hasLower && hasNumber && hasSpecial;
     }
+
+    //Function for updating a user's profile information, such as name and email.
+    public void updateProfile(User user, String name, String email){
+        user.setUsername(name);
+        user.setEmail(email);
+    }
+
 }
