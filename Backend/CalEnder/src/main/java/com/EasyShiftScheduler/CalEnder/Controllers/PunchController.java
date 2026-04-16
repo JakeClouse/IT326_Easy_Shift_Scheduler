@@ -39,6 +39,11 @@ public class PunchController {
     public void DeletePunch(@PathVariable long id) {
         punchService.DeletePunch(id);
     }
-      
+    
+    //Use Case 25: Assign Punch Reason
+    @PutMapping("/{id}/reason")
+    public Punch assignReason(@PathVariable long id, @RequestBody String reason) {
+        return punchService.assignReason(id, reason);
+    }
 }
 

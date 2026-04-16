@@ -13,26 +13,31 @@ public class PunchService {
     @Autowired
     private PunchRepository punchRepository;
 
-    @PostMapping
     public Punch CreatePunch(Punch punch) {
         return punchRepository.save(punch);
     }
 
-    @PostMapping
     public Punch ReadPunch(Long id) {
         return punchRepository.findById(id).orElse(null);
     }
 
-
-    @PostMapping
     public Punch UpdatePunch(Punch punch, Long id) {
         return punchRepository.save(punch);
     }
 
-    @DeleteMapping
     public void DeletePunch(Long id) {
         punchRepository.deleteById(id);
     }
     
+    //Use Case 25: Assign Punch Reason
+    //Finds an existing punch by ID and updates its reason field.
+    public Punch assignReason(Long id, String reason) {
+        Punch punch = punchRepository.findById(id).orElse(null);
+        if (punch != null) {
+            punch.setReason(reason);
+            punchRepository.save(punch);
+        }
+        return punch;
+    }
 }
 

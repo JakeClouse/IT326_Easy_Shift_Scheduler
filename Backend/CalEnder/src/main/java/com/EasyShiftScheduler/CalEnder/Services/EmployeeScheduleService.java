@@ -13,23 +13,18 @@ public class EmployeeScheduleService {
     @Autowired
     private EmployeeScheduleRepository employeeScheduleRepository;
 
-    @PostMapping
     public EmployeeSchedule CreateEmployeeSchedule(EmployeeSchedule employeeSchedule) {
         return employeeScheduleRepository.save(employeeSchedule);
     }
 
-    @PostMapping
     public EmployeeSchedule ReadEmployeeSchedule(Long id) {
         return employeeScheduleRepository.findById(id).orElse(null);
     }
 
-
-    @PostMapping
     public EmployeeSchedule UpdateEmployeeSchedule(EmployeeSchedule employeeSchedule, Long id) {
         return employeeScheduleRepository.save(employeeSchedule);
     }
 
-    @DeleteMapping
     public void DeleteEmployeeSchedule(Long id) {
         employeeScheduleRepository.deleteById(id);
     }
