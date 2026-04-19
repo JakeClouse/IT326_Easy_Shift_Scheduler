@@ -1,21 +1,30 @@
 package com.EasyShiftScheduler.CalEnder.Entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="User")
+@Table(name="USER")
+@NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long user_id;
 
-    @Column
+    @Column(unique = true)
     private String username;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
     @Column
@@ -50,109 +59,10 @@ public class User {
     )
     private List<Group> groups = new ArrayList<>();
 
-    public User() {
-    }
 
-    public User(Long user_id, String username, String email, String password, double compensation_rate, UserType user_type, UserTimecard timecard, UserAvailabilitySchedule availability_schedule, UserWorkSchedule work_schedule, List<TimeOffRequest> time_off_requests, List<Group> groups) {
-        this.user_id = user_id;
+    public User(String username, String password) {
         this.username = username;
-        this.email = email;
         this.password = password;
-        this.compensation_rate = compensation_rate;
-        this.user_type = user_type;
-        this.timecard = timecard;
-        this.availability_schedule = availability_schedule;
-        this.work_schedule = work_schedule;
-        this.time_off_requests = time_off_requests;
-        this.groups = groups;
-    }
 
-    public Long getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    public double getCompensation_rate() {
-        return compensation_rate;
-    }
-
-    public void setCompensation_rate(double compensation_rate) {
-        this.compensation_rate = compensation_rate;
-    }
-
-    public UserType getUser_type() {
-        return user_type;
-    }
-
-    public void setUser_type(UserType user_type) {
-        this.user_type = user_type;
-    }
-
-    public UserTimecard getTimecard() {
-        return timecard;
-    }
-
-    public void setTimecard(UserTimecard timecard) {
-        this.timecard = timecard;
-    }
-
-    public UserAvailabilitySchedule getAvailability_schedule() {
-        return availability_schedule;
-    }
-
-    public void setAvailability_schedule(UserAvailabilitySchedule availability_schedule) {
-        this.availability_schedule = availability_schedule;
-    }
-
-    public UserWorkSchedule getWork_schedule() {
-        return work_schedule;
-    }
-
-    public void setWork_schedule(UserWorkSchedule work_schedule) {
-        this.work_schedule = work_schedule;
-    }
-
-    public List<TimeOffRequest> getTime_off_requests() {
-        return time_off_requests;
-    }
-
-    public void setTime_off_requests(List<TimeOffRequest> time_off_requests) {
-        this.time_off_requests = time_off_requests;
-    }
-
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
     }
 }

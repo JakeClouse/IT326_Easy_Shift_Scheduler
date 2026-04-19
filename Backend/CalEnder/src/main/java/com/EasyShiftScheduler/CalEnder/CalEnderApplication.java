@@ -9,5 +9,4 @@ public class CalEnderApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CalEnderApplication.class, args);
 	}
-
 }
