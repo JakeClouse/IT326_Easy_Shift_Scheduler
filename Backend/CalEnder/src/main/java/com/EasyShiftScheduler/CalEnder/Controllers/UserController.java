@@ -1,5 +1,7 @@
 package com.EasyShiftScheduler.CalEnder.Controllers;
 
+import com.EasyShiftScheduler.CalEnder.Entities.User;
+import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
 import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
 import com.EasyShiftScheduler.CalEnder.Services.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -8,11 +10,32 @@ import java.sql.Time;
 
 
 @RestController
-@RequestMapping("/api/user/")
+@RequestMapping("/api/user")
 public class UserController {
     private UserService userService;
 
     public UserController(UserService userService){
         this.userService = userService;
     }
+
+    @PutMapping("/{id}/work-schedule/delete")
+    public String deleteSchedule(@RequestParam("userID") long userID){
+        return userService.deleteSchedule(userID);
+    }
+
+    @PutMapping("/{id}/avail-schedule/update")
+    public String setAvailSchedule(@RequestParam("userID") long userID, @RequestBody UserAvailabilitySchedule availabilitySchedule){
+        return userService.setSchedule(userID, availabilitySchedule);
+    }
+
+    @PutMapping("/{id}/account/update")
+    public String updateAccountInfo(@RequestParam("userID") long userID, @RequestBody User user){
+        return userService.updateAccountInfo(userID, user);
+    }
+
+    @PutMapping("/{id}/timecard/update")
+    public String overrideTimecard(@RequestParam("userID") long userID, @RequestBody UserTimecard userTimecard){
+        return userService.overrideTimecard(userID, userTimecard);
+    }
+
 }

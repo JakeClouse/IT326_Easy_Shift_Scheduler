@@ -47,7 +47,7 @@ public class WebSecurityConfig {
                         authorizeRequests
 
                                 // Add protected API URLs here
-                                .requestMatchers("/api/auth/test").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/user/{id}/reason").hasAuthority("EMPLOYER")
                                 .requestMatchers("/api/group/remove-user-from-group").hasAuthority("EMPLOYER")
 
 
