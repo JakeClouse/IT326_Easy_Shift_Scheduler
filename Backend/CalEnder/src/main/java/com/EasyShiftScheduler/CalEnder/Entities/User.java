@@ -31,6 +31,9 @@ public class User {
     private String password;
 
     @Column
+    private String roles;
+
+    @Column
     private double compensation_rate;
 
     @Enumerated(EnumType.ORDINAL)
