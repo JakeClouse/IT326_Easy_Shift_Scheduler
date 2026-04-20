@@ -1,4 +1,4 @@
-package com.EasyShiftScheduler.CalEnder.Entities;
+package com.EasyShiftScheduler.CalEnder;
 
 import com.EasyShiftScheduler.CalEnder.Helpers.UserOperations;
 import org.junit.jupiter.api.BeforeEach;
