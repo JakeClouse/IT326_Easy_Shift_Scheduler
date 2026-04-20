@@ -45,9 +45,10 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
+
                                 // Add protected API URLs here
                                 .requestMatchers("/api/auth/test").hasAuthority("EMPLOYER")
-
+                                .requestMatchers("/api/group/remove-user-from-group").hasAuthority("EMPLOYER")
 
 
                                 .requestMatchers("/api/auth/**").permitAll() // Use 'requestMatchers' instead of 'antMatchers'

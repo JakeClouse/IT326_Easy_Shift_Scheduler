@@ -1,22 +1,20 @@
 package com.EasyShiftScheduler.CalEnder.Helpers;
 
+import com.EasyShiftScheduler.CalEnder.Entities.Group;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class GroupOperations {
 
-    /**
-     * Removes a user from their own group
-     * @param password The password to check.
-     * @return true if the password is strong, false otherwise.
-     **/
-//    public boolean removeMember(User userToRemove) {
-//        ArrayList<User> members = getMembers();
-//        members.remove(userToRemove);
-//    }
+    public Group removeMemberFromGroup(Group group, User userToRemove) {
+        List<User> users = group.getGroup_users();
+        users.remove(userToRemove);
+        group.setGroup_users(users);
+        return group;
+    }
 
 
 }
