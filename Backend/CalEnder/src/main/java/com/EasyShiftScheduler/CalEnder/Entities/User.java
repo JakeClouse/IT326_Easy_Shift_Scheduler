@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="USER")
+@Table(name="users")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -19,7 +19,8 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long user_id;
+    @Column(name = "id")
+    private Long id;
 
     @Column(unique = true)
     private String username;
@@ -44,7 +45,7 @@ public class User {
     private UserTimecard timecard;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "availability_schedule_id")
+    @JoinColumn(name = "availability_schedule_id", referencedColumnName = "id")
     private UserAvailabilitySchedule availability_schedule;
 
     @OneToOne(cascade = CascadeType.ALL)
