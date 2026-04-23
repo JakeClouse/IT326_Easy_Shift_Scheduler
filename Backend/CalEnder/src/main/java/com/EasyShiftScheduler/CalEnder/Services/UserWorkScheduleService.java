@@ -44,7 +44,7 @@ public class UserWorkScheduleService {
 
         UserWorkSchedule returnObject = userWorkScheduleRepository.save(uws);
         user.get().setWork_schedule(returnObject);
-        
+
         userRepository.save(user.get());
 
         return returnObject;
@@ -66,6 +66,26 @@ public class UserWorkScheduleService {
         }   
 
         return userWorkScheduleRepository.save(uws.get());
+    }
+
+    public String acknowledgeSchedule(long userID, long employerID){
+        Optional<User> employer = userRepository.findById(employerID);
+        Optional<User> user = userRepository.findById(userID);
+
+        if (employer.isEmpty()){
+            throw new EntityNotFoundException("Recipient Not Found");
+        }
+
+        if (user.isEmpty()){
+            throw new EntityNotFoundException("Sender Not Found");
+        }
+
+        String username = user.get().getUsername();
+
+        String message = username + " has acknowledged their schedule";
+
+        //send email here
+        return "Email Sent";
     }
 
 
