@@ -49,4 +49,10 @@ public class UserController {
     public String generateCompensationReport(@RequestParam("userID") long userID) {
         return userService.generateCompensationReport(userID);
     }
+
+    // Update compensation rate (employer action)
+    @PutMapping("/{id}/compensation-rate")
+    public String updateCompensationRate(@RequestParam("userID") long userID, @RequestBody double newRate) {
+        return userService.updateCompensationRate(userID, newRate);
+    }
 }
