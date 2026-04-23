@@ -10,9 +10,9 @@ import java.util.List;
 public class GroupOperations {
 
     public Group removeMemberFromGroup(Group group, User userToRemove) {
-        List<User> users = group.getGroup_users();
+        List<User> users = group.getUsers();
         users.remove(userToRemove);
-        group.setGroup_users(users);
+        group.setUsers(users);
         return group;
     }
 
