@@ -1,5 +1,6 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
+import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
 import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
@@ -11,7 +12,11 @@ import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Optional;
 
 @Service
@@ -21,13 +26,15 @@ public class UserService {
     private final UserAvailabilityScheduleRepository availabilityScheduleRepository;
     private final PasswordEncoder encoder;
     private final UserWorkScheduleRepository userWorkScheduleRepository;
+    private final EmailService emailService;
 
-    public UserService(UserRepository userRepository, UserOperations userOperations, UserAvailabilityScheduleRepository availabilityScheduleRepository,UserWorkScheduleRepository userWorkScheduleRepository, PasswordEncoder encoder) {
+    public UserService(UserRepository userRepository, UserOperations userOperations, UserAvailabilityScheduleRepository availabilityScheduleRepository, UserWorkScheduleRepository userWorkScheduleRepository, PasswordEncoder encoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.userOperations = userOperations;
         this.availabilityScheduleRepository = availabilityScheduleRepository;
         this.encoder = encoder;
         this.userWorkScheduleRepository = userWorkScheduleRepository;
+        this.emailService = emailService;
     }
 
     public boolean existsByUsername(String username) {
@@ -164,5 +171,27 @@ public class UserService {
         user.get().setCompensation_rate(newRate);
         userRepository.save(user.get());
         return "Compensation rate updated";
+    }
+
+    public String updatePassword(long userID, String newPassword) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isPresent()){
+            user.get().setPassword(newPassword);
+            save(user.get());
+
+            EmailDetails details = new EmailDetails(user.get().getEmail(), "Your password has been updated", "Password Update");
+            byte[] serializedDetails = SerializationUtils.serialize(details);
+
+            try {
+                emailService.sendNotification(serializedDetails);
+            } catch (Exception e) {
+                return "Error sending email";
+            }
+
+            return "Password Updated";
+        }
+        else {
+            return "Error Updating Password";
+        }
     }
 }

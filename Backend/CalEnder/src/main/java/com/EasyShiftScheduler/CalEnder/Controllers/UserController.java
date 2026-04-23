@@ -3,19 +3,19 @@ package com.EasyShiftScheduler.CalEnder.Controllers;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
 import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
+import com.EasyShiftScheduler.CalEnder.Services.EmailService;
 import com.EasyShiftScheduler.CalEnder.Services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 
 
 @RestController
 @RequestMapping("/api/user")
+@AllArgsConstructor
 public class UserController {
     private UserService userService;
-
-    public UserController(UserService userService){
-        this.userService = userService;
-    }
+    private EmailService emailService;
 
     @PutMapping("/{userID}/work-schedule/delete")
     public String deleteSchedule(@PathVariable("userID") long userID){
@@ -48,20 +48,26 @@ public class UserController {
     }
 
     // Create automatic schedule
-    @PostMapping("/{id}/work-schedule/auto")
+    @PostMapping("/{userID}/work-schedule/auto")
     public String createAutoSchedule(@RequestParam("userID") long userID) {
         return userService.createAutoSchedule(userID);
     }
 
     // Generate compensation report
-    @GetMapping("/{id}/compensation-report")
+    @GetMapping("/{userID}/compensation-report")
     public String generateCompensationReport(@RequestParam("userID") long userID) {
         return userService.generateCompensationReport(userID);
     }
 
     // Update compensation rate (employer action)
-    @PutMapping("/{id}/compensation-rate")
+    @PutMapping("/{userID}/compensation-rate")
     public String updateCompensationRate(@RequestParam("userID") long userID, @RequestBody double newRate) {
         return userService.updateCompensationRate(userID, newRate);
+    }
+
+    // Update compensation rate (employer action)
+    @PutMapping("/{userID}/compensation-rate")
+    public String updatePassword(@RequestParam("userID") long userID, @RequestBody String newPassword) {
+        return userService.updatePassword(userID, newPassword);
     }
 }
