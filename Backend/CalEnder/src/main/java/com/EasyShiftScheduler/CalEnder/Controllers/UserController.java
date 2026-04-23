@@ -43,4 +43,10 @@ public class UserController {
     public String createAutoSchedule(@RequestParam("userID") long userID) {
         return userService.createAutoSchedule(userID);
     }
+
+    // Generate compensation report
+    @GetMapping("/{id}/compensation-report")
+    public String generateCompensationReport(@RequestParam("userID") long userID) {
+        return userService.generateCompensationReport(userID);
+    }
 }
