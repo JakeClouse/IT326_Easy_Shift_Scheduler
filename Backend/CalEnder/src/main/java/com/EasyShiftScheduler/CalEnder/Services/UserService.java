@@ -3,9 +3,10 @@ package com.EasyShiftScheduler.CalEnder.Services;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
 import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
+import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
 import com.EasyShiftScheduler.CalEnder.Helpers.UserOperations;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +17,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserOperations userOperations;
     private final PasswordEncoder encoder;
+    private final UserWorkScheduleRepository userWorkScheduleRepository;
 
-    public UserService(UserRepository userRepository, UserOperations userOperations, PasswordEncoder encoder) {
+    public UserService(UserRepository userRepository, UserOperations userOperations, PasswordEncoder encoder, UserWorkScheduleRepository userWorkScheduleRepository) {
         this.userRepository = userRepository;
         this.userOperations = userOperations;
         this.encoder = encoder;
+        this.userWorkScheduleRepository = userWorkScheduleRepository;
     }
 
     public boolean existsByUsername(String username) {
@@ -89,4 +92,25 @@ public class UserService {
             return "User not found";
         }
     }
+
+    // Create automatic schedule - auto-generate a work schedule from the user's availability
+    public String createAutoSchedule(long userID) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isEmpty())
+            return "User not found";
+
+        UserAvailabilitySchedule avail = user.get().getAvailability_schedule();
+        if (avail == null)
+            return "No availability set for user";
+
+        UserWorkSchedule newSchedule = new UserWorkSchedule();
+        newSchedule.setWork_schedule(avail.getAvailability_schedule());
+        userWorkScheduleRepository.save(newSchedule);
+
+        user.get().setWork_schedule(newSchedule);
+        userRepository.save(user.get());
+
+        return "Work schedule created from availability";
+    }
+
 }
