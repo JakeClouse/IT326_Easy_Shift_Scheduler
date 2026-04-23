@@ -114,6 +114,7 @@ public class UserService {
         return "Work schedule created from availability";
     }
 
+    // Generate a compensation report for a user
     public String generateCompensationReport(long userID) {
         Optional<User> user = userRepository.findById(userID);
         if (user.isEmpty())
@@ -123,5 +124,16 @@ public class UserService {
         
         CompensationReport report = new CompensationReport();
         return report.generateReport(user.get());
+    }
+
+    // Update a user's compensation rate (employer action)
+    public String updateCompensationRate(long userID, double newRate) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isEmpty())
+            return "User not found";
+        
+        user.get().setCompensation_rate(newRate);
+        userRepository.save(user.get());
+        return "Compensation rate updated";
     }
 }
