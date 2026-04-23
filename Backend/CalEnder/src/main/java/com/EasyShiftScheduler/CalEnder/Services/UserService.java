@@ -3,10 +3,12 @@ package com.EasyShiftScheduler.CalEnder.Services;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
 import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
+import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
 import com.EasyShiftScheduler.CalEnder.Helpers.UserOperations;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserAvailabilityScheduleRepository;
+import com.EasyShiftScheduler.CalEnder.Helpers.CompensationReport;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +20,14 @@ public class UserService {
     private final UserOperations userOperations;
     private final UserAvailabilityScheduleRepository availabilityScheduleRepository;
     private final PasswordEncoder encoder;
+    private final UserWorkScheduleRepository userWorkScheduleRepository;
 
-    public UserService(UserRepository userRepository, UserOperations userOperations, UserAvailabilityScheduleRepository availabilityScheduleRepository, PasswordEncoder encoder) {
+    public UserService(UserRepository userRepository, UserOperations userOperations, UserAvailabilityScheduleRepository availabilityScheduleRepository,UserWorkScheduleRepository userWorkScheduleRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.userOperations = userOperations;
         this.availabilityScheduleRepository = availabilityScheduleRepository;
         this.encoder = encoder;
+        this.userWorkScheduleRepository = userWorkScheduleRepository;
     }
 
     public boolean existsByUsername(String username) {
@@ -117,5 +121,48 @@ public class UserService {
         else {
             return "User not found";
         }
+    }
+
+    // Create automatic schedule - auto-generate a work schedule from the user's availability
+    public String createAutoSchedule(long userID) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isEmpty())
+            return "User not found";
+
+        UserAvailabilitySchedule avail = user.get().getAvailability_schedule();
+        if (avail == null)
+            return "No availability set for user";
+
+        UserWorkSchedule newSchedule = new UserWorkSchedule();
+        newSchedule.setWork_schedule(avail.getAvailability_schedule());
+        userWorkScheduleRepository.save(newSchedule);
+
+        user.get().setWork_schedule(newSchedule);
+        userRepository.save(user.get());
+
+        return "Work schedule created from availability";
+    }
+
+    // Generate a compensation report for a user
+    public String generateCompensationReport(long userID) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isEmpty())
+            return "User not found";
+        if (user.get().getTimecard() == null)
+            return "No timecard found";
+        
+        CompensationReport report = new CompensationReport();
+        return report.generateReport(user.get());
+    }
+
+    // Update a user's compensation rate (employer action)
+    public String updateCompensationRate(long userID, double newRate) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isEmpty())
+            return "User not found";
+        
+        user.get().setCompensation_rate(newRate);
+        userRepository.save(user.get());
+        return "Compensation rate updated";
     }
 }

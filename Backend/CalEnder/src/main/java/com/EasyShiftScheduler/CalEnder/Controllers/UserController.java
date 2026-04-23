@@ -47,4 +47,21 @@ public class UserController {
         return userService.overrideTimecard(userID, userTimecard);
     }
 
+    // Create automatic schedule
+    @PostMapping("/{id}/work-schedule/auto")
+    public String createAutoSchedule(@RequestParam("userID") long userID) {
+        return userService.createAutoSchedule(userID);
+    }
+
+    // Generate compensation report
+    @GetMapping("/{id}/compensation-report")
+    public String generateCompensationReport(@RequestParam("userID") long userID) {
+        return userService.generateCompensationReport(userID);
+    }
+
+    // Update compensation rate (employer action)
+    @PutMapping("/{id}/compensation-rate")
+    public String updateCompensationRate(@RequestParam("userID") long userID, @RequestBody double newRate) {
+        return userService.updateCompensationRate(userID, newRate);
+    }
 }

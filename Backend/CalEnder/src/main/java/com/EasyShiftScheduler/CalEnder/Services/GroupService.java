@@ -1,14 +1,15 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.EasyShiftScheduler.CalEnder.Entities.Group;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Helpers.GroupOperations;
 import com.EasyShiftScheduler.CalEnder.Repositories.GroupRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GroupService {
@@ -61,5 +62,34 @@ public class GroupService {
 
         return "Successfully remove employee from group";
     }
+
+    public Group createGroup(List<Long> userIds){
+        Group group = new Group();
+        
+        for(int i = 0; i < userIds.size(); i++){
+             Optional<User> user = userRepository.findById(userIds.get(i));
+
+            if (!user.isEmpty()){
+                group.getGroup_users().add(user.get());
+            }
+        }
+
+        Group newGroup = groupRepository.save(group);
+
+        //cleanpup so users have reference as well.
+        for(int i = 0; i < userIds.size(); i++){
+            Optional<User> user = userRepository.findById(userIds.get(i));
+
+            if (!user.isEmpty()){
+                user.get().getGroups().add(newGroup);
+                userRepository.save(user.get());
+            }
+        }
+        return newGroup;
+    }
+
+
+
+
 
 }
