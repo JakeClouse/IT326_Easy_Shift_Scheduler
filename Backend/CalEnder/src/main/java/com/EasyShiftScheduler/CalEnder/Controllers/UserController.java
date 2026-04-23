@@ -38,4 +38,9 @@ public class UserController {
         return userService.overrideTimecard(userID, userTimecard);
     }
 
+    // Create automatic schedule
+    @PostMapping("/{id}/work-schedule/auto")
+    public String createAutoSchedule(@RequestParam("userID") long userID) {
+        return userService.createAutoSchedule(userID);
+    }
 }
