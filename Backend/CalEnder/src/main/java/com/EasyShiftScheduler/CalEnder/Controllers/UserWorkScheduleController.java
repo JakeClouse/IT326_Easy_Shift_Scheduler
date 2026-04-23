@@ -32,4 +32,9 @@ public class UserWorkScheduleController {
         return userWorkScheduleService.updateSchedule(UserWorkScheduleID, times);
     }
 
+    @PostMapping("/acknowledge-schedule")
+    public String acknowledgeSchedule(@RequestParam("UserID") long userID, @RequestParam("EmployerID") long employerID){
+        return userWorkScheduleService.acknowledgeSchedule(userID, employerID);
+    }
+
 }
