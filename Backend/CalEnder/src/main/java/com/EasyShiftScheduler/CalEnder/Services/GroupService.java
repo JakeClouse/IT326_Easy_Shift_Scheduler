@@ -38,13 +38,13 @@ public class GroupService {
             return "Error: group not found";
         }
 
-        List<User> userGroup = group.get().getGroup_users();
+        List<User> userGroup = group.get().getUsers();
 
         if (userGroup.contains(employee.get()) && userGroup.contains(employer.get())){
             userGroup.remove(employee.get());
 
             // Update group's members
-            group.get().setGroup_users(userGroup);
+            group.get().setUsers(userGroup);
 
             // Update employee's groups
             List<Group> employeesGroup = employee.get().getGroups();
@@ -70,7 +70,7 @@ public class GroupService {
              Optional<User> user = userRepository.findById(userIds.get(i));
 
             if (!user.isEmpty()){
-                group.getGroup_users().add(user.get());
+                group.getUsers().add(user.get());
             }
         }
 
