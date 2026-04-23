@@ -1,8 +1,8 @@
 package com.EasyShiftScheduler.CalEnder.Controllers;
 
-import java.lang.classfile.Label;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,8 @@ public class GroupController {
     }
 
     @PostMapping("/create-group")
-    public Group createGroup(@RequestParam("userIDs") List<Long> userIDs){
-        return groupService.createGroup(userIDs);
+    public ResponseEntity<Group> createGroup(@RequestParam("userIDs") List<Long> userIDs){
+        Group g = groupService.createGroup(userIDs);
+        return ResponseEntity.ok(g);
     }
 }

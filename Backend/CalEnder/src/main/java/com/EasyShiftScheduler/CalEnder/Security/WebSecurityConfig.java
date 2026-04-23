@@ -50,6 +50,8 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/user/{id}/reason").hasAuthority("EMPLOYER")
                                 .requestMatchers("/api/group/remove-user-from-group").hasAuthority("EMPLOYER")
                                 .requestMatchers("/api/group/create-group").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/schedule/create-schedule").hasAuthority("EMPLOYER")
+
                                 .requestMatchers("/api/auth/test").hasAuthority("EMPLOYER")
 
                                 .requestMatchers("/api/auth/**").permitAll() // Use 'requestMatchers' instead of 'antMatchers'
