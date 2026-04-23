@@ -1,0 +1,22 @@
+info:
+  name: signup
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: http://localhost:8080/api/auth/employee_signup
+  body:
+    type: json
+    data: |-
+      {
+        "username": "name",
+        "password": "oih*(YAD*(AYn98yda98ydna"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -6,7 +6,6 @@ import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
 import com.EasyShiftScheduler.CalEnder.Services.UserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
 
 
 @RestController
@@ -18,23 +17,33 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PutMapping("/{id}/work-schedule/delete")
-    public String deleteSchedule(@RequestParam("userID") long userID){
+    @PutMapping("/{userID}/work-schedule/delete")
+    public String deleteSchedule(@PathVariable("userID") long userID){
         return userService.deleteSchedule(userID);
     }
 
-    @PutMapping("/{id}/avail-schedule/update")
-    public String setAvailSchedule(@RequestParam("userID") long userID, @RequestBody UserAvailabilitySchedule availabilitySchedule){
-        return userService.setSchedule(userID, availabilitySchedule);
+    @PutMapping("/{userID}/avail-schedule/update")
+    public String setAvailSchedule(@PathVariable("userID") long userID, @RequestBody UserAvailabilitySchedule availabilitySchedule){
+        return userService.setAvailabilitySchedule(userID, availabilitySchedule);
     }
 
-    @PutMapping("/{id}/account/update")
-    public String updateAccountInfo(@RequestParam("userID") long userID, @RequestBody User user){
+    @GetMapping("/{userID}/avail-schedule")
+    public String getAvailSchedule(@PathVariable("userID") long userID){
+        return userService.getAvailabilitySchedule(userID);
+    }
+
+    @PutMapping("/{userID}/time-off-request/submit")
+    public String submitTimeOffRequest(@PathVariable("userID") long userID, @RequestBody UserTimecard timecard){
+        return userService.submitTimeOffRequest(userID, timecard);
+    }
+
+    @PutMapping("/{userID}/account/update")
+    public String updateAccountInfo(@PathVariable("userID") long userID, @RequestBody User user){
         return userService.updateAccountInfo(userID, user);
     }
 
-    @PutMapping("/{id}/timecard/update")
-    public String overrideTimecard(@RequestParam("userID") long userID, @RequestBody UserTimecard userTimecard){
+    @PutMapping("/{userID}/timecard/update")
+    public String overrideTimecard(@PathVariable("userID") long userID, @RequestBody UserTimecard userTimecard){
         return userService.overrideTimecard(userID, userTimecard);
     }
 
