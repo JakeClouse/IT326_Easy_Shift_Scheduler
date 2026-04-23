@@ -69,25 +69,19 @@ public class GroupService {
         for(int i = 0; i < userIds.size(); i++){
              Optional<User> user = userRepository.findById(userIds.get(i));
 
-            if (user.isEmpty()){
-                continue;
-            }
-            else{
+            if (!user.isEmpty()){
                 group.getGroup_users().add(user.get());
             }
         }
 
         Group newGroup = groupRepository.save(group);
+
         //cleanpup so users have reference as well.
         for(int i = 0; i < userIds.size(); i++){
             Optional<User> user = userRepository.findById(userIds.get(i));
 
-            if (user.isEmpty()){
-                continue;
-            }
-            else{
-
-                user.get().getGroups().add(group);
+            if (!user.isEmpty()){
+                user.get().getGroups().add(newGroup);
                 userRepository.save(user.get());
             }
         }
