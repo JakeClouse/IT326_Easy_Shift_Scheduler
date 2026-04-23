@@ -5,6 +5,7 @@ import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
 import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
 import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
 import com.EasyShiftScheduler.CalEnder.Helpers.UserOperations;
+import com.EasyShiftScheduler.CalEnder.Helpers.CompensationReport;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -113,4 +114,14 @@ public class UserService {
         return "Work schedule created from availability";
     }
 
+    public String generateCompensationReport(long userID) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isEmpty())
+            return "User not found";
+        if (user.get().getTimecard() == null)
+            return "No timecard found";
+        
+        CompensationReport report = new CompensationReport();
+        return report.generateReport(user.get());
+    }
 }
