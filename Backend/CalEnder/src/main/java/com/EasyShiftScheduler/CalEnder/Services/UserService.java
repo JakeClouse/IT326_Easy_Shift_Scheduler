@@ -47,6 +47,11 @@ public class UserService {
             return "Error: Password is not strong enough!";
         }
 
+        // Check if same email
+
+        if (userRepository.existsByEmail(user.getEmail())){
+            return "Email already associated with account";
+        }
         // Encode user password
         user.setPassword(encoder.encode(user.getPassword()));
 
