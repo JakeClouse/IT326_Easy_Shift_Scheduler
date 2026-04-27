@@ -194,4 +194,9 @@ public class UserService {
             return "Error Updating Password";
         }
     }
+
+    public String deleteAccount(long userID) {
+        userRepository.deleteById(userID);
+        return "User deleted successfully";
+    }
 }

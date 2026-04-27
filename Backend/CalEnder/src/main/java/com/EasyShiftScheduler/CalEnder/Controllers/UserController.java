@@ -19,7 +19,7 @@ public class UserController {
 
     @PutMapping("/{userID}/work-schedule/delete")
     public String deleteSchedule(@PathVariable("userID") long userID){
-        return userService.deleteSchedule(userID);
+        return userService.deleteWorkSchedule(userID);
     }
 
     @PutMapping("/{userID}/avail-schedule/update")
@@ -49,25 +49,30 @@ public class UserController {
 
     // Create automatic schedule
     @PostMapping("/{userID}/work-schedule/auto")
-    public String createAutoSchedule(@RequestParam("userID") long userID) {
+    public String createAutoSchedule(@PathVariable("userID") long userID) {
         return userService.createAutoSchedule(userID);
     }
 
     // Generate compensation report
     @GetMapping("/{userID}/compensation-report")
-    public String generateCompensationReport(@RequestParam("userID") long userID) {
+    public String generateCompensationReport(@PathVariable("userID") long userID) {
         return userService.generateCompensationReport(userID);
     }
 
     // Update compensation rate (employer action)
     @PutMapping("/{userID}/compensation-rate")
-    public String updateCompensationRate(@RequestParam("userID") long userID, @RequestBody double newRate) {
+    public String updateCompensationRate(@PathVariable("userID") long userID, @RequestBody double newRate) {
         return userService.updateCompensationRate(userID, newRate);
     }
 
     // Update compensation rate (employer action)
     @PutMapping("/{userID}/compensation-rate")
-    public String updatePassword(@RequestParam("userID") long userID, @RequestBody String newPassword) {
+    public String updatePassword(@PathVariable("userID") long userID, @RequestBody String newPassword) {
         return userService.updatePassword(userID, newPassword);
+    }
+
+    @DeleteMapping("/{userID}/account/delete")
+    public String deleteAccount(@PathVariable("userID") long userID) {
+        return userService.deleteAccount(userID);
     }
 }
