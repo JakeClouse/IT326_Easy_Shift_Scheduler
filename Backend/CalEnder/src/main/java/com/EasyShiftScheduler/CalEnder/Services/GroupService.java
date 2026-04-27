@@ -89,7 +89,14 @@ public class GroupService {
     }
 
 
+    public String addUser(User user, Group group) {
+        List<User> groupUsers = group.getUsers();
+        groupUsers.add(user);
+        group.setUsers(groupUsers);
 
+        groupRepository.save(group);
 
+        return "User added to group";
 
+    }
 }

@@ -75,4 +75,9 @@ public class UserController {
     public String deleteAccount(@PathVariable("userID") long userID) {
         return userService.deleteAccount(userID);
     }
+
+    @PutMapping("/{userID}/groups/join/{groupID}")
+    public String deleteAccount(@PathVariable long userID, @PathVariable long groupID) {
+        return userService.joinGroup(userID, groupID);
+    }
 }
