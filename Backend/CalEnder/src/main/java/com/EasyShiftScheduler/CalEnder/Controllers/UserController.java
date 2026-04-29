@@ -66,7 +66,7 @@ public class UserController {
     }
 
     // Get timecard
-    @GetMapping("/{id}/timecard")
+    @GetMapping("/{userID}/timecard")
     public UserTimecard getTimecard(@PathVariable("userID") long userID) {
         return userService.getTimecard(userID);
     }
