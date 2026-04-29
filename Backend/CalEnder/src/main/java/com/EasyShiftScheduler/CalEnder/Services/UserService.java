@@ -1,30 +1,44 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
-import com.EasyShiftScheduler.CalEnder.Entities.User;
-import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
-import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
-import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
+import com.EasyShiftScheduler.CalEnder.Entities.*;
+import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import com.EasyShiftScheduler.CalEnder.Helpers.UserOperations;
+import com.EasyShiftScheduler.CalEnder.Repositories.GroupRepository;
+import com.EasyShiftScheduler.CalEnder.Repositories.UserAvailabilityScheduleRepository;
 import com.EasyShiftScheduler.CalEnder.Helpers.CompensationReport;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final UserOperations userOperations;
+    private final UserAvailabilityScheduleRepository availabilityScheduleRepository;
     private final PasswordEncoder encoder;
     private final UserWorkScheduleRepository userWorkScheduleRepository;
+    private final EmailService emailService;
+    private final GroupRepository groupRepository;
+    private final GroupService groupService;
 
-    public UserService(UserRepository userRepository, UserOperations userOperations, PasswordEncoder encoder, UserWorkScheduleRepository userWorkScheduleRepository) {
+
+    public UserService(UserRepository userRepository, UserOperations userOperations, UserAvailabilityScheduleRepository availabilityScheduleRepository, UserWorkScheduleRepository userWorkScheduleRepository, PasswordEncoder encoder, EmailService emailService, GroupRepository groupRepository, GroupService groupService) {
         this.userRepository = userRepository;
         this.userOperations = userOperations;
+        this.availabilityScheduleRepository = availabilityScheduleRepository;
         this.encoder = encoder;
         this.userWorkScheduleRepository = userWorkScheduleRepository;
+        this.emailService = emailService;
+        this.groupRepository = groupRepository;
+        this.groupService = groupService;
     }
 
     public boolean existsByUsername(String username) {
@@ -37,6 +51,11 @@ public class UserService {
             return "Error: Password is not strong enough!";
         }
 
+        // Check if same email
+
+        if (userRepository.existsByEmail(user.getEmail())){
+            return "Email already associated with account";
+        }
         // Encode user password
         user.setPassword(encoder.encode(user.getPassword()));
 
@@ -45,7 +64,7 @@ public class UserService {
         return "User registered successfully!";
     }
 
-    public String deleteSchedule(long userID) {
+    public String deleteWorkSchedule(long userID) {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()){
             user.get().setWork_schedule(null);
@@ -57,12 +76,26 @@ public class UserService {
         }
     }
 
-    public String setSchedule(long userID, UserAvailabilitySchedule availabilitySchedule) {
+    public String setAvailabilitySchedule(long userID, UserAvailabilitySchedule availabilitySchedule) {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()){
-            user.get().setAvailability_schedule(availabilitySchedule);
-            userRepository.save(user.get());
-            return "User Work Availability Schedule Updated";
+            if(availabilitySchedule.getAvailability_schedule().size()%2 != 0){
+                return "Error: Availability schedule must contain an even number of entries (start and end times)";
+            }
+            UserAvailabilitySchedule availabilitySchedule2 = availabilityScheduleRepository.save(availabilitySchedule);
+            user.get().setAvailability_schedule(availabilitySchedule2);
+            User user2 = userRepository.save(user.get());
+            return user2.getAvailability_schedule().toString();
+        }
+        else {
+            return "User not found";
+        }
+    }
+
+    public String getAvailabilitySchedule(long userID) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isPresent()){
+            return user.get().getAvailability_schedule().toString();
         }
         else {
             return "User not found";
@@ -76,6 +109,18 @@ public class UserService {
             user.get().setUsername(newUser.getUsername());
             userRepository.save(user.get());
             return "Account information updated";
+        }
+        else {
+            return "User not found";
+        }
+    }
+
+    public String submitTimeOffRequest(long userID, UserTimecard timecard) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isPresent()){
+            user.get().setTimecard(timecard);
+            userRepository.save(user.get());
+            return "Time off request submitted";
         }
         else {
             return "User not found";
@@ -141,5 +186,53 @@ public class UserService {
     public UserTimecard getTimecard(long userID) {
         Optional<User> user = userRepository.findById(userID);
         return user.map(User::getTimecard).orElse(null);
+    }
+  
+    public String updatePassword(long userID, String newPassword) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isPresent()){
+            user.get().setPassword(newPassword);
+            save(user.get());
+
+            EmailDetails details = new EmailDetails(user.get().getEmail(), "Your password has been updated", "Password Update");
+            byte[] serializedDetails = SerializationUtils.serialize(details);
+
+            try {
+                emailService.sendNotification(serializedDetails);
+            } catch (Exception e) {
+                return "Error sending email";
+            }
+
+            return "Password Updated";
+        }
+        else {
+            return "Error Updating Password";
+        }
+    }
+
+    public String deleteAccount(long userID) {
+        userRepository.deleteById(userID);
+        return "User deleted successfully";
+    }
+
+    public String joinGroup(long userID, long groupID) {
+        Optional<User> user = userRepository.findById(userID);
+        Optional<Group> groupToJoin = groupRepository.findById(userID);
+        if (user.isEmpty())
+            return "User not found";
+        if (groupToJoin.isEmpty())
+            return "No group found";
+
+        groupService.addUser(user.get(), groupToJoin.get());
+
+        User gotUser = user.get();
+
+        List<Group> userGroups = gotUser.getGroups();
+        userGroups.add(groupToJoin.get());
+        gotUser.setGroups(userGroups);
+
+        userRepository.save(gotUser);
+
+        return "Added user to group";
     }
 }
