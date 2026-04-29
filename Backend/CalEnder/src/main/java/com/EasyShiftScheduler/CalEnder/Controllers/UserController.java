@@ -65,6 +65,12 @@ public class UserController {
         return userService.updateCompensationRate(userID, newRate);
     }
 
+    // Get timecard
+    @GetMapping("/{id}/timecard")
+    public UserTimecard getTimecard(@RequestParam("userID") long userID) {
+        return userService.getTimecard(userID);
+    }
+  
     // Update compensation rate (employer action)
     @PutMapping("/{userID}/compensation-rate")
     public String updatePassword(@PathVariable("userID") long userID, @RequestBody String newPassword) {

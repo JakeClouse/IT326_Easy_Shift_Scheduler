@@ -182,6 +182,12 @@ public class UserService {
         return "Compensation rate updated";
     }
 
+    // Return the user's timecard
+    public UserTimecard getTimecard(long userID) {
+        Optional<User> user = userRepository.findById(userID);
+        return user.map(User::getTimecard).orElse(null);
+    }
+  
     public String updatePassword(long userID, String newPassword) {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()){
