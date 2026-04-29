@@ -136,4 +136,10 @@ public class UserService {
         userRepository.save(user.get());
         return "Compensation rate updated";
     }
+
+    // Return the user's timecard
+    public UserTimecard getTimecard(long userID) {
+        Optional<User> user = userRepository.findById(userID);
+        return user.map(User::getTimecard).orElse(null);
+    }
 }

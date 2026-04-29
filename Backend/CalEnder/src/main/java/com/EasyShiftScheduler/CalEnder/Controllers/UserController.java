@@ -55,4 +55,10 @@ public class UserController {
     public String updateCompensationRate(@RequestParam("userID") long userID, @RequestBody double newRate) {
         return userService.updateCompensationRate(userID, newRate);
     }
+
+    // Get timecard
+    @GetMapping("/{id}/timecard")
+    public UserTimecard getTimecard(@RequestParam("userID") long userID) {
+        return userService.getTimecard(userID);
+    }
 }
