@@ -1,5 +1,7 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
+import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
 
@@ -20,10 +23,12 @@ public class UserWorkScheduleService {
     
     private final UserWorkScheduleRepository userWorkScheduleRepository;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
-    public UserWorkScheduleService(UserWorkScheduleRepository userWorkScheduleRepository, UserRepository userRepository){
+    public UserWorkScheduleService(UserWorkScheduleRepository userWorkScheduleRepository, UserRepository userRepository, EmailService emailService){
         this.userWorkScheduleRepository = userWorkScheduleRepository;
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
 
@@ -65,7 +70,22 @@ public class UserWorkScheduleService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Times are not properly formatted, schedule not saved");
         }   
 
-        return userWorkScheduleRepository.save(uws.get());
+        UserWorkSchedule saved = userWorkScheduleRepository.save(uws.get());
+
+        try {
+            User user = saved.getUser();
+            if (user != null) {
+                EmailDetails details = new EmailDetails(user.getEmail(), "Your schedule has been updated: " + saved.getWork_schedule().toString(), "Schedule Update");
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(baos);
+                oos.writeObject(details);
+                emailService.sendNotification(baos.toByteArray());
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to send notification: " + e.getMessage());
+        }
+
+        return saved;
     }
 
     public String acknowledgeSchedule(long userID, long employerID){

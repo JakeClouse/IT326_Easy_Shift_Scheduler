@@ -67,12 +67,11 @@ public class UserController {
 
     // Get timecard
     @GetMapping("/{id}/timecard")
-    public UserTimecard getTimecard(@RequestParam("userID") long userID) {
+    public UserTimecard getTimecard(@PathVariable("userID") long userID) {
         return userService.getTimecard(userID);
     }
   
-    // Update compensation rate (employer action)
-    @PutMapping("/{userID}/compensation-rate")
+    @PutMapping("/{userID}/password/update")
     public String updatePassword(@PathVariable("userID") long userID, @RequestBody String newPassword) {
         return userService.updatePassword(userID, newPassword);
     }
