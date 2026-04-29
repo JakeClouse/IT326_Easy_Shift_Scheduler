@@ -4,12 +4,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
+import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
 
@@ -20,6 +23,9 @@ public class UserWorkScheduleService {
     
     private final UserWorkScheduleRepository userWorkScheduleRepository;
     private final UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     public UserWorkScheduleService(UserWorkScheduleRepository userWorkScheduleRepository, UserRepository userRepository){
         this.userWorkScheduleRepository = userWorkScheduleRepository;
@@ -84,8 +90,10 @@ public class UserWorkScheduleService {
 
         String message = username + " has acknowledged their schedule";
 
-        //send email here
-        return "Email Sent";
+        EmailDetails details = new EmailDetails(employer.get().getEmail(), message, "Schedule Acknowledgement: " + username);
+        byte[] payload = SerializationUtils.serialize(details);
+
+        return emailService.sendNotification(payload);
     }
 
 
