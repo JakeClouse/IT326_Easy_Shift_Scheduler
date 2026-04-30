@@ -51,6 +51,9 @@ public class User {
     private UserWorkSchedule work_schedule;
 
     @OneToMany(mappedBy = "user_that_requested", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DroppedShift> dropped_shifts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user_that_requested", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TimeOffRequest> time_off_requests = new ArrayList<>();
 
     @ManyToMany
