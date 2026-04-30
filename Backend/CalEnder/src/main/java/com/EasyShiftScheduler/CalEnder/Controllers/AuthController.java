@@ -44,9 +44,4 @@ public class AuthController {
         return userService.save(user);
     }
 
-    @GetMapping("/test")
-    public String registerUser() {
-        return "TEST!!!";
-    }
-
 }
