@@ -46,12 +46,6 @@ public class UserController {
         return userService.deleteAccount(userID);
     }
 
-    @PutMapping("/{userID}/groups/join/{groupID}")
-    public String joinGroup(@PathVariable long userID, @PathVariable long groupID) {
-        return userService.joinGroup(userID, groupID);
-    }
-
-
     //User Timekeeping
     
     @PutMapping("/{userID}/time-off-request/submit")
