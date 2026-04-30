@@ -37,6 +37,15 @@ public class GroupController {
         Group g = groupService.createGroup(userIDs);
         return ResponseEntity.ok(g);
     }
+
+    @GetMapping("/publishSchedule")
+    public String publishSchedule(Group group) {
+        return groupService.publishSchedule(group);
+    }
+
+    @GetMapping("/generateReport")
+    public String generateReport(Group group) {
+        return groupService.generateReport(group);
     
     @PutMapping("/{userID}/groups/join/{groupID}")
     public String joinGroup(@PathVariable long userID, @PathVariable long groupID) {
