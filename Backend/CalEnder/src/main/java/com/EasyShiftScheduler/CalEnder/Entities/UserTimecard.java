@@ -23,4 +23,8 @@ public class UserTimecard {
 
     @OneToOne(mappedBy = "user_timecard")
     private User user;
+
+    @Column()
+    private int worked_hours;
+
 }
