@@ -53,7 +53,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/schedule/create-schedule").hasAuthority("EMPLOYER")
 
                                 .requestMatchers("/api/auth/test").hasAuthority("EMPLOYER")
-
+                                .requestMatchers("/api/dropped-shift/{id}/drop-shift").hasAnyAuthority("EMPLOYEE", "EMPLOYER")
                                 .requestMatchers("/api/auth/**").permitAll() // Use 'requestMatchers' instead of 'antMatchers'
                                 .requestMatchers("/api/user/{userID}/avail-schedule/update").hasAnyAuthority("EMPLOYEE", "EMPLOYER")
                                 .requestMatchers("/api/user/{userID}/avail-schedule").hasAnyAuthority("EMPLOYEE", "EMPLOYER")
