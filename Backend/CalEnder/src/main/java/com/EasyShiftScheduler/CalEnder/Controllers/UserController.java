@@ -1,12 +1,19 @@
 package com.EasyShiftScheduler.CalEnder.Controllers;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.EasyShiftScheduler.CalEnder.Entities.User;
-import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
 import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
 import com.EasyShiftScheduler.CalEnder.Services.EmailService;
 import com.EasyShiftScheduler.CalEnder.Services.UserService;
+
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
 
 
 
@@ -17,46 +24,9 @@ public class UserController {
     private UserService userService;
     private EmailService emailService;
 
-    @PutMapping("/{userID}/work-schedule/delete")
-    public String deleteSchedule(@PathVariable("userID") long userID){
-        return userService.deleteWorkSchedule(userID);
-    }
-
-    @PutMapping("/{userID}/avail-schedule/update")
-    public String setAvailSchedule(@PathVariable("userID") long userID, @RequestBody UserAvailabilitySchedule availabilitySchedule){
-        return userService.setAvailabilitySchedule(userID, availabilitySchedule);
-    }
-
-    @GetMapping("/{userID}/avail-schedule")
-    public String getAvailSchedule(@PathVariable("userID") long userID){
-        return userService.getAvailabilitySchedule(userID);
-    }
-
-    @PutMapping("/{userID}/time-off-request/submit")
-    public String submitTimeOffRequest(@PathVariable("userID") long userID, @RequestBody UserTimecard timecard){
-        return userService.submitTimeOffRequest(userID, timecard);
-    }
-
     @PutMapping("/{userID}/account/update")
     public String updateAccountInfo(@PathVariable("userID") long userID, @RequestBody User user){
         return userService.updateAccountInfo(userID, user);
-    }
-
-    @PutMapping("/{userID}/timecard/update")
-    public String overrideTimecard(@PathVariable("userID") long userID, @RequestBody UserTimecard userTimecard){
-        return userService.overrideTimecard(userID, userTimecard);
-    }
-
-    // Create automatic schedule
-    @PostMapping("/{userID}/work-schedule/auto")
-    public String createAutoSchedule(@PathVariable("userID") long userID) {
-        return userService.createAutoSchedule(userID);
-    }
-
-    // Generate compensation report
-    @GetMapping("/{userID}/compensation-report")
-    public String generateCompensationReport(@PathVariable("userID") long userID) {
-        return userService.generateCompensationReport(userID);
     }
 
     // Update compensation rate (employer action)
@@ -77,7 +47,26 @@ public class UserController {
     }
 
     @PutMapping("/{userID}/groups/join/{groupID}")
-    public String deleteAccount(@PathVariable long userID, @PathVariable long groupID) {
+    public String joinGroup(@PathVariable long userID, @PathVariable long groupID) {
         return userService.joinGroup(userID, groupID);
+    }
+
+
+    //User Timekeeping
+    
+    @PutMapping("/{userID}/time-off-request/submit")
+    public String submitTimeOffRequest(@PathVariable("userID") long userID, @RequestBody UserTimecard timecard){
+        return userService.submitTimeOffRequest(userID, timecard);
+    }
+
+    @PutMapping("/{userID}/timecard/update")
+    public String overrideTimecard(@PathVariable("userID") long userID, @RequestBody UserTimecard userTimecard){
+        return userService.overrideTimecard(userID, userTimecard);
+    }
+
+    // Generate compensation report for a specific user
+    @GetMapping("/{userID}/compensation-report")
+    public String generateCompensationReport(@PathVariable("userID") long userID) {
+        return userService.generateCompensationReport(userID);
     }
 }
