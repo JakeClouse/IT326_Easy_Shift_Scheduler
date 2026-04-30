@@ -1,14 +1,16 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
-import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
-import com.EasyShiftScheduler.CalEnder.Entities.Notifications.Notification;
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
+import com.EasyShiftScheduler.CalEnder.Entities.Notifications.Notification;
 
 @Service
 public class EmailService implements Notification {
@@ -20,7 +22,8 @@ public class EmailService implements Notification {
     private String sender;
 
     // Send simple mail
-    public String sendNotification(byte[] payload) throws Exception {
+    @Override
+    public String sendNotification(byte[] payload){
         try {
             // De-serialize payload into EmailDetails object
             ByteArrayInputStream bais = new ByteArrayInputStream(payload);
