@@ -39,16 +39,13 @@ public class DroppedShift {
     @Column
     private String reason;
 
-    @Column
-    private boolean pickedUp;
-
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user_that_requested;
 
     @Override
     public String toString(){
-        String s = "Id: " + id + "startDate: " + startDate + " endDate: " + endDate + " reason: " + reason + " pickedUp: " + pickedUp + " userId: " + user_that_requested.getId();
+        String s = "Id: " + id + "startDate: " + startDate + " endDate: " + endDate + " reason: " + reason +  " userId: " + user_that_requested.getId();
         return s;
     }
 

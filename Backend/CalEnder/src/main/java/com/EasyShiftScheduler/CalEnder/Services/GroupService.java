@@ -126,7 +126,7 @@ public class GroupService {
         String report = "";
         double totalComp = 0.0;
         for(User user : groupUsers){
-            double hours = user.getTimecard().getWorked_hours();
+            double hours = user.getUser_timecard().getWorked_hours();
             double compensation = user.getCompensation_rate() * hours;
             totalComp += compensation;
             report += "User: " + user.getUsername() +"\nHours worked: " + hours + "\nCompensation: " + compensation + "\n\n";
