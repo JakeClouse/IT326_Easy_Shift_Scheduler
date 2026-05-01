@@ -1,0 +1,108 @@
+.schedule-times {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.schedule-time-entry {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.schedule-time-entry input[type="datetime-local"] {
+  flex: 1;
+  height: 40px;
+  border-radius: 6px;
+  border: 1px solid #384959;
+  padding: 0 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: #ffffff;
+}
+
+.schedule-time-entry input[type="datetime-local"]:focus {
+  outline: none;
+  border-color: #6A89A7;
+  box-shadow: 0 0 0 2px rgba(106, 137, 167, 0.25);
+}
+
+.remove-time-btn {
+  background: none;
+  border: 1px solid #c0392b;
+  color: #c0392b;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.remove-time-btn:hover {
+  background-color: #c0392b;
+  color: #ffffff;
+}
+
+.add-time-btn {
+  background: none;
+  border: 1px dashed #384959;
+  color: #384959;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  width: 100%;
+  transition: background-color 0.15s;
+}
+
+.add-time-btn:hover {
+  background-color: #a8c8e8;
+}
+
+.shift-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background-color: #a8c8e8;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.shift-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #384959;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.shift-info {
+  flex: 1;
+}
+
+.shift-time {
+  font-size: 14px;
+  font-weight: 600;
+  color: #384959;
+  margin: 0 0 2px;
+}
+
+.shift-label {
+  font-size: 12px;
+  color: #5a7896;
+  margin: 0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}

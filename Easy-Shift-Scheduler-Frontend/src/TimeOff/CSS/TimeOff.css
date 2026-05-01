@@ -1,0 +1,46 @@
+.timeoff-request-card {
+  background-color: #a8c8e8;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-left: 4px solid #384959;
+}
+
+.timeoff-request-card.approved {
+  border-left-color: #27ae60;
+}
+
+.timeoff-request-card.denied {
+  border-left-color: #c0392b;
+}
+
+.timeoff-request-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.timeoff-request-dates {
+  font-size: 15px;
+  font-weight: 600;
+  color: #384959;
+  margin: 0;
+}
+
+.timeoff-request-user {
+  font-size: 13px;
+  color: #5a7896;
+  margin: 4px 0 8px;
+}
+
+.timeoff-request-reason {
+  font-size: 14px;
+  color: #384959;
+  margin: 0 0 12px;
+}
+
+.timeoff-actions {
+  display: flex;
+  gap: 8px;
+}

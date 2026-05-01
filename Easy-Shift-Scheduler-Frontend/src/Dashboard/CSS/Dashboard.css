@@ -1,0 +1,60 @@
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.dashboard-welcome {
+  color: #e8f4fd;
+  font-size: 15px;
+  margin: -12px 0 20px;
+}
+
+.action-card {
+  background-color: #BDDDFC;
+  border: 1px solid #384959;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.action-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #384959;
+  margin: 0;
+}
+
+.action-card p {
+  font-size: 13px;
+  color: #5a7896;
+  margin: 0;
+  flex: 1;
+}
+
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quick-action-link {
+  display: block;
+  padding: 10px 14px;
+  background-color: #384959;
+  color: #BDDDFC;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.15s;
+  text-align: center;
+}
+
+.quick-action-link:hover {
+  background-color: #2c3a47;
+  color: #ffffff;
+}

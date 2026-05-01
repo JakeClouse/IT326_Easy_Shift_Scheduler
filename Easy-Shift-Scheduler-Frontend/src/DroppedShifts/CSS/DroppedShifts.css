@@ -1,0 +1,43 @@
+.shift-card {
+  background-color: #a8c8e8;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-left: 4px solid #6A89A7;
+}
+
+.shift-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 12px;
+}
+
+.shift-card-dates {
+  font-size: 15px;
+  font-weight: 600;
+  color: #384959;
+  margin: 0;
+}
+
+.shift-card-user {
+  font-size: 13px;
+  color: #5a7896;
+  margin: 4px 0 8px;
+}
+
+.shift-card-reason {
+  font-size: 14px;
+  color: #384959;
+  margin: 0 0 12px;
+}
+
+.shift-id-badge {
+  font-size: 12px;
+  background-color: #384959;
+  color: #BDDDFC;
+  padding: 3px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}

@@ -1,0 +1,60 @@
+.group-member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.group-member {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background-color: #a8c8e8;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #384959;
+}
+
+.group-member-id {
+  font-size: 12px;
+  color: #5a7896;
+  margin-left: auto;
+}
+
+.user-id-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.user-id-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #384959;
+  color: #BDDDFC;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.user-id-tag button {
+  background: none;
+  border: none;
+  color: #88BDDE;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.user-id-tag button:hover {
+  color: #ffffff;
+}
+
+.add-user-row {
+  display: flex;
+  gap: 8px;
+}

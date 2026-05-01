@@ -1,0 +1,17 @@
+.account-section {
+  margin-bottom: 0;
+}
+
+.danger-zone {
+  border-color: #c0392b;
+}
+
+.danger-zone .card-title {
+  color: #c0392b;
+}
+
+.danger-description {
+  font-size: 14px;
+  color: #5a7896;
+  margin: 0 0 16px;
+}
