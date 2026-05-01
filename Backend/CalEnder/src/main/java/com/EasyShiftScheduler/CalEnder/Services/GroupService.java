@@ -3,6 +3,7 @@ package com.EasyShiftScheduler.CalEnder.Services;
 import java.util.List;
 import java.util.Optional;
 
+import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import org.springframework.stereotype.Service;
 
 import com.EasyShiftScheduler.CalEnder.Entities.Group;
@@ -10,15 +11,17 @@ import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Helpers.GroupOperations;
 import com.EasyShiftScheduler.CalEnder.Repositories.GroupRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
+import org.springframework.util.SerializationUtils;
 
 @Service
 public class GroupService {
     private GroupOperations groupOperations;
     private UserRepository userRepository;
     private GroupRepository groupRepository;
+    private final EmailService emailService;
 
-    public GroupService(){
-
+    public GroupService(EmailService emailService){
+        this.emailService = emailService;
     }
 
     public String removeEmployee(long groupID, long employeeID, long employerID) {
@@ -98,5 +101,38 @@ public class GroupService {
 
         return "User added to group";
 
+    }
+
+    public String publishSchedule(Group group) {
+        List<User> groupUsers = group.getUsers();
+        for(User user : groupUsers){
+            String msgBody = "Hello, " + user.getUsername() + "!\n\nYour next work schedule has been posted by your employer.\n\n" +
+                    "Please log in to the employee portal to view your schedule. For help, please contact your manager.\n\n" +
+                    "Best regards,\nthe EasyShiftScheduler team";
+            EmailDetails details = new EmailDetails(user.getEmail(), msgBody, "Your Work Schedule is Available!");
+            byte[] serializedDetails = SerializationUtils.serialize(details);
+            try {
+                emailService.sendNotification(serializedDetails);
+            } catch (Exception e) {
+                return "Error sending email";
+            }
+        }
+
+        return "Schedule notification email sent to all group members";
+    }
+
+    public String generateReport(Group group) {
+        List<User> groupUsers = group.getUsers();
+        String report = "";
+        double totalComp = 0.0;
+        for(User user : groupUsers){
+            double hours = user.getTimecard().getWorked_hours();
+            double compensation = user.getCompensation_rate() * hours;
+            totalComp += compensation;
+            report += "User: " + user.getUsername() +"\nHours worked: " + hours + "\nCompensation: " + compensation + "\n\n";
+        }
+        report += "Total group compensation: " + totalComp;
+
+        return report;
     }
 }
