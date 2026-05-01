@@ -28,9 +28,6 @@ public class DroppedShift {
     @Column
     private String reason;
 
-    @Column
-    private boolean pickedUp;
-
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user_that_requested;

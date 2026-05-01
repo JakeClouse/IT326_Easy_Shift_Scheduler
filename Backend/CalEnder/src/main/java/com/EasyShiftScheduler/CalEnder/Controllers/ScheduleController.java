@@ -66,4 +66,13 @@ public class ScheduleController {
         return userService.createAutoSchedule(userID);
     }
 
+    @PutMapping("/{userID}/pickup-shift")
+    public String pickupShift(@PathVariable("userID") long userID, @RequestParam("shiftID") long shiftID) {
+        return userWorkScheduleService.pickupShift(userID, shiftID);
+    }
+
+    @PutMapping("/{userID}/swap-shift")
+    public String swapShift(@PathVariable("userID") long userID, @RequestParam("shiftID1") long shiftID, @RequestParam("shiftID2") List<LocalDateTime> shiftInOut) {
+        return userWorkScheduleService.swapShift(userID, shiftID, shiftInOut);
+    }
 }

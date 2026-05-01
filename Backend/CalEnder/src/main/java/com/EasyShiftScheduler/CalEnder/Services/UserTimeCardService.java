@@ -19,9 +19,9 @@ public class UserTimeCardService {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()){
             User gotUser = user.get();
-            UserTimecard timecard = gotUser.getTimecard();
-            timecard.setWorked_hours(workedHours);
-            gotUser.setTimecard(timecard);
+            UserTimecard user_timecard = gotUser.getUser_timecard();
+            user_timecard.setWorked_hours(workedHours);
+            gotUser.setUser_timecard(user_timecard);
             userRepository.save(gotUser);
         }
         else {

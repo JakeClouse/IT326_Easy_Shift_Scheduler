@@ -40,7 +40,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "timecard_id", referencedColumnName = "id")
-    private UserTimecard timecard;
+    private UserTimecard user_timecard;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "availability_schedule_id", referencedColumnName = "id")
