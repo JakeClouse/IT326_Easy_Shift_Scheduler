@@ -45,7 +45,7 @@ public class DroppedShift {
 
     @Override
     public String toString(){
-        String s = "Id: " + id + "startDate: " + startDate + " endDate: " + endDate + " reason: " + reason + " pickedUp: " + pickedUp + " userId: " + user_that_requested.getId();
+        String s = "Id: " + id + "startDate: " + startDate + " endDate: " + endDate + " reason: " + reason +  " userId: " + user_that_requested.getId();
         return s;
     }
 

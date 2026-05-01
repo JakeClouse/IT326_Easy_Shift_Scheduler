@@ -118,81 +118,155 @@ public class UserWorkScheduleService {
     }
 
 
+//PORTIONS OF THIS METHOD WERE WRITTEN WITH LLM ASSISTANCE.
     public String pickupShift(long userID, long droppedShiftID, List<LocalDateTime> shiftToSwap) {
-        Optional<User> user = userRepository.findById(userID);
-        if (user.isEmpty()) {
-            return "User not found";
+        // Get the user accepting the shift
+        Optional<User> acceptingUser = userRepository.findById(userID);
+        if (acceptingUser.isEmpty()) {
+            return "Accepting user not found";
         }
-        UserWorkSchedule schedule = user.get().getWork_schedule();
-        Optional<DroppedShift> droppedShift = droppedShiftRepository.findById(droppedShiftID);
-        if (droppedShift.isEmpty()) {
-            return "Shift not found";
+
+        // Get the dropped shift
+        Optional<DroppedShift> droppedShiftOpt = droppedShiftRepository.findById(droppedShiftID);
+        if (droppedShiftOpt.isEmpty()) {
+            return "Dropped shift not found";
         }
-        LocalDateTime droppedShiftStart = droppedShift.get().getStartDate();
-        LocalDateTime droppedShiftEnd = droppedShift.get().getEndDate();
 
+        DroppedShift droppedShift = droppedShiftOpt.get();
+        LocalDateTime droppedShiftStart = droppedShift.getStartDate();
+        LocalDateTime droppedShiftEnd = droppedShift.getEndDate();
+        
+        // Get the original dropper's information
+        User dropperUser = droppedShift.getUser_that_requested();
+        Optional<User> dropperUserOpt = userRepository.findById(dropperUser.getId());
+        if (dropperUserOpt.isEmpty()) {
+            return "Original shift dropper not found";
+        }
 
-        if (shiftToSwap != null){
-            if (shiftToSwap.size() != 2){
+        UserWorkSchedule accepterSchedule = acceptingUser.get().getWork_schedule();
+        UserWorkSchedule dropperSchedule = dropperUserOpt.get().getWork_schedule();
+        List<LocalDateTime> accepterScheduleList = accepterSchedule.getWork_schedule();
+        List<LocalDateTime> dropperScheduleList = dropperSchedule.getWork_schedule();
+
+        LocalDateTime swapShiftStart = null;
+        LocalDateTime swapShiftEnd = null;
+        int accepterShiftIndex = -1;
+        LocalDateTime foundShiftStart = null;
+        LocalDateTime foundShiftEnd = null;
+
+        // Handle swap shift if provided
+        if (shiftToSwap != null) {
+            if (shiftToSwap.size() != 2) {
                 return "Shift times are not properly formatted";
             }
-            shiftToSwap.sort(Comparator.naturalOrder());;
-            LocalDateTime swappingShiftStart = shiftToSwap.get(0);
-            LocalDateTime swappingShiftEnd = shiftToSwap.get(1);
-            List<LocalDateTime> swapperSchedule = schedule.getWork_schedule();
-            for (int i = 0; i < swapperSchedule.size(); i += 2) {
-                LocalDateTime scheduledStart = swapperSchedule.get(i);
-                LocalDateTime scheduledEnd = swapperSchedule.get(i + 1);
-                if ((swappingShiftStart.isBefore(scheduledEnd) && (swappingShiftStart.isAfter(scheduledStart))||(swappingShiftStart.isEqual(scheduledStart))) ||
-                    ((swappingShiftEnd.isBefore(scheduledEnd)||swappingShiftEnd.isEqual(scheduledEnd)) && swappingShiftEnd.isAfter(scheduledStart))) {//TODO Fix equality condition
-                    swapperSchedule.add(swappingShiftStart);
-                    swapperSchedule.add(swappingShiftEnd);
-                    swapperSchedule.sort(Comparator.naturalOrder());
-                    for (LocalDateTime shiftTime : swapperSchedule){
-                        if(droppedShiftStart.isBefore(shiftTime)&&droppedShiftEnd.isAfter(scheduledEnd)){
-                            return "Shift Conflitcts with another on the schedule";
-                        }
-                    }
-                    
 
+            shiftToSwap.sort(Comparator.naturalOrder());
+            swapShiftStart = shiftToSwap.get(0);
+            swapShiftEnd = shiftToSwap.get(1);
 
+            // Validate that accepter is scheduled for the shift they're offering
+            for (int i = 0; i < accepterScheduleList.size(); i += 2) {
+                LocalDateTime scheduledStart = accepterScheduleList.get(i);
+                LocalDateTime scheduledEnd = accepterScheduleList.get(i + 1);
 
-
+                if ((swapShiftStart.isAfter(scheduledStart) || swapShiftStart.isEqual(scheduledStart)) &&
+                    (swapShiftEnd.isBefore(scheduledEnd) || swapShiftEnd.isEqual(scheduledEnd))) {
+                    accepterShiftIndex = i;
+                    foundShiftStart = scheduledStart;
+                    foundShiftEnd = scheduledEnd;
+                    break;
                 }
             }
-            return "User is not scheduled during shift provided";
 
+            if (accepterShiftIndex == -1) {
+                return "User is not scheduled during the shift they are offering to swap";
+            }
 
+            // Check for conflicts with dropper's existing schedule
+            for (int i = 0; i < dropperScheduleList.size(); i += 2) {
+                LocalDateTime scheduledStart = dropperScheduleList.get(i);
+                LocalDateTime scheduledEnd = dropperScheduleList.get(i + 1);
 
-
-
-
-
-
-
-        }else {
-            List<LocalDateTime> newSchedule = schedule.getWork_schedule();
-            newSchedule.add(shiftStart);
-            newSchedule.add(shiftEnd);
-            schedule.setWork_schedule(newSchedule);
-            userWorkScheduleRepository.save(schedule);
-            droppedShiftRepository.delete(droppedShift.get());
-            return "Shift picked up successfully: " + shiftStart.toString() + " to " + shiftEnd.toString();
+                if (!(swapShiftEnd.isBefore(scheduledStart) || swapShiftEnd.isEqual(scheduledStart) || 
+                     swapShiftStart.isAfter(scheduledEnd) || swapShiftStart.isEqual(scheduledEnd))) {
+                    return "Swap shift conflicts with dropper's existing schedule";
+                }
+            }
         }
 
-    }
+        // Check for conflicts with accepter's remaining schedule
+        for (int i = 0; i < accepterScheduleList.size(); i += 2) {
+            if (i == accepterShiftIndex) continue; // Skip the shift being swapped
 
-    public String swapShift(long userID, long shiftID, List<LocalDateTime> shiftInOut) {
-        Optional<User> user = userRepository.findById(userID);
-        if (user.isEmpty()) {
-            throw new EntityNotFoundException("User not found");
+            LocalDateTime scheduledStart = accepterScheduleList.get(i);
+            LocalDateTime scheduledEnd = accepterScheduleList.get(i + 1);
+
+            if (!(droppedShiftEnd.isBefore(scheduledStart) || droppedShiftEnd.isEqual(scheduledStart) || 
+                 droppedShiftStart.isAfter(scheduledEnd) || droppedShiftStart.isEqual(scheduledEnd))) {
+                return "Dropped shift conflicts with accepter's existing schedule";
+            }
         }
 
-        UserWorkSchedule schedule = user.get().getWork_schedule();
-        if (schedule == null) {
-            throw new EntityNotFoundException("User does not have a work schedule");
+        // Remove swap shift from accepter's schedule if provided
+        if (swapShiftStart != null) {
+            if (swapShiftStart.isEqual(foundShiftStart) && swapShiftEnd.isEqual(foundShiftEnd)) {
+                // Full shift swap - remove the entire shift
+                accepterScheduleList.remove(accepterShiftIndex + 1);
+                accepterScheduleList.remove(accepterShiftIndex);
+            } else {
+                // Partial shift swap - remove only the swapped portion
+                if (swapShiftStart.isEqual(foundShiftStart)) {
+                    // Removing from start of shift
+                    accepterScheduleList.set(accepterShiftIndex, swapShiftEnd);
+                } else if (swapShiftEnd.isEqual(foundShiftEnd)) {
+                    // Removing from end of shift
+                    accepterScheduleList.set(accepterShiftIndex + 1, swapShiftStart);
+                } else {
+                    // Removing from middle - creates two shifts
+                    accepterScheduleList.set(accepterShiftIndex + 1, swapShiftStart);
+                    accepterScheduleList.add(accepterShiftIndex + 2, swapShiftEnd);
+                    accepterScheduleList.add(accepterShiftIndex + 3, foundShiftEnd);
+                }
+            }
         }
 
-        return schedule.swapShift(shiftID, shiftInOut, user.get());
+        // Remove dropped shift from dropper's schedule
+        for (int i = 0; i < dropperScheduleList.size(); i += 2) {
+            LocalDateTime scheduledStart = dropperScheduleList.get(i);
+            LocalDateTime scheduledEnd = dropperScheduleList.get(i + 1);
+            
+            if (scheduledStart.isEqual(droppedShiftStart) && scheduledEnd.isEqual(droppedShiftEnd)) {
+                dropperScheduleList.remove(i + 1);
+                dropperScheduleList.remove(i);
+                break;
+            }
+        }
+
+        // Add dropped shift to accepter
+        accepterScheduleList.add(droppedShiftStart);
+        accepterScheduleList.add(droppedShiftEnd);
+        accepterScheduleList.sort(Comparator.naturalOrder());
+
+        // Add swap shift to dropper if provided
+        if (swapShiftStart != null) {
+            dropperScheduleList.add(swapShiftStart);
+            dropperScheduleList.add(swapShiftEnd);
+            dropperScheduleList.sort(Comparator.naturalOrder());
+        }
+
+        // Save updated schedules
+        accepterSchedule.setWork_schedule(accepterScheduleList);
+        dropperSchedule.setWork_schedule(dropperScheduleList);
+        userWorkScheduleRepository.save(accepterSchedule);
+        userWorkScheduleRepository.save(dropperSchedule);
+
+        // Remove the dropped shift from available shifts
+        droppedShiftRepository.delete(droppedShift);
+
+        if (swapShiftStart != null) {
+            return "Shift swap successful: " + swapShiftStart + " to " + swapShiftEnd + " exchanged for " + droppedShiftStart + " to " + droppedShiftEnd;
+        } else {
+            return "Shift picked up successfully: " + droppedShiftStart + " to " + droppedShiftEnd;
+        }
     }
 }

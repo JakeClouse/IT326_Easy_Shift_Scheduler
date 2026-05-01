@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,6 +47,7 @@ public class GroupController {
     @GetMapping("/generateReport")
     public String generateReport(Group group) {
         return groupService.generateReport(group);
+    }
     
     @PutMapping("/{userID}/groups/join/{groupID}")
     public String joinGroup(@PathVariable long userID, @PathVariable long groupID) {
