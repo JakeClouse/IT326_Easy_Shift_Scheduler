@@ -3,6 +3,7 @@ package com.EasyShiftScheduler.CalEnder.Entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
