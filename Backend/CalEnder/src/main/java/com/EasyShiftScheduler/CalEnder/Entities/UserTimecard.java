@@ -53,4 +53,19 @@ public class UserTimecard {
         return (s);
     }
 
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return false;
+        }
+
+        if (!(o instanceof UserTimecard)){
+            return false;
+        }
+
+        UserTimecard u = (UserTimecard)o;
+
+        return Long.compare(id, u.getId()) == 0;
+    }
+
 }

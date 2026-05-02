@@ -41,4 +41,19 @@ public class Group {
         return s;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return false;
+        }
+
+        if (!(o instanceof Group)){
+            return false;
+        }
+
+        Group u = (Group)o;
+
+        return Long.compare(id, u.getId()) == 0;
+    }
+
 }
