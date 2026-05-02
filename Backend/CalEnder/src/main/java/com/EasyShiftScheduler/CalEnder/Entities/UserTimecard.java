@@ -1,16 +1,9 @@
 package com.EasyShiftScheduler.CalEnder.Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -30,14 +23,14 @@ public class UserTimecard {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(mappedBy = "user_timecard", fetch = FetchType.EAGER)
-    private List<Punch> punch_times;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user_timecard", fetch = FetchType.EAGER)
+    private List<Punch> punch_times = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user_timecard", fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user_timecard", fetch = FetchType.EAGER)
     private User user;
 
     @Column()
-    private int worked_hours;
+    private double worked_hours;
 
     @Override
     public String toString(){
