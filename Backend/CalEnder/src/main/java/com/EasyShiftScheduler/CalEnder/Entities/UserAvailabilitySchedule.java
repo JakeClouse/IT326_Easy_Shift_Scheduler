@@ -3,7 +3,6 @@ package com.EasyShiftScheduler.CalEnder.Entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -13,12 +12,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
+@Data
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
