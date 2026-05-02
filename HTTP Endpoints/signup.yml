@@ -5,14 +5,14 @@ info:
 
 http:
   method: POST
-  url: http://localhost:8080/api/auth/employee_signup
+  url: http://localhost:8080/api/auth/employer_signup
   body:
     type: json
     data: |-
       {
-        "username": "EmployeeWithPopulatedSchedule1",
+        "username": "EmployerWithPopulatedSchedule1",
         "password": "P@ssW0rd@8675309",
-        "email": "jakeclouseclash1@gmail.com",
+        "email": "jakeclouseclash1+employer@gmail.com",
         "compensation_rate":"1000000.0"
       }
   auth: inherit

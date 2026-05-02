@@ -5,7 +5,7 @@ info:
 
 http:
   method: PUT
-  url: http://localhost:8080/api/user/1/avail-schedule/update
+  url: http://localhost:8080/api/schedule/1/avail-schedule/update
   body:
     type: json
     data: |-
@@ -17,7 +17,7 @@ http:
       }
   auth:
     type: bearer
-    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJFbXBsb3llZVdpdGhQb3B1bGF0ZWRTY2hlZHVsZTEiLCJpYXQiOjE3Nzc3NTI1MDUsImV4cCI6MTc3Nzc1NjEwNX0.9wr590Hc0X1KTMTrkjeNX5lmtl3AnCQdsg1xvn_aiXU
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJFbXBsb3llZVdpdGhQb3B1bGF0ZWRTY2hlZHVsZTEiLCJpYXQiOjE3Nzc3NTI2NzcsImV4cCI6MTc3Nzc1NjI3N30.9rKQedAmJ5gG-Bjvg1mKzHZp6Cl--L0qUJB7YLNGw38
 
 settings:
   encodeUrl: true

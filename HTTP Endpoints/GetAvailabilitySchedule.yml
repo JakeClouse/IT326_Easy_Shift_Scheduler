@@ -5,10 +5,10 @@ info:
 
 http:
   method: GET
-  url: http://localhost:8080/api/user/1/avail-schedule
+  url: http://localhost:8080/api/schedule/1/avail-schedule
   auth:
     type: bearer
-    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJFbXBsb3llZVdpdGhQb3B1bGF0ZWRTY2hlZHVsZTEiLCJpYXQiOjE3Nzc3NTI1MDUsImV4cCI6MTc3Nzc1NjEwNX0.9wr590Hc0X1KTMTrkjeNX5lmtl3AnCQdsg1xvn_aiXU
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJFbXBsb3llZVdpdGhQb3B1bGF0ZWRTY2hlZHVsZTEiLCJpYXQiOjE3Nzc3NTI5MTMsImV4cCI6MTc3Nzc1NjUxM30.30ogbBLhq8TuU1VTbWHU5ue9G55eK_YXWho4Z85C7SQ
 
 settings:
   encodeUrl: true
