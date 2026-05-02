@@ -1,22 +1,24 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
-import com.EasyShiftScheduler.CalEnder.Entities.*;
-import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
-import com.EasyShiftScheduler.CalEnder.Helpers.UserOperations;
-import com.EasyShiftScheduler.CalEnder.Repositories.GroupRepository;
-import com.EasyShiftScheduler.CalEnder.Repositories.UserAvailabilityScheduleRepository;
-import com.EasyShiftScheduler.CalEnder.Helpers.CompensationReport;
-import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
-import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.SerializationUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.List;
-import java.util.Optional;
+import com.EasyShiftScheduler.CalEnder.Entities.Group;
+import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
+import com.EasyShiftScheduler.CalEnder.Entities.User;
+import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
+import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
+import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
+import com.EasyShiftScheduler.CalEnder.Helpers.CompensationReport;
+import com.EasyShiftScheduler.CalEnder.Helpers.UserOperations;
+import com.EasyShiftScheduler.CalEnder.Repositories.GroupRepository;
+import com.EasyShiftScheduler.CalEnder.Repositories.UserAvailabilityScheduleRepository;
+import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
+import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
 
 @Service
 public class UserService {
@@ -60,8 +62,7 @@ public class UserService {
         user.setPassword(encoder.encode(user.getPassword()));
 
         // Saves user to DB
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     public String deleteWorkSchedule(long userID) {
