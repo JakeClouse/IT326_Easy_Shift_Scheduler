@@ -3,6 +3,7 @@ package com.EasyShiftScheduler.CalEnder.Entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,13 +60,13 @@ public class User {
     @JoinColumn(name = "work_schedule_id", referencedColumnName = "id")
     private UserWorkSchedule work_schedule;
 
-    @OneToMany(mappedBy = "user_that_requested", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user_that_requested", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DroppedShift> dropped_shifts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user_that_requested", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user_that_requested", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<TimeOffRequest> time_off_requests = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="user_group",
             joinColumns = @JoinColumn(name="user_id"),

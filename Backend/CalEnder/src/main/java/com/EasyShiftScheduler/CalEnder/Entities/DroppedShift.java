@@ -2,6 +2,7 @@ package com.EasyShiftScheduler.CalEnder.Entities;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +40,10 @@ public class DroppedShift {
     @Column
     private String reason;
 
-    @ManyToOne
+    @Column
+    private boolean pickedUp;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user_that_requested;
 

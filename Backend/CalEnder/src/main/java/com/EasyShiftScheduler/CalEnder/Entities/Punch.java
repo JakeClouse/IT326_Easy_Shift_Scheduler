@@ -2,6 +2,7 @@ package com.EasyShiftScheduler.CalEnder.Entities;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class Punch {
     @Column
     public String reason;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="timecard_id")
     private UserTimecard user_timecard;
 
