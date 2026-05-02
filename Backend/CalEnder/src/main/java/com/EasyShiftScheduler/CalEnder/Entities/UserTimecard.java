@@ -2,8 +2,17 @@ package com.EasyShiftScheduler.CalEnder.Entities;
 
 import java.util.List;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +21,7 @@ import lombok.Setter;
 @Table(name = "user_timecard")
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Getter
 @Setter
 public class UserTimecard {
@@ -20,10 +30,10 @@ public class UserTimecard {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(mappedBy = "user_timecard", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user_timecard", fetch = FetchType.EAGER)
     private List<Punch> punch_times;
 
-    @OneToOne(mappedBy = "user_timecard")
+    @OneToOne(mappedBy = "user_timecard", fetch = FetchType.EAGER)
     private User user;
 
     @Column()
@@ -41,6 +51,21 @@ public class UserTimecard {
             }
         }
         return (s);
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return false;
+        }
+
+        if (!(o instanceof UserTimecard)){
+            return false;
+        }
+
+        UserTimecard u = (UserTimecard)o;
+
+        return Long.compare(id, u.getId()) == 0;
     }
 
 }

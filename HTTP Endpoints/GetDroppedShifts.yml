@@ -8,7 +8,7 @@ http:
   url: http://localhost:8080/api/dropped-shift/view-dropped-shifts
   auth:
     type: bearer
-    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYW1lIiwiaWF0IjoxNzc3NTE4NjU3LCJleHAiOjE3Nzc1MjIyNTd9.FIQXEYC3BCybJGkaKbSV6Imxh4_64YvAdseDPVpwqfM
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJFbXBsb3llZVdpdGhQb3B1bGF0ZWRTY2hlZHVsZTEiLCJpYXQiOjE3Nzc3NTE5MTksImV4cCI6MTc3Nzc1NTUxOX0.dTXJEiheqs4oHfxprDQvvasrHMGppDg5Nr5jP7o2Ij8
 
 settings:
   encodeUrl: true

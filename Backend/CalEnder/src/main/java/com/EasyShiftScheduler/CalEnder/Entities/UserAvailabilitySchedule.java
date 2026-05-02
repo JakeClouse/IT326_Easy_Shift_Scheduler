@@ -3,7 +3,6 @@ package com.EasyShiftScheduler.CalEnder.Entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -13,12 +12,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
+@Data
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,5 +48,20 @@ public class UserAvailabilitySchedule {
             }
         }
         return s;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return false;
+        }
+
+        if (!(o instanceof UserAvailabilitySchedule)){
+            return false;
+        }
+
+        UserAvailabilitySchedule u = (UserAvailabilitySchedule)o;
+
+        return Long.compare(id, u.getId()) == 0;
     }
 }

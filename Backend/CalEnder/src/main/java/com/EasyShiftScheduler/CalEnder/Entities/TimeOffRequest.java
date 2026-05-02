@@ -2,9 +2,9 @@ package com.EasyShiftScheduler.CalEnder.Entities;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "time_off_request")
 @Getter
+@Data
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,7 +43,7 @@ public class TimeOffRequest {
     @Column
     private boolean approved;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
     private User user_that_requested;
 
@@ -49,6 +51,21 @@ public class TimeOffRequest {
     public String toString(){
         String s = "Id: " + id + " startDate: " + startDate + " endDate: " + endDate + " reason: " + reason + " approved: " + approved + " userId: " + user_that_requested.getId();
         return s;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return false;
+        }
+
+        if (!(o instanceof TimeOffRequest)){
+            return false;
+        }
+
+        TimeOffRequest u = (TimeOffRequest)o;
+
+        return Long.compare(id, u.getId()) == 0;
     }
 
 }
