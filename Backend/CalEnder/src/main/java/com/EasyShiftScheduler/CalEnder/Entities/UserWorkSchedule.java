@@ -34,7 +34,7 @@ public class UserWorkSchedule {
     @ElementCollection
     public List<LocalDateTime> work_schedule;
 
-    @OneToOne(mappedBy = "work_schedule")
+    @OneToOne(mappedBy = "work_schedule", fetch = FetchType.EAGER)
     private User user;
 
     @Override

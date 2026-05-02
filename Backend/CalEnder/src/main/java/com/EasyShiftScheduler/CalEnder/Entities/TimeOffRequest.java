@@ -41,7 +41,7 @@ public class TimeOffRequest {
     @Column
     private boolean approved;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
     private User user_that_requested;
 
