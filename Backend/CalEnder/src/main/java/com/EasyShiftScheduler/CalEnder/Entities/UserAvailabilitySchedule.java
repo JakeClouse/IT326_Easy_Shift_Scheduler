@@ -49,4 +49,19 @@ public class UserAvailabilitySchedule {
         }
         return s;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return false;
+        }
+
+        if (!(o instanceof UserAvailabilitySchedule)){
+            return false;
+        }
+
+        UserAvailabilitySchedule u = (UserAvailabilitySchedule)o;
+
+        return Long.compare(id, u.getId()) == 0;
+    }
 }

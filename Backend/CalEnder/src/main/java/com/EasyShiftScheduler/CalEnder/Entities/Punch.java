@@ -46,6 +46,21 @@ public class Punch {
         return s;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return false;
+        }
+
+        if (!(o instanceof Punch)){
+            return false;
+        }
+
+        Punch u = (Punch)o;
+
+        return Long.compare(id, u.getId()) == 0;
+    }
+
 }
 
 

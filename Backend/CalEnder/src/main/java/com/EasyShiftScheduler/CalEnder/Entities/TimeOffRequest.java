@@ -53,4 +53,19 @@ public class TimeOffRequest {
         return s;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return false;
+        }
+
+        if (!(o instanceof TimeOffRequest)){
+            return false;
+        }
+
+        TimeOffRequest u = (TimeOffRequest)o;
+
+        return Long.compare(id, u.getId()) == 0;
+    }
+
 }
