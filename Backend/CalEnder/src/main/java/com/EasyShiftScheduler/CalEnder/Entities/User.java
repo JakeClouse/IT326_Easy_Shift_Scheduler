@@ -54,11 +54,11 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "availability_schedule_id", referencedColumnName = "id")
-    private UserAvailabilitySchedule availability_schedule;
+    private UserAvailabilitySchedule availability_schedule = new UserAvailabilitySchedule();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "work_schedule_id", referencedColumnName = "id")
-    private UserWorkSchedule work_schedule;
+    private UserWorkSchedule work_schedule = new UserWorkSchedule();
 
     @OneToMany(mappedBy = "user_that_requested", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DroppedShift> dropped_shifts = new ArrayList<>();

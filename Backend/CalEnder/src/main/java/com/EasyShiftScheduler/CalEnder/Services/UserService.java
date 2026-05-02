@@ -95,7 +95,12 @@ public class UserService {
     public String getAvailabilitySchedule(long userID) {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()){
-            return user.get().getAvailability_schedule().toString();
+            UserAvailabilitySchedule availabilitySchedule = user.get().getAvailability_schedule();
+            if(availabilitySchedule == null){
+                return "No availability schedule found for user";
+            }else{
+                return availabilitySchedule.toString();
+            }
         }
         else {
             return "User not found";

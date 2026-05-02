@@ -8,7 +8,7 @@ http:
   url: http://localhost:8080/api/user/1/avail-schedule
   auth:
     type: bearer
-    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYW1lIiwiaWF0IjoxNzc2OTA5ODAyLCJleHAiOjE3NzY5MTM0MDJ9.lNYG9xRhYDpTDsWeXuwJLljiPR43Qs8bzNHF3XHy2AE
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJFbXBsb3llZVdpdGhQb3B1bGF0ZWRTY2hlZHVsZTEiLCJpYXQiOjE3Nzc3NTI1MDUsImV4cCI6MTc3Nzc1NjEwNX0.9wr590Hc0X1KTMTrkjeNX5lmtl3AnCQdsg1xvn_aiXU
 
 settings:
   encodeUrl: true
