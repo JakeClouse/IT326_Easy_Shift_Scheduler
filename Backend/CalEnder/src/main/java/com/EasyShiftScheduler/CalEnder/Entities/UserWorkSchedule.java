@@ -3,10 +3,10 @@ package com.EasyShiftScheduler.CalEnder.Entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -50,4 +50,21 @@ public class UserWorkSchedule {
         }
         return s;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return false;
+        }
+
+        if (!(o instanceof UserWorkSchedule)){
+            return false;
+        }
+
+        UserWorkSchedule u = (UserWorkSchedule)o;
+
+        return Long.compare(id, u.getId()) == 0;
+    }
+
+
 }
