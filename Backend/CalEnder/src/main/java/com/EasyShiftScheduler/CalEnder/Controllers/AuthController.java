@@ -2,6 +2,7 @@ package com.EasyShiftScheduler.CalEnder.Controllers;
 
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
+import com.EasyShiftScheduler.CalEnder.Helpers.JwtResponse;
 import com.EasyShiftScheduler.CalEnder.Security.JwtUtil;
 import com.EasyShiftScheduler.CalEnder.Services.AuthService;
 import com.EasyShiftScheduler.CalEnder.Services.UserService;
@@ -28,7 +29,7 @@ public class AuthController {
 
 
     @PostMapping("/signin")
-    public String authenticateUser(@RequestBody User user) {
+    public JwtResponse authenticateUser(@RequestBody User user) {
         return authService.authenticateUser(user);
     }
 
