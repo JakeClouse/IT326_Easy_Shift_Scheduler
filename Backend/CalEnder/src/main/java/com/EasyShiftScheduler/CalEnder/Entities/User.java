@@ -50,7 +50,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "timecard_id", referencedColumnName = "id")
-    private UserTimecard user_timecard;
+    private UserTimecard user_timecard = new UserTimecard();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "availability_schedule_id", referencedColumnName = "id")
