@@ -39,7 +39,10 @@ public class DroppedShift {
     @Column
     private String reason;
 
-    @ManyToOne
+    @Column
+    private boolean pickedUp;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user_that_requested;
 

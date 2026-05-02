@@ -30,7 +30,7 @@ public class Group {
     @Column(name = "id")
     private Long id;
 
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>();
 
     @Override

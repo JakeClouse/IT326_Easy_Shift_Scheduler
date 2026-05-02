@@ -45,23 +45,23 @@ public class UserService {
         return userRepository.existsByUsername(username);
     }
 
-    public String save(User user) {
+    public User save(User user) {
         // Check if password is strong enough before saving user
         if (!userOperations.checkPasswordStrength(user.getPassword())) {
-            return "Error: Password is not strong enough!";
+            return null;
         }
 
         // Check if same email
 
         if (userRepository.existsByEmail(user.getEmail())){
-            return "Email already associated with account";
+            return null;
         }
         // Encode user password
         user.setPassword(encoder.encode(user.getPassword()));
 
         // Saves user to DB
         userRepository.save(user);
-        return "User registered successfully!";
+        return user;
     }
 
     public String deleteWorkSchedule(long userID) {
@@ -211,7 +211,12 @@ public class UserService {
     }
 
     public String deleteAccount(long userID) {
-        userRepository.deleteById(userID);
+        try {
+            userRepository.deleteById(userID);
+        }
+        catch (Exception e){
+            return "Error deleting user";
+        }
         return "User deleted successfully";
     }
 
