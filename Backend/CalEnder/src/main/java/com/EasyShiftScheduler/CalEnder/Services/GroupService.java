@@ -3,26 +3,25 @@ package com.EasyShiftScheduler.CalEnder.Services;
 import java.util.List;
 import java.util.Optional;
 
-import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 
 import com.EasyShiftScheduler.CalEnder.Entities.Group;
+import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Helpers.GroupOperations;
 import com.EasyShiftScheduler.CalEnder.Repositories.GroupRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
-import org.springframework.util.SerializationUtils;
+
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class GroupService {
     private GroupOperations groupOperations;
     private UserRepository userRepository;
     private GroupRepository groupRepository;
     private final EmailService emailService;
-
-    public GroupService(EmailService emailService){
-        this.emailService = emailService;
-    }
 
     public String removeEmployee(long groupID, long employeeID, long employerID) {
         Optional<User> employee = userRepository.findById(employeeID);
@@ -68,9 +67,9 @@ public class GroupService {
 
     public Group createGroup(List<Long> userIds){
         Group group = new Group();
-        
+
         for(int i = 0; i < userIds.size(); i++){
-             Optional<User> user = userRepository.findById(userIds.get(i));
+            Optional<User> user = userRepository.findById(userIds.get(i));
 
             if (!user.isEmpty()){
                 group.getUsers().add(user.get());

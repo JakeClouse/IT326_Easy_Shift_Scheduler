@@ -24,7 +24,7 @@ public class Group {
     @Column(name = "id")
     private Long id;
 
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
     private List<User> users = new ArrayList<>();
 
     @Override

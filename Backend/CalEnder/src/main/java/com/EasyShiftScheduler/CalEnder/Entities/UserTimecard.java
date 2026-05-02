@@ -20,10 +20,10 @@ public class UserTimecard {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(mappedBy = "user_timecard", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user_timecard", fetch = FetchType.EAGER)
     private List<Punch> punch_times;
 
-    @OneToOne(mappedBy = "user_timecard")
+    @OneToOne(mappedBy = "user_timecard", fetch = FetchType.EAGER)
     private User user;
 
     @Column()

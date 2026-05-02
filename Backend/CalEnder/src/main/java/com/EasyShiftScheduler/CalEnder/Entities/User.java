@@ -48,25 +48,25 @@ public class User {
     @Column
     private double compensation_rate;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "timecard_id", referencedColumnName = "id")
     private UserTimecard user_timecard;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "availability_schedule_id", referencedColumnName = "id")
     private UserAvailabilitySchedule availability_schedule = new UserAvailabilitySchedule();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "work_schedule_id", referencedColumnName = "id")
     private UserWorkSchedule work_schedule = new UserWorkSchedule();
 
-    @OneToMany(mappedBy = "user_that_requested", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user_that_requested", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<DroppedShift> dropped_shifts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user_that_requested", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user_that_requested", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<TimeOffRequest> time_off_requests = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="user_group",
             joinColumns = @JoinColumn(name="user_id"),

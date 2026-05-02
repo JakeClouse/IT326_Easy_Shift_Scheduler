@@ -34,7 +34,7 @@ public class Punch {
     @Column
     public String reason;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="timecard_id")
     private UserTimecard user_timecard;
 

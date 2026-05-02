@@ -1,21 +1,18 @@
 package com.EasyShiftScheduler.CalEnder;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
 
 import com.EasyShiftScheduler.CalEnder.Entities.Group;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
-import com.EasyShiftScheduler.CalEnder.Services.EmailService;
 import com.EasyShiftScheduler.CalEnder.Services.GroupService;
 import com.EasyShiftScheduler.CalEnder.Services.UserService;
 
@@ -36,7 +33,14 @@ public class GroupServiceTest {
     @BeforeEach
     public void setUp(){
         employee = new User();
+        employee.setUsername("DELETE_ME1");
+        employee.setEmail("Email1@mail.com");
+        employee.setPassword("jfid8s9fu(*#U*(JF*9-2jisdjfio1NJAKDHKJASDSJ");
+
         employer = new User();
+        employer.setUsername("DELETE_ME2");
+        employer.setEmail("Email2@mail.com");
+        employer.setPassword("jfid8s9fu(*#U*(JF*9-2jisdjfio1NJAKDHKJASDSJ");
 
         employee = userService.save(employee);
         employer = userService.save(employer);
@@ -79,6 +83,10 @@ public class GroupServiceTest {
     public void testGroupsDiffer(){
         Exception e = assertThrows(Exception.class, () -> {
             User u = new User();
+            u.setUsername("DELETE_ME3");
+            employee.setEmail("Email3@mail.com");
+            u.setPassword("jfid8s9fu(*#U*(JF*9-2jisdjfio1NJAKDHKJASDSJ");
+
             userService.save(u);//new user not part of group
             groupService.removeEmployee(mainGroup.getId(), u.getId(), employer.getId());
         });
@@ -93,6 +101,4 @@ public class GroupServiceTest {
 
 
 
-
-    
 }
