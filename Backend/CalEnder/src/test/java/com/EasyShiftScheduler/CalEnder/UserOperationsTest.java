@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserOperationsTest {
 	private UserOperations userOperations;
 
-	@BeforeTestClass
+	@BeforeEach
 	public void setUp() {
 		userOperations = new UserOperations();
 	}
