@@ -18,10 +18,10 @@ public class UserTimecard {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(mappedBy = "user_timecard")
+    @OneToMany(mappedBy = "user_timecard", fetch = FetchType.LAZY)
     private List<Punch> punch_times;
 
-    @OneToOne(mappedBy = "user_timecard")
+    @OneToOne(mappedBy = "timecard")
     private User user;
 
     @Column()

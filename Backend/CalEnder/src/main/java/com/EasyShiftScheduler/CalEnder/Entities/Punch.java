@@ -24,7 +24,7 @@ public class Punch {
     @Column
     public String reason;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="timecard_id")
     private UserTimecard user_timecard;
 
