@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,43 +53,36 @@ public class GroupServiceTest {
     }
 
     @Test
-    public void testEmployeeNotFound() throws Exception{
-        Exception e = assertThrows(Exception.class, () -> {
-            userService.deleteAccount(employee.getId());
-            groupService.removeEmployee(mainGroup.getId(), employee.getId(), employer.getId());
-        });
-        assertEquals("Error: employee not found", e.getMessage());
+    public void testEmployeeNotFound(){
+        userService.deleteAccount(employee.getId());
+        String message = groupService.removeEmployee(mainGroup.getId(), employee.getId(), employer.getId());
+        assertEquals("Error: employee not found", message);
     }
 
     @Test
     public void testEmployerNotFound(){
-        Exception e = assertThrows(Exception.class, () -> {
-            userService.deleteAccount(employer.getId());
-            groupService.removeEmployee(mainGroup.getId(), employee.getId(), employer.getId());
-        });
-        assertEquals("Error: employer not found", e.getMessage());
+        userService.deleteAccount(employer.getId());
+        String message = groupService.removeEmployee(mainGroup.getId(), employee.getId(), employer.getId());
+        assertEquals("Error: employer not found", message);
     }
 
     @Test
     public void testGroupNotFound(){
-        Exception e = assertThrows(Exception.class, () -> {
-            groupService.removeEmployee(-1L, employee.getId(), employer.getId());
-        });
-        assertEquals("Error: group not found", e.getMessage());
+        String message = groupService.removeEmployee(-1L, employee.getId(), employer.getId());
+        assertEquals("Error: group not found", message);
     }
 
     @Test
     public void testGroupsDiffer(){
-        Exception e = assertThrows(Exception.class, () -> {
-            User u = new User();
-            u.setUsername("DELETE_ME3");
-            employee.setEmail("Email3@mail.com");
-            u.setPassword("jfid8s9fu(*#U*(JF*9-2jisdjfio1NJAKDHKJASDSJ");
+        User u = new User();
+        u.setUsername("DELETE_ME3");
+        employee.setEmail("Email3@mail.com");
+        u.setPassword("jfid8s9fu(*#U*(JF*9-2jisdjfio1NJAKDHKJASDSJ");
 
-            userService.save(u);//new user not part of group
-            groupService.removeEmployee(mainGroup.getId(), u.getId(), employer.getId());
-        });
-        assertEquals("Error: employee and employer not in same group", e.getMessage());
+        userService.save(u);//new user not part of group
+        String message = groupService.removeEmployee(mainGroup.getId(), u.getId(), employer.getId());
+
+        assertEquals("Error: employee and employer not in same group", message);
     }
 
     @Test
