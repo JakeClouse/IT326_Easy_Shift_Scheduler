@@ -115,10 +115,10 @@ public class UserService {
         }
     }
 
-    public String submitTimeOffRequest(long userID, UserTimecard timecard) {
+    public String submitTimeOffRequest(long userID, UserTimecard user_timecard) {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()){
-            user.get().setTimecard(timecard);
+            user.get().setUser_timecard(user_timecard);
             userRepository.save(user.get());
             return "Time off request submitted";
         }
@@ -130,9 +130,9 @@ public class UserService {
     public String overrideTimecard(long userID, UserTimecard userTimecard) {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()){
-            user.get().setTimecard(userTimecard);
+            user.get().setUser_timecard(userTimecard);
             userRepository.save(user.get());
-            return "User timecard updated";
+            return "User user_timecard updated";
         }
         else {
             return "User not found";
@@ -164,8 +164,8 @@ public class UserService {
         Optional<User> user = userRepository.findById(userID);
         if (user.isEmpty())
             return "User not found";
-        if (user.get().getTimecard() == null)
-            return "No timecard found";
+        if (user.get().getUser_timecard() == null)
+            return "No user_timecard found";
         
         CompensationReport report = new CompensationReport();
         return report.generateReport(user.get());
@@ -182,10 +182,10 @@ public class UserService {
         return "Compensation rate updated";
     }
 
-    // Return the user's timecard
+    // Return the user's user_timecard
     public UserTimecard getTimecard(long userID) {
         Optional<User> user = userRepository.findById(userID);
-        return user.map(User::getTimecard).orElse(null);
+        return user.map(User::getUser_timecard).orElse(null);
     }
   
     public String updatePassword(long userID, String newPassword) {

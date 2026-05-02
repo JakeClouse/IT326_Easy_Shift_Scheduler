@@ -35,4 +35,15 @@ public class DroppedShiftService {
         }
     }
 
+    public String getDroppedShifts() {
+        List<DroppedShift> droppedShifts = droppedShiftsRepository.findAll();
+        StringBuilder sb = new StringBuilder();
+        for (DroppedShift shift : droppedShifts) {
+            sb.append("Shift ID: ").append(shift.getId()).append(", User ID: ").append(shift.getUser_that_requested().getId()).append(", InTime: ").append(shift.getStartDate()).append(", OutTime: ").append(shift.getEndDate()).append(", Reason: ").append(shift.getReason()).append("\n");
+        }
+        return sb.toString();
+    }
+
+    
+
 }

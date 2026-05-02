@@ -1,12 +1,21 @@
 package com.EasyShiftScheduler.CalEnder.Entities;
 
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.List;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
-@Data
 @Table(name = "user_timecard")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,5 +35,19 @@ public class UserTimecard {
 
     @Column()
     private int worked_hours;
+
+    @Override
+    public String toString(){
+        String s = "Id: " + this.id + "Worked_Hours: " + worked_hours + "Punches: ";
+        for (int i = 0; i < punch_times.size(); i++){
+            if (i == punch_times.size() - 1){
+                s += punch_times.get(i).getId();
+            }
+            else{
+                s += punch_times.get(i).getId() + ", "; 
+            }
+        }
+        return (s);
+    }
 
 }

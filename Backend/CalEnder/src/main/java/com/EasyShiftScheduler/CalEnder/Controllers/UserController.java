@@ -35,8 +35,8 @@ public class UserController {
         return userService.updateCompensationRate(userID, newRate);
     }
 
-    // Get timecard
-    @GetMapping("/{userID}/timecard")
+    // Get user_timecard
+    @GetMapping("/{userID}/user_timecard")
     public UserTimecard getTimecard(@PathVariable("userID") long userID) {
         return userService.getTimecard(userID);
     }
@@ -54,11 +54,11 @@ public class UserController {
     //User Timekeeping
     
     @PutMapping("/{userID}/time-off-request/submit")
-    public String submitTimeOffRequest(@PathVariable("userID") long userID, @RequestBody UserTimecard timecard){
-        return userService.submitTimeOffRequest(userID, timecard);
+    public String submitTimeOffRequest(@PathVariable("userID") long userID, @RequestBody UserTimecard user_timecard){
+        return userService.submitTimeOffRequest(userID, user_timecard);
     }
 
-    @PutMapping("/{userID}/timecard/update")
+    @PutMapping("/{userID}/user_timecard/update")
     public String overrideTimecard(@PathVariable("userID") long userID, @RequestBody UserTimecard userTimecard){
         return userService.overrideTimecard(userID, userTimecard);
     }
