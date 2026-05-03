@@ -178,9 +178,7 @@ public class UserService {
 
         UserWorkSchedule newSchedule = new UserWorkSchedule();
 
-        newSchedule.setWork_schedule(
-            new ArrayList<>(avail.getAvailability_schedule())
-        );
+        newSchedule.setWork_schedule(List.copyOf(avail.getAvailability_schedule()));
 
         userWorkScheduleRepository.save(newSchedule);
 
