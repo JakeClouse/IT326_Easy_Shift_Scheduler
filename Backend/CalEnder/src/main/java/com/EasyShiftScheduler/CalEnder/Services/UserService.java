@@ -1,7 +1,10 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -160,24 +163,29 @@ public class UserService {
 
     // Create automatic schedule - auto-generate a work schedule from the user's availability
     public String createAutoSchedule(long userID) {
-        Optional<User> user = userRepository.findById(userID);
-        if (user.isEmpty())
+        Optional<User> userOpt = userRepository.findById(userID);
+        if (userOpt.isEmpty())
             return "User not found";
 
-        UserAvailabilitySchedule avail = user.get().getAvailability_schedule();
+        User user = userOpt.get();
+
+        UserAvailabilitySchedule avail = user.getAvailability_schedule();
         if (avail == null)
             return "No availability set for user";
 
         UserWorkSchedule newSchedule = new UserWorkSchedule();
-        newSchedule.setWork_schedule(avail.getAvailability_schedule());
+
+        newSchedule.setWork_schedule(
+            new ArrayList<>(avail.getAvailability_schedule())
+        );
+
         userWorkScheduleRepository.save(newSchedule);
 
-        user.get().setWork_schedule(newSchedule);
-        userRepository.save(user.get());
+        user.setWork_schedule(newSchedule);
+        userRepository.save(user);
 
         return "Work schedule created from availability";
     }
-
     // Generate a compensation report for a user
     public String generateCompensationReport(long userID) {
         Optional<User> user = userRepository.findById(userID);

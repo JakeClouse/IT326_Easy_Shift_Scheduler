@@ -42,7 +42,7 @@ public class UserWorkScheduleService {
         Optional<User> user = userRepository.findById(userID);
         UserWorkSchedule uws = new UserWorkSchedule();
 
-        if (times.size() % 2 != 0){
+        if (times.size() % 2 == 0){
             uws.setWork_schedule(times);
         }
         else{
@@ -260,7 +260,7 @@ public class UserWorkScheduleService {
         userWorkScheduleRepository.save(dropperSchedule);
 
         // Remove the dropped shift from available shifts
-        droppedShiftRepository.delete(droppedShift);
+        droppedShiftRepository.deleteById(droppedShiftID);
 
         if (swapShiftStart != null) {
             return "Shift swap successful: " + swapShiftStart + " to " + swapShiftEnd + " exchanged for " + droppedShiftStart + " to " + droppedShiftEnd;
