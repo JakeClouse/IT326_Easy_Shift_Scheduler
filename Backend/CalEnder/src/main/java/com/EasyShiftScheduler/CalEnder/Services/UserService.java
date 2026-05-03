@@ -106,10 +106,12 @@ public class UserService {
     public String updateAccountInfo(long userID, User newUser){
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()){
-            user.get().setEmail(newUser.getEmail());
-            user.get().setUsername(newUser.getUsername());
-            userRepository.save(user.get());
-            return "Account information updated";
+            User gotUser = user.get();
+
+            gotUser.setEmail(newUser.getEmail());
+            gotUser.setUsername(newUser.getUsername());
+            gotUser = userRepository.save(gotUser);
+            return "Account information updated, new email: " + gotUser.getEmail() + " new username: " + newUser.getUsername() + " id: " + gotUser.getId();
         }
         else {
             return "User not found";
