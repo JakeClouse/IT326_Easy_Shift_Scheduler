@@ -54,7 +54,7 @@ public class TimeOffRequest {
     @Override
     public boolean equals(Object o){
         if (o == this){
-            return false;
+            return true;
         }
 
         if (!(o instanceof TimeOffRequest)){

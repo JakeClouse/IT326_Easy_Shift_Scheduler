@@ -117,7 +117,7 @@ public String toString(){
     @Override
     public boolean equals(Object o){
         if (o == this){
-            return false;
+            return true;
         }
 
         if (!(o instanceof User)){
