@@ -16,18 +16,18 @@ import java.util.List;
 public class UserTimeCardController {
     private UserTimeCardService userTimeCardService;
 
-    @PutMapping("/{userID}/worked_hours/{worked_hours}")
-    public String updateWorkedHours(@PathVariable long userID, @PathVariable int worked_hours){
+    @PutMapping("/worked_hours")
+    public String updateWorkedHours(@RequestParam long userID, @RequestParam int worked_hours){
         return userTimeCardService.setWorkedHours(userID, worked_hours);
     }
 
-    @PutMapping("/{userID}/clockIn")
-    public String clockIn(@PathVariable long userID, @RequestBody LocalDateTime time){
+    @PutMapping("/clockIn")
+    public String clockIn(@RequestParam long userID, @RequestBody LocalDateTime time){
         return userTimeCardService.clockIn(userID, time);
     }
 
-    @PutMapping("/{userID}/clockOut")
-    public String clockOut(@PathVariable long userID, @RequestBody LocalDateTime time, @RequestParam String reason){
+    @PutMapping("/clockOut")
+    public String clockOut(@RequestParam long userID, @RequestBody LocalDateTime time, @RequestParam String reason){
         return userTimeCardService.clockOut(userID, time, reason);
     }
 }

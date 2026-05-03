@@ -7,14 +7,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.SerializationUtils;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import com.EasyShiftScheduler.CalEnder.Entities.DroppedShift;
+import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
 import com.EasyShiftScheduler.CalEnder.Repositories.DroppedShiftsRepository;
@@ -268,5 +267,15 @@ public class UserWorkScheduleService {
         } else {
             return "Shift picked up successfully: " + droppedShiftStart + " to " + droppedShiftEnd;
         }
+    }
+
+    public String getSchedule(Long id){
+        Optional<UserWorkSchedule> UserWorkSchedulOptional = userWorkScheduleRepository.findById(id);
+        if (UserWorkSchedulOptional.isEmpty()){
+            return "Schedule Not Found";
+        }
+        UserWorkSchedule userWorkSchedule = UserWorkSchedulOptional.get();
+
+        return userWorkSchedule.toString();
     }
 }

@@ -2,10 +2,10 @@ package com.EasyShiftScheduler.CalEnder.Controllers;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.EasyShiftScheduler.CalEnder.Entities.User;
@@ -24,48 +24,58 @@ public class UserController {
     private UserService userService;
     private EmailService emailService;
 
-    @PutMapping("/{userID}/account/update")
-    public String updateAccountInfo(@PathVariable("userID") long userID, @RequestBody User user){
+    @PutMapping("/account/update")
+    public String updateAccountInfo(@RequestBody long userID, @RequestBody User user){
         return userService.updateAccountInfo(userID, user);
     }
 
     // Update compensation rate (employer action)
-    @PutMapping("/{userID}/compensation-rate")
-    public String updateCompensationRate(@PathVariable("userID") long userID, @RequestBody double newRate) {
+    @PutMapping("/compensation-rate")
+    public String updateCompensationRate(@RequestBody long userID, @RequestBody double newRate) {
         return userService.updateCompensationRate(userID, newRate);
     }
 
     // Get user_timecard
-    @GetMapping("/{userID}/user_timecard")
-    public UserTimecard getTimecard(@PathVariable("userID") long userID) {
+    @GetMapping("/user_timecard")
+    public UserTimecard getTimecard(@RequestBody long userID) {
         return userService.getTimecard(userID);
     }
   
-    @PutMapping("/{userID}/password/update")
-    public String updatePassword(@PathVariable("userID") long userID, @RequestBody String newPassword) {
+    @PutMapping("/password/update")
+    public String updatePassword(@RequestParam long userID, @RequestBody String newPassword) {
         return userService.updatePassword(userID, newPassword);
     }
 
-    @DeleteMapping("/{userID}/account/delete")
-    public String deleteAccount(@PathVariable long userID) {
+    @DeleteMapping("/account/delete")
+    public String deleteAccount(@RequestParam long userID) {
         return userService.deleteAccount(userID);
+    }
+
+    @GetMapping("/account/get")
+    public String getAccount(@RequestBody long userID){
+        return userService.getAccount(userID);
+    }
+
+    @GetMapping("/getPunchByUser")
+    public String getPunchByUser(@RequestParam long userId) {
+        return userService.getPunchByUser(userId);
     }
 
     //User Timekeeping
     
-    @PutMapping("/{userID}/time-off-request/submit")
-    public String submitTimeOffRequest(@PathVariable("userID") long userID, @RequestBody UserTimecard user_timecard){
+    @PutMapping("/time-off-request/submit")
+    public String submitTimeOffRequest(@RequestParam long userID, @RequestBody UserTimecard user_timecard){
         return userService.submitTimeOffRequest(userID, user_timecard);
     }
 
-    @PutMapping("/{userID}/user_timecard/update")
-    public String overrideTimecard(@PathVariable("userID") long userID, @RequestBody UserTimecard userTimecard){
+    @PutMapping("/user_timecard/update")
+    public String overrideTimecard(@RequestParam long userID, @RequestBody UserTimecard userTimecard){
         return userService.overrideTimecard(userID, userTimecard);
     }
 
     // Generate compensation report for a specific user
-    @GetMapping("/{userID}/compensation-report")
-    public String generateCompensationReport(@PathVariable("userID") long userID) {
+    @GetMapping("/compensation-report")
+    public String generateCompensationReport(@RequestParam long userID) {
         return userService.generateCompensationReport(userID);
     }
 }
