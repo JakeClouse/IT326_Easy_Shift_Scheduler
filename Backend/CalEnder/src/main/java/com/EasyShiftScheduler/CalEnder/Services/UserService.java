@@ -110,8 +110,8 @@ public class UserService {
 
             gotUser.setEmail(newUser.getEmail());
             gotUser.setUsername(newUser.getUsername());
-            userRepository.save(gotUser);
-            return "Account information updated, new email: " + newUser.getEmail() + " new username: " + newUser.getUsername();
+            gotUser = userRepository.save(gotUser);
+            return "Account information updated, new email: " + gotUser.getEmail() + " new username: " + newUser.getUsername() + " id: " + gotUser.getId();
         }
         else {
             return "User not found";
