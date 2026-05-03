@@ -14,8 +14,8 @@ public class PunchController {
     }
 
     //Use Case 25: Assign Punch Reason
-    @PutMapping("/{id}/reason")
-    public Punch assignReason(@PathVariable long id, @RequestBody String reason) {
+    @PutMapping("/reason")
+    public Punch assignReason(@RequestParam long id, @RequestBody String reason) {
         return punchService.assignReason(id, reason);
     }
 }
