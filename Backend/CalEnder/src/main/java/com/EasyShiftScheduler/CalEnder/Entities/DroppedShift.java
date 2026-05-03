@@ -54,7 +54,7 @@ public class DroppedShift {
     @Override
     public boolean equals(Object o){
         if (o == this){
-            return false;
+            return true;
         }
 
         if (!(o instanceof DroppedShift)){
