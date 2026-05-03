@@ -25,19 +25,19 @@ public class UserController {
     private EmailService emailService;
 
     @PutMapping("/account/update")
-    public String updateAccountInfo(@RequestBody long userID, @RequestBody User user){
+    public String updateAccountInfo(@RequestParam long userID, @RequestBody User user){
         return userService.updateAccountInfo(userID, user);
     }
 
     // Update compensation rate (employer action)
     @PutMapping("/compensation-rate")
-    public String updateCompensationRate(@RequestBody long userID, @RequestBody double newRate) {
+    public String updateCompensationRate(@RequestParam long userID, @RequestParam double newRate) {
         return userService.updateCompensationRate(userID, newRate);
     }
 
     // Get user_timecard
     @GetMapping("/user_timecard")
-    public UserTimecard getTimecard(@RequestBody long userID) {
+    public UserTimecard getTimecard(@RequestParam long userID) {
         return userService.getTimecard(userID);
     }
   
@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/account/get")
-    public String getAccount(@RequestBody long userID){
+    public String getAccount(@RequestParam long userID){
         return userService.getAccount(userID);
     }
 

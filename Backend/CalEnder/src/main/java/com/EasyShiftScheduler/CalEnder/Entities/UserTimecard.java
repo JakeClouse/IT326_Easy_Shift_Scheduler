@@ -14,7 +14,6 @@ import lombok.Setter;
 @Table(name = "user_timecard")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Getter
 @Setter
 public class UserTimecard {
