@@ -29,7 +29,7 @@ public class Group {
 
     @Override
     public String toString(){
-        String s = "Id: " + id + "User Ids: ";
+        String s = "Id: " + id + "\nUser Ids: ";
         for (User u : users){
             if (users.indexOf(u) == users.size() - 1){
                 s += u.getId() + "\n";

@@ -83,6 +83,13 @@ public class UserTimeCardService {
             Punch lastClockIn = punchList.get(punchList.size() - 1);
             Duration elapsed = Duration.between(lastClockIn.getPunch_time(), time);
             punchList.add(savedPunch);
+
+            Punch in = punchList.get(punchList.size()-1);
+            Punch out = punchList.get(punchList.size());
+
+            Duration duration = Duration.between(in.getPunch_time(), out.getPunch_time());
+            timecard.setWorked_hours(timecard.getWorked_hours() + duration.toMinutes() / 60.0);
+
             timecard.setPunch_times(punchList);
             timecard.setWorked_hours((int)(elapsed.toMinutes()/60.0));
             gotUser.setUser_timecard(timecard);

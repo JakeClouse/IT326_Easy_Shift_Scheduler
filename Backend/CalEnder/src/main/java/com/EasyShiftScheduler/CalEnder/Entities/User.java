@@ -17,7 +17,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -83,7 +82,7 @@ public class User {
 
     @Override
     public String toString(){
-        String s = "Id: " + id + " Username: " + username + " roles: " + roles + " compensation rate: " + compensation_rate + " timecard: " + user_timecard.getId() + " availability_schedule: " + availability_schedule.getId() + " work_schedule: " + work_schedule.getId();
+        String s = "Id: " + id + "\nUsername: " + username + "\nroles: " + roles + "\ncompensation rate: " + compensation_rate + "\ntimecard: " + user_timecard.getId() + "\navailability_schedule: " + availability_schedule.getId() + "\nwork_schedule: " + work_schedule.getId();
         s += "Dropped Shifts: ";
         for(DroppedShift shift : dropped_shifts){
             if (dropped_shifts.indexOf(shift) == dropped_shifts.size() - 1){
