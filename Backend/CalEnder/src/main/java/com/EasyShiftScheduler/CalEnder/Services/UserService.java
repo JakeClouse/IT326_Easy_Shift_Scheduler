@@ -268,4 +268,13 @@ public class UserService {
 
         return user.toString();
     }
+
+    public String getAllUsers() {
+        List<User> users = userRepository.findAll();
+        StringBuilder sb = new StringBuilder();
+        for (User user : users) {
+            sb.append(user.getUsername() + " - " + user.getId()).append("\n");
+        }
+        return sb.toString();
+    }
 }

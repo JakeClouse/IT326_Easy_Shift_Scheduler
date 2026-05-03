@@ -78,4 +78,9 @@ public class UserController {
     public String generateCompensationReport(@RequestParam long userID) {
         return userService.generateCompensationReport(userID);
     }
+
+    @GetMapping("/all-users")
+    public String getAllUsers() {
+        return userService.getAllUsers();
+    }
 }
