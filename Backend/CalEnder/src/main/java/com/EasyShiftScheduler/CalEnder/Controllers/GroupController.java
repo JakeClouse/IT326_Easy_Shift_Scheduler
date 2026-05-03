@@ -33,10 +33,9 @@ public class GroupController {
     }
 
     @PostMapping("/create-group")
-    public String createGroup(@RequestParam("userIDs") List<Long> userIDs){
-//        Group g = groupService.createGroup(userIDs);
-//        return ResponseEntity.ok(g);
-        return "test";
+    public ResponseEntity<Group> createGroup(@RequestParam("userIDs") List<Long> userIDs){
+        Group g = groupService.createGroup(userIDs);
+        return ResponseEntity.ok(g);
     }
 
     @GetMapping("/publishSchedule")
