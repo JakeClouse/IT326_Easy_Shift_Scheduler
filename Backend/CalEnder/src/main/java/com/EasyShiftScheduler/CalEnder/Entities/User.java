@@ -17,7 +17,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -81,30 +80,39 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public String toString(){
-        String s = "Id: " + id + " Username: " + username + " roles: " + roles + " compensation rate: " + compensation_rate + " timecard: " + user_timecard.getId() + " availability_schedule: " + availability_schedule.getId() + " work_schedule: " + work_schedule.getId();
-        s += "Dropped Shifts: ";
-        for(DroppedShift shift : dropped_shifts){
-            if (dropped_shifts.indexOf(shift) == dropped_shifts.size() - 1){
-                s += shift + "\n";
-            }
-            else{
-                s += shift + ", ";
-            }
-            s += shift.getId() + ", ";
+@Override
+public String toString(){
+    String s = "Id: " + id
+        + "\nUsername: " + username
+        + "\nroles: " + roles
+        + "\ncompensation rate: " + compensation_rate
+        + "\ntimecard: " + (user_timecard != null ? user_timecard.getId() : "null")
+        + "\navailability_schedule: " + (availability_schedule != null ? availability_schedule.getId() : "null")
+        + "\nwork_schedule: " + (work_schedule != null ? work_schedule.getId() : "null");
+
+    s += "Dropped Shifts: ";
+    for(DroppedShift shift : dropped_shifts){
+        if (dropped_shifts.indexOf(shift) == dropped_shifts.size() - 1){
+            s += (shift != null ? shift : "null") + "\n";
         }
-        s += "Time Off Requests: ";
-        for(TimeOffRequest time : time_off_requests){
-            if (time_off_requests.indexOf(time) == time_off_requests.size() - 1){
-                s += time + "\n";
-            }
-            else{
-                s += time + ", ";
-            }
+        else{
+            s += (shift != null ? shift : "null") + ", ";
         }
-        return s;
+        s += (shift != null ? shift.getId() : "null") + ", ";
     }
+
+    s += "Time Off Requests: ";
+    for(TimeOffRequest time : time_off_requests){
+        if (time_off_requests.indexOf(time) == time_off_requests.size() - 1){
+            s += (time != null ? time : "null") + "\n";
+        }
+        else{
+            s += (time != null ? time : "null") + ", ";
+        }
+    }
+
+    return s;
+}
 
     @Override
     public boolean equals(Object o){

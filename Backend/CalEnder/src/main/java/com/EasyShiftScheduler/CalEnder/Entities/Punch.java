@@ -12,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,7 +40,7 @@ public class Punch {
 
     @Override
     public String toString(){
-        String s = "Id: " + id + " PunchTime: " + punch_time + " Reason: " + reason + " TimecardID: " + user_timecard.getId();
+        String s = "Id: " + id + "\nPunchTime: " + punch_time + "\nReason: " + reason + "\nTimecardID: " + ((user_timecard != null) ? user_timecard.getId() : "null");
         return s;
     }
 
