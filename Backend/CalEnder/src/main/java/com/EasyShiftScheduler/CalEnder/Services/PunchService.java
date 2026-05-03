@@ -15,13 +15,13 @@ public class PunchService {
         this.punchRepository = punchRepository;
     }
 
-    public Punch assignReason(Long id, String reason) {
+    public String assignReason(Long id, String reason) {
         Punch punch = punchRepository.findById(id).orElse(null);
         if (punch != null) {
             punch.setReason(reason);
             punchRepository.save(punch);
         }
-        return punch;
+        return punch.toString();
     }
 
     public String getPunch(Long id){

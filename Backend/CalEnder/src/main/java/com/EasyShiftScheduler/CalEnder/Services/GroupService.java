@@ -67,7 +67,7 @@ public class GroupService {
         return "Successfully remove employee from group";
     }
 
-    public Group createGroup(List<Long> userIds){
+    public String createGroup(List<Long> userIds){
         Group group = new Group();
 
         for(int i = 0; i < userIds.size(); i++){
@@ -89,7 +89,7 @@ public class GroupService {
                 userRepository.save(user.get());
             }
         }
-        return newGroup;
+        return newGroup.toString();
     }
 
 

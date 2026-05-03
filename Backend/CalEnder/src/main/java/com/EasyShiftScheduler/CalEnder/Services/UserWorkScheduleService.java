@@ -38,7 +38,7 @@ public class UserWorkScheduleService {
     }
 
 
-    public UserWorkSchedule createSchedule(Long userID, List<LocalDateTime> times){
+    public String createSchedule(Long userID, List<LocalDateTime> times){
         Optional<User> user = userRepository.findById(userID);
         UserWorkSchedule uws = new UserWorkSchedule();
 
@@ -58,11 +58,11 @@ public class UserWorkScheduleService {
 
         userRepository.save(user.get());
 
-        return returnObject;
+        return returnObject.toString();
     }
 
 
-    public UserWorkSchedule updateSchedule(long UserWorkScheduleID, List<LocalDateTime> times){
+    public String updateSchedule(long UserWorkScheduleID, List<LocalDateTime> times){
         Optional<UserWorkSchedule> uws = userWorkScheduleRepository.findById(UserWorkScheduleID);
 
         if (uws.isEmpty()){
@@ -91,7 +91,7 @@ public class UserWorkScheduleService {
             System.out.println("Failed to send notification: " + e.getMessage());
         }
 
-        return saved;
+        return saved.toString();
     }
 
     public String acknowledgeSchedule(long userID, long employerID){

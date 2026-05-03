@@ -1,18 +1,17 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
-import com.EasyShiftScheduler.CalEnder.Entities.DroppedShift;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.EasyShiftScheduler.CalEnder.Entities.TimeOffRequest;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
 import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
 import com.EasyShiftScheduler.CalEnder.Repositories.TimeOffRequestRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
 
 @Service
 public class TimeOffRequestService {
@@ -24,11 +23,11 @@ public class TimeOffRequestService {
         this.userRepository = userRepository;
     }
 
-    public TimeOffRequest assignReason(Long id, String reason) {
+    public String assignReason(Long id, String reason) {
         TimeOffRequest TimeOffRequest = TimeOffRequestRepository.findById(id).orElse(null);
         if (TimeOffRequest != null) {
             TimeOffRequest.setReason(reason);
-            return TimeOffRequestRepository.save(TimeOffRequest);
+            return TimeOffRequestRepository.save(TimeOffRequest).toString();
         }
         return null;
     }

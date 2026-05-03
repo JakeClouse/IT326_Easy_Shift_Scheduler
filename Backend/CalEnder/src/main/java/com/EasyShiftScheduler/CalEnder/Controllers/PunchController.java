@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.EasyShiftScheduler.CalEnder.Entities.Punch;
 import com.EasyShiftScheduler.CalEnder.Services.PunchService;
 
 
@@ -22,7 +21,7 @@ public class PunchController {
 
     //Use Case 25: Assign Punch Reason
     @PutMapping("/reason")
-    public Punch assignReason(@RequestParam long id, @RequestBody String reason) {
+    public String assignReason(@RequestParam long id, @RequestBody String reason) {
         return punchService.assignReason(id, reason);
     }
 
