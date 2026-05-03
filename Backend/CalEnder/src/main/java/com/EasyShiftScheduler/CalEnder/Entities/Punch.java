@@ -47,7 +47,7 @@ public class Punch {
     @Override
     public boolean equals(Object o){
         if (o == this){
-            return false;
+            return true;
         }
 
         if (!(o instanceof Punch)){
