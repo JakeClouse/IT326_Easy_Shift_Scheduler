@@ -26,8 +26,8 @@ public class TimeOffRequestController {
         this.timeOffRequestService = timeOffRequestService;
     }
 
-    @PostMapping("/{id}/request-time-off")
-    public String requestTimeOff(@PathVariable("id") long userID, @RequestBody TimeOffRequest timeOffRequest) {
+    @PostMapping("/request-time-off")
+    public String requestTimeOff(@RequestParam long userID, @RequestBody TimeOffRequest timeOffRequest) {
         return timeOffRequestService.requestTimeOff(userID, timeOffRequest);
     }
 
@@ -36,13 +36,13 @@ public class TimeOffRequestController {
         return timeOffRequestService.getTimeOffRequests();
     }
 
-    @PutMapping("/{requestID}/approve")
-    public String approveTimeOffRequest(@PathVariable("requestID") long requestID) {
+    @PutMapping("/approve")
+    public String approveTimeOffRequest(@RequestParam long requestID) {
         return timeOffRequestService.approveTimeOffRequest(requestID);
     }
 
-    @PutMapping("/{requestID}/deny")
-    public String denyTimeOffRequest(@PathVariable("requestID") long requestID) {
+    @PutMapping("/deny")
+    public String denyTimeOffRequest(@RequestParam long requestID) {
         return timeOffRequestService.denyTimeOffRequest(requestID);
     }
 }

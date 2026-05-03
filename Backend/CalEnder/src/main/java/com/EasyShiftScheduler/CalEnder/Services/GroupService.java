@@ -42,6 +42,8 @@ public class GroupService {
 
         List<User> userGroup = group.get().getUsers();
 
+
+
         if (userGroup.contains(employee.get()) && userGroup.contains(employer.get())){
             userGroup.remove(employee.get());
 

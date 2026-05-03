@@ -25,8 +25,8 @@ public class DroppedShiftController {
         this.droppedShiftService = droppedShiftService;
     }
 
-    @PostMapping("/{id}/drop-shift")
-    public String dropShift(@PathVariable("id") long userID, @RequestBody DroppedShift shiftToDrop) {
+    @PostMapping("/drop-shift")
+    public String dropShift(@RequestParam long userID, @RequestBody DroppedShift shiftToDrop) {
         return droppedShiftService.dropShift(userID, shiftToDrop);
     }
 
