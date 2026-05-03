@@ -49,8 +49,8 @@ public class GroupController {
         return groupService.generateReport(group);
     }
     
-    @PutMapping("/{userID}/groups/join/{groupID}")
-    public String joinGroup(@PathVariable long userID, @PathVariable long groupID) {
+    @PutMapping("/groups/join")
+    public String joinGroup(@RequestParam long userID, @RequestParam long groupID) {
         return userService.joinGroup(userID, groupID);
     }
 }
