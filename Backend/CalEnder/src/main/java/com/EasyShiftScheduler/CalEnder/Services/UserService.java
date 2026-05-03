@@ -4,6 +4,7 @@ import com.EasyShiftScheduler.CalEnder.Repositories.PunchRepository;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.SerializationUtils;
@@ -23,8 +24,9 @@ import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
 
 @Service
+@AllArgsConstructor
 public class UserService {
-    private final EasyShiftScheduler.CalEnder.Repositories.PunchRepository punchRepository;
+    private final PunchRepository punchRepository;
     private final UserRepository userRepository;
     private final UserOperations userOperations;
     private final UserAvailabilityScheduleRepository availabilityScheduleRepository;
@@ -34,18 +36,6 @@ public class UserService {
     private final GroupRepository groupRepository;
     private final GroupService groupService;
 
-
-    public UserService(UserRepository userRepository, UserOperations userOperations, UserAvailabilityScheduleRepository availabilityScheduleRepository, UserWorkScheduleRepository userWorkScheduleRepository, PasswordEncoder encoder, EmailService emailService, GroupRepository groupRepository, GroupService groupService, EasyShiftScheduler.CalEnder.Repositories.PunchRepository punchRepository) {
-        this.userRepository = userRepository;
-        this.userOperations = userOperations;
-        this.availabilityScheduleRepository = availabilityScheduleRepository;
-        this.encoder = encoder;
-        this.userWorkScheduleRepository = userWorkScheduleRepository;
-        this.emailService = emailService;
-        this.groupRepository = groupRepository;
-        this.groupService = groupService;
-        this.punchRepository = punchRepository;
-    }
 
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
