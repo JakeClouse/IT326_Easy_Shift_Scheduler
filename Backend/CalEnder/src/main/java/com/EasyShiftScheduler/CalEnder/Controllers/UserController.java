@@ -1,6 +1,12 @@
 package com.EasyShiftScheduler.CalEnder.Controllers;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
@@ -43,6 +49,16 @@ public class UserController {
     @DeleteMapping("/account/delete")
     public String deleteAccount(@RequestParam long userID) {
         return userService.deleteAccount(userID);
+    }
+
+    @GetMapping("/account/get")
+    public String getAccount(@RequestBody long userID){
+        return userService.getAccount(userID);
+    }
+
+    @GetMapping("/getPunchByUser")
+    public String getPunchByUser(@RequestParam long userId) {
+        return userService.getPunchByUser(userId);
     }
 
     //User Timekeeping

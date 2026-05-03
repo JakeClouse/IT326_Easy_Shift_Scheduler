@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,17 +39,29 @@ public class GroupController {
     }
 
     @GetMapping("/publishSchedule")
-    public String publishSchedule(Group group) {
-        return groupService.publishSchedule(group);
+    public String publishSchedule(@RequestParam("groupID") Long groupID) {
+        return groupService.publishSchedule(groupID);
     }
 
     @GetMapping("/generateReport")
-    public String generateReport(Group group) {
-        return groupService.generateReport(group);
+    public String generateReport(@RequestParam("groupID") Long groupID) {
+        return groupService.generateReport(groupID);
     }
     
     @PutMapping("/groups/join")
     public String joinGroup(@RequestParam long userID, @RequestParam long groupID) {
         return userService.joinGroup(userID, groupID);
     }
+
+    @GetMapping("/getGroup")
+    public String getGroup(@RequestParam("groupID") Long groupID) {
+        return groupService.getGroup(groupID);
+    }
+
+    @GetMapping("/getGroups")
+    public String getGroups() {
+        return groupService.getGroups();
+    }
+
 }
+

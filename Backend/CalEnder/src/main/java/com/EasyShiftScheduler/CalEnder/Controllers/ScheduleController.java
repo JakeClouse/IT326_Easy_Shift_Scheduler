@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +42,11 @@ public class ScheduleController {
     @PostMapping("/update-schedule")
     public UserWorkSchedule updateSchedule(@RequestParam("UserWorkScheduleID") long UserWorkScheduleID, @RequestParam("times") List<LocalDateTime> times){
         return userWorkScheduleService.updateSchedule(UserWorkScheduleID, times);
+    }
+
+    @PostMapping("/get-schedule")
+    public String getSchedule(@RequestParam("UserWorkScheduleID") long UserWorkScheduleID){
+        return userWorkScheduleService.getSchedule(UserWorkScheduleID);
     }
 
     @PostMapping("/acknowledge-schedule")
