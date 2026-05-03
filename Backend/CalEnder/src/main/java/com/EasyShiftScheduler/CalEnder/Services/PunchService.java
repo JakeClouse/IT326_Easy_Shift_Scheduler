@@ -1,8 +1,11 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.EasyShiftScheduler.CalEnder.Entities.Punch;
 import com.EasyShiftScheduler.CalEnder.Repositories.PunchRepository;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PunchService {
@@ -12,12 +15,23 @@ public class PunchService {
         this.punchRepository = punchRepository;
     }
 
-    public Punch assignReason(Long id, String reason) {
+    public String assignReason(Long id, String reason) {
         Punch punch = punchRepository.findById(id).orElse(null);
         if (punch != null) {
             punch.setReason(reason);
             punchRepository.save(punch);
         }
-        return punch;
+        return punch.toString();
     }
+
+    public String getPunch(Long id){
+        Optional<Punch> punchOptional = punchRepository.findById(id);
+        if (punchOptional.isEmpty()){
+            return "Punch Not Found";
+        }
+        Punch punch = punchOptional.get();
+
+        return punch.toString();
+    }
+
 }

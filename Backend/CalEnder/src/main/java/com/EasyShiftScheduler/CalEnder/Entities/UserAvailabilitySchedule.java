@@ -12,14 +12,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
-@Data
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,6 +37,9 @@ public class UserAvailabilitySchedule {
     @Override
     public String toString(){
         String s = "Id: " + id;
+        if (availability_schedule == null){
+            return s;
+        }
         for (LocalDateTime time : availability_schedule){
             if (availability_schedule.indexOf(time) == availability_schedule.size() - 1){
                 s += time + "\n";
@@ -53,7 +54,7 @@ public class UserAvailabilitySchedule {
     @Override
     public boolean equals(Object o){
         if (o == this){
-            return false;
+            return true;
         }
 
         if (!(o instanceof UserAvailabilitySchedule)){

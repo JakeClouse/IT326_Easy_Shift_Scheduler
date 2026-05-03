@@ -1,12 +1,6 @@
 package com.EasyShiftScheduler.CalEnder.Controllers;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +20,8 @@ public class TimeOffRequestController {
         this.timeOffRequestService = timeOffRequestService;
     }
 
-    @PostMapping("/{id}/request-time-off")
-    public String requestTimeOff(@PathVariable("id") long userID, @RequestBody TimeOffRequest timeOffRequest) {
+    @PostMapping("/request-time-off")
+    public String requestTimeOff(@RequestParam long userID, @RequestBody TimeOffRequest timeOffRequest) {
         return timeOffRequestService.requestTimeOff(userID, timeOffRequest);
     }
 
@@ -36,13 +30,13 @@ public class TimeOffRequestController {
         return timeOffRequestService.getTimeOffRequests();
     }
 
-    @PutMapping("/{requestID}/approve")
-    public String approveTimeOffRequest(@PathVariable("requestID") long requestID) {
+    @PutMapping("/approve")
+    public String approveTimeOffRequest(@RequestParam long requestID) {
         return timeOffRequestService.approveTimeOffRequest(requestID);
     }
 
-    @PutMapping("/{requestID}/deny")
-    public String denyTimeOffRequest(@PathVariable("requestID") long requestID) {
+    @PutMapping("/deny")
+    public String denyTimeOffRequest(@RequestParam long requestID) {
         return timeOffRequestService.denyTimeOffRequest(requestID);
     }
 }

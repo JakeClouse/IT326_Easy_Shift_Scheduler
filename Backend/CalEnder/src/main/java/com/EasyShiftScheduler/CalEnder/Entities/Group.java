@@ -29,7 +29,10 @@ public class Group {
 
     @Override
     public String toString(){
-        String s = "Id: " + id + "User Ids: ";
+        String s = "Id: " + id + "\nUser Ids: ";
+        if (users == null){
+            return s;
+        }
         for (User u : users){
             if (users.indexOf(u) == users.size() - 1){
                 s += u.getId() + "\n";
@@ -44,7 +47,7 @@ public class Group {
     @Override
     public boolean equals(Object o){
         if (o == this){
-            return false;
+            return true;
         }
 
         if (!(o instanceof Group)){

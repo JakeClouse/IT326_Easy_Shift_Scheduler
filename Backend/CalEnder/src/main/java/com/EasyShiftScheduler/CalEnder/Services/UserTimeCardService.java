@@ -1,21 +1,27 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
-import com.EasyShiftScheduler.CalEnder.Entities.Punch;
-import com.EasyShiftScheduler.CalEnder.Entities.User;
-import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
-import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
-import org.springframework.stereotype.Service;
-
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
+import com.EasyShiftScheduler.CalEnder.Entities.Punch;
+import com.EasyShiftScheduler.CalEnder.Entities.User;
+import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
+import com.EasyShiftScheduler.CalEnder.Repositories.PunchRepository;
+import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
+import com.EasyShiftScheduler.CalEnder.Repositories.UserTimecardRepository;
+
 @Service
 public class UserTimeCardService {
     private final UserRepository userRepository;
+    private final PunchRepository punchRepository;
 
-    public UserTimeCardService(UserRepository userRepository) {
+    public UserTimeCardService(UserRepository userRepository, UserTimecardRepository timecardRepository, PunchRepository punchRepository) {
         this.userRepository = userRepository;
+        this.punchRepository = punchRepository;
     }
 
     public String setWorkedHours(long userID, int workedHours) {
@@ -39,11 +45,16 @@ public class UserTimeCardService {
         if (user.isPresent()){
             User gotUser = user.get();
             UserTimecard timecard = gotUser.getUser_timecard();
+            List<Punch> punchList = timecard.getPunch_times();
+            if (!punchList.isEmpty() && punchList.get(punchList.size() - 1).reason.equals("Clock-in")) {
+                return "Error: Employee is already clocked in";
+            }
             Punch punchIn = new Punch();
             punchIn.setPunch_time(time);
             punchIn.setReason("Clock-in");
-            List<Punch> punchList = timecard.getPunch_times();
-            punchList.add(punchIn);
+            punchIn.setUser_timecard(timecard);
+            Punch savedPunch = punchRepository.save(punchIn);
+            punchList.add(savedPunch);
             timecard.setPunch_times(punchList);
             gotUser.setUser_timecard(timecard);
             userRepository.save(gotUser);
@@ -60,12 +71,27 @@ public class UserTimeCardService {
         if (user.isPresent()) {
             User gotUser = user.get();
             UserTimecard timecard = gotUser.getUser_timecard();
+            List<Punch> punchList = timecard.getPunch_times();
+            if(punchList.isEmpty() || !punchList.get(punchList.size() - 1).reason.equals("Clock-in")) {
+                return "Error: Employee is not clocked in";
+            }
             Punch punchOut = new Punch();
             punchOut.setPunch_time(time);
             punchOut.setReason(reason);
-            List<Punch> punchList = timecard.getPunch_times();
-            punchList.add(punchOut);
+            punchOut.setUser_timecard(timecard);
+            Punch savedPunch = punchRepository.save(punchOut);
+            Punch lastClockIn = punchList.get(punchList.size() - 1);
+            Duration elapsed = Duration.between(lastClockIn.getPunch_time(), time);
+            punchList.add(savedPunch);
+
+            Punch in = punchList.get(punchList.size()-1);
+            Punch out = punchList.get(punchList.size());
+
+            Duration duration = Duration.between(in.getPunch_time(), out.getPunch_time());
+            timecard.setWorked_hours(timecard.getWorked_hours() + duration.toMinutes() / 60.0);
+
             timecard.setPunch_times(punchList);
+            timecard.setWorked_hours((int)(elapsed.toMinutes()/60.0));
             gotUser.setUser_timecard(timecard);
             userRepository.save(gotUser);
         } else {

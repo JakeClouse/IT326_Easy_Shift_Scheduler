@@ -1,7 +1,9 @@
 package com.EasyShiftScheduler.CalEnder.Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,7 +14,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +22,6 @@ import lombok.Setter;
 @Table(name = "user_timecard")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Getter
 @Setter
 public class UserTimecard {
@@ -30,18 +30,21 @@ public class UserTimecard {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(mappedBy = "user_timecard", fetch = FetchType.EAGER)
-    private List<Punch> punch_times;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user_timecard", fetch = FetchType.EAGER)
+    private List<Punch> punch_times = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user_timecard", fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user_timecard", fetch = FetchType.EAGER)
     private User user;
 
     @Column()
-    private int worked_hours;
+    private double worked_hours;
 
     @Override
     public String toString(){
-        String s = "Id: " + this.id + "Worked_Hours: " + worked_hours + "Punches: ";
+        String s = "Id: " + this.id + "\nWorked_Hours: " + worked_hours + "\nPunches: ";
+        if (punch_times == null){
+            return s;
+        }
         for (int i = 0; i < punch_times.size(); i++){
             if (i == punch_times.size() - 1){
                 s += punch_times.get(i).getId();
@@ -56,7 +59,7 @@ public class UserTimecard {
     @Override
     public boolean equals(Object o){
         if (o == this){
-            return false;
+            return true;
         }
 
         if (!(o instanceof UserTimecard)){

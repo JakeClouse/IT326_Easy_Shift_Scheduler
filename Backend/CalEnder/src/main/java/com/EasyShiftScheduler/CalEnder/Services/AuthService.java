@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import com.EasyShiftScheduler.CalEnder.Entities.User;
+import com.EasyShiftScheduler.CalEnder.Security.JwtUtil;
 
 @Service
 public class AuthService {

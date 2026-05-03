@@ -2,17 +2,14 @@ package com.EasyShiftScheduler.CalEnder.Controllers;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.EasyShiftScheduler.CalEnder.Entities.Group;
 import com.EasyShiftScheduler.CalEnder.Services.GroupService;
 import com.EasyShiftScheduler.CalEnder.Services.UserService;
 
@@ -34,23 +31,34 @@ public class GroupController {
     }
 
     @PostMapping("/create-group")
-    public ResponseEntity<Group> createGroup(@RequestParam("userIDs") List<Long> userIDs){
-        Group g = groupService.createGroup(userIDs);
-        return ResponseEntity.ok(g);
+    public String createGroup(@RequestParam("userIDs") List<Long> userIDs){
+        return groupService.createGroup(userIDs).toString();
     }
 
     @GetMapping("/publishSchedule")
-    public String publishSchedule(Group group) {
-        return groupService.publishSchedule(group);
+    public String publishSchedule(@RequestParam("groupID") Long groupID) {
+        return groupService.publishSchedule(groupID);
     }
 
     @GetMapping("/generateReport")
-    public String generateReport(Group group) {
-        return groupService.generateReport(group);
+    public String generateReport(@RequestParam("groupID") Long groupID) {
+        return groupService.generateReport(groupID);
     }
     
-    @PutMapping("/{userID}/groups/join/{groupID}")
-    public String joinGroup(@PathVariable long userID, @PathVariable long groupID) {
+    @PutMapping("/groups/join")
+    public String joinGroup(@RequestParam long userID, @RequestParam long groupID) {
         return userService.joinGroup(userID, groupID);
     }
+
+    @GetMapping("/getGroup")
+    public String getGroup(@RequestParam("groupID") Long groupID) {
+        return groupService.getGroup(groupID);
+    }
+
+    @GetMapping("/getGroups")
+    public String getGroups() {
+        return groupService.getGroups();
+    }
+
 }
+

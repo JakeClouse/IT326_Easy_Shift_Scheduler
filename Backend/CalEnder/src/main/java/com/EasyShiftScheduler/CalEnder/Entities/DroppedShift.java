@@ -2,16 +2,22 @@ package com.EasyShiftScheduler.CalEnder.Entities;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "dropped_shift")
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
@@ -41,14 +47,14 @@ public class DroppedShift {
 
     @Override
     public String toString(){
-        String s = "Id: " + id + "startDate: " + startDate + " endDate: " + endDate + " reason: " + reason +  " userId: " + user_that_requested.getId();
+        String s = "Id: " + id + "\nstartDate: " + startDate + "\nendDate: " + endDate + "\nreason: " + reason +  "\nuserId: " + ((user_that_requested != null) ? user_that_requested.getId() : "null");
         return s;
     }
 
     @Override
     public boolean equals(Object o){
         if (o == this){
-            return false;
+            return true;
         }
 
         if (!(o instanceof DroppedShift)){

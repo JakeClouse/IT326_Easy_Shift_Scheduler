@@ -1,7 +1,10 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,6 +12,7 @@ import org.springframework.util.SerializationUtils;
 
 import com.EasyShiftScheduler.CalEnder.Entities.Group;
 import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
+import com.EasyShiftScheduler.CalEnder.Entities.Punch;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
 import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
@@ -16,12 +20,17 @@ import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
 import com.EasyShiftScheduler.CalEnder.Helpers.CompensationReport;
 import com.EasyShiftScheduler.CalEnder.Helpers.UserOperations;
 import com.EasyShiftScheduler.CalEnder.Repositories.GroupRepository;
+import com.EasyShiftScheduler.CalEnder.Repositories.PunchRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserAvailabilityScheduleRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class UserService {
+    private final PunchRepository punchRepository;
     private final UserRepository userRepository;
     private final UserOperations userOperations;
     private final UserAvailabilityScheduleRepository availabilityScheduleRepository;
@@ -31,17 +40,6 @@ public class UserService {
     private final GroupRepository groupRepository;
     private final GroupService groupService;
 
-
-    public UserService(UserRepository userRepository, UserOperations userOperations, UserAvailabilityScheduleRepository availabilityScheduleRepository, UserWorkScheduleRepository userWorkScheduleRepository, PasswordEncoder encoder, EmailService emailService, GroupRepository groupRepository, GroupService groupService) {
-        this.userRepository = userRepository;
-        this.userOperations = userOperations;
-        this.availabilityScheduleRepository = availabilityScheduleRepository;
-        this.encoder = encoder;
-        this.userWorkScheduleRepository = userWorkScheduleRepository;
-        this.emailService = emailService;
-        this.groupRepository = groupRepository;
-        this.groupService = groupService;
-    }
 
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
@@ -93,6 +91,22 @@ public class UserService {
         }
     }
 
+    public String updateAccountInfo(long userID, String newUsername, String newEmail){
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isPresent()){
+            User gotUser = user.get();
+
+            gotUser.setEmail(newEmail);
+            gotUser.setUsername(newUsername);
+            gotUser = userRepository.save(gotUser);
+            return "Account information updated, new email: " + newEmail + " new username: " + newUsername;
+
+        }
+        else {
+            return "User not found";
+        }
+    }
+
     public String getAvailabilitySchedule(long userID) {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()){
@@ -108,18 +122,23 @@ public class UserService {
         }
     }
 
-    public String updateAccountInfo(long userID, User newUser){
-        Optional<User> user = userRepository.findById(userID);
-        if (user.isPresent()){
-            user.get().setEmail(newUser.getEmail());
-            user.get().setUsername(newUser.getUsername());
-            userRepository.save(user.get());
-            return "Account information updated";
+    public String getPunchByUser(Long userId){
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()){
+            return "User Not Found";
         }
-        else {
-            return "User not found";
+        User user = userOptional.get();
+        UserTimecard t = user.getUser_timecard();
+
+        List<Punch> punchList = t.getPunch_times();
+        String s = "";
+        for (Punch p : punchList){
+            s += p.toString() + ", ";
         }
+        return s;
     }
+
+
 
     public String submitTimeOffRequest(long userID, UserTimecard user_timecard) {
         Optional<User> user = userRepository.findById(userID);
@@ -147,24 +166,27 @@ public class UserService {
 
     // Create automatic schedule - auto-generate a work schedule from the user's availability
     public String createAutoSchedule(long userID) {
-        Optional<User> user = userRepository.findById(userID);
-        if (user.isEmpty())
+        Optional<User> userOpt = userRepository.findById(userID);
+        if (userOpt.isEmpty())
             return "User not found";
 
-        UserAvailabilitySchedule avail = user.get().getAvailability_schedule();
+        User user = userOpt.get();
+
+        UserAvailabilitySchedule avail = user.getAvailability_schedule();
         if (avail == null)
             return "No availability set for user";
 
         UserWorkSchedule newSchedule = new UserWorkSchedule();
-        newSchedule.setWork_schedule(avail.getAvailability_schedule());
-        userWorkScheduleRepository.save(newSchedule);
 
-        user.get().setWork_schedule(newSchedule);
-        userRepository.save(user.get());
+        newSchedule.setWork_schedule(List.copyOf(avail.getAvailability_schedule()));
+
+        newSchedule = userWorkScheduleRepository.save(newSchedule);
+
+        user.setWork_schedule(newSchedule);
+        userRepository.save(user);
 
         return "Work schedule created from availability";
     }
-
     // Generate a compensation report for a user
     public String generateCompensationReport(long userID) {
         Optional<User> user = userRepository.findById(userID);
@@ -189,9 +211,9 @@ public class UserService {
     }
 
     // Return the user's user_timecard
-    public UserTimecard getTimecard(long userID) {
+    public String getTimecard(long userID) {
         Optional<User> user = userRepository.findById(userID);
-        return user.map(User::getUser_timecard).orElse(null);
+        return user.map(User::getUser_timecard).orElse(null).toString();
     }
   
     public String updatePassword(long userID, String newPassword) {
@@ -228,7 +250,7 @@ public class UserService {
 
     public String joinGroup(long userID, long groupID) {
         Optional<User> user = userRepository.findById(userID);
-        Optional<Group> groupToJoin = groupRepository.findById(userID);
+        Optional<Group> groupToJoin = groupRepository.findById(groupID);
         if (user.isEmpty())
             return "User not found";
         if (groupToJoin.isEmpty())
@@ -245,5 +267,24 @@ public class UserService {
         userRepository.save(gotUser);
 
         return "Added user to group";
+    }
+
+    public String getAccount(Long id){
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()){
+            return "Punch Not Found";
+        }
+        User user = userOptional.get();
+
+        return user.toString();
+    }
+
+    public String getAllUsers() {
+        List<User> users = userRepository.findAll();
+        StringBuilder sb = new StringBuilder();
+        for (User user : users) {
+            sb.append(user.getUsername() + " - " + user.getId()).append("\n");
+        }
+        return sb.toString();
     }
 }

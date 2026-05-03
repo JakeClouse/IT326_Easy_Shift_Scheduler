@@ -12,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +19,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "time_off_request")
 @Getter
-@Data
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -49,14 +47,14 @@ public class TimeOffRequest {
 
     @Override
     public String toString(){
-        String s = "Id: " + id + " startDate: " + startDate + " endDate: " + endDate + " reason: " + reason + " approved: " + approved + " userId: " + user_that_requested.getId();
+        String s = "Id: " + id + "\nstartDate: " + startDate + "\nendDate: " + endDate + "\nreason: " + reason + "\napproved: " + approved + "\nuserId: " + ((user_that_requested != null) ? user_that_requested.getId() : "null");
         return s;
     }
 
     @Override
     public boolean equals(Object o){
         if (o == this){
-            return false;
+            return true;
         }
 
         if (!(o instanceof TimeOffRequest)){

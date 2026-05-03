@@ -13,13 +13,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Data
 @Table(name = "work_schedule")
 @Getter
 @Setter
@@ -40,6 +38,9 @@ public class UserWorkSchedule {
     @Override
     public String toString(){
         String s = "Id: " + id;
+        if (work_schedule == null){
+            return s;
+        }
         for (LocalDateTime time : work_schedule){
             if (work_schedule.indexOf(time) == work_schedule.size() - 1){
                 s += time + "\n";
@@ -54,7 +55,7 @@ public class UserWorkSchedule {
     @Override
     public boolean equals(Object o){
         if (o == this){
-            return false;
+            return true;
         }
 
         if (!(o instanceof UserWorkSchedule)){

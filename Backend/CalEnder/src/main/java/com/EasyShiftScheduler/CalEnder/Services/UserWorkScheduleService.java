@@ -7,14 +7,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.SerializationUtils;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import com.EasyShiftScheduler.CalEnder.Entities.DroppedShift;
+import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
 import com.EasyShiftScheduler.CalEnder.Repositories.DroppedShiftsRepository;
@@ -39,11 +38,11 @@ public class UserWorkScheduleService {
     }
 
 
-    public UserWorkSchedule createSchedule(Long userID, List<LocalDateTime> times){
+    public String createSchedule(Long userID, List<LocalDateTime> times){
         Optional<User> user = userRepository.findById(userID);
         UserWorkSchedule uws = new UserWorkSchedule();
 
-        if (times.size() % 2 != 0){
+        if (times.size() % 2 == 0){
             uws.setWork_schedule(times);
         }
         else{
@@ -59,18 +58,18 @@ public class UserWorkScheduleService {
 
         userRepository.save(user.get());
 
-        return returnObject;
+        return returnObject.toString();
     }
 
 
-    public UserWorkSchedule updateSchedule(long UserWorkScheduleID, List<LocalDateTime> times){
+    public String updateSchedule(long UserWorkScheduleID, List<LocalDateTime> times){
         Optional<UserWorkSchedule> uws = userWorkScheduleRepository.findById(UserWorkScheduleID);
 
         if (uws.isEmpty()){
             throw new EntityNotFoundException("Schedule could not be found");
         }
 
-        if (times.size() % 2 != 0){
+        if (times.size() % 2 == 0){
             uws.get().setWork_schedule(times);
         }
         else{
@@ -92,7 +91,7 @@ public class UserWorkScheduleService {
             System.out.println("Failed to send notification: " + e.getMessage());
         }
 
-        return saved;
+        return saved.toString();
     }
 
     public String acknowledgeSchedule(long userID, long employerID){
@@ -261,12 +260,22 @@ public class UserWorkScheduleService {
         userWorkScheduleRepository.save(dropperSchedule);
 
         // Remove the dropped shift from available shifts
-        droppedShiftRepository.delete(droppedShift);
+        droppedShiftRepository.deleteById(droppedShiftID);
 
         if (swapShiftStart != null) {
             return "Shift swap successful: " + swapShiftStart + " to " + swapShiftEnd + " exchanged for " + droppedShiftStart + " to " + droppedShiftEnd;
         } else {
             return "Shift picked up successfully: " + droppedShiftStart + " to " + droppedShiftEnd;
         }
+    }
+
+    public String getSchedule(Long id){
+        Optional<UserWorkSchedule> UserWorkSchedulOptional = userWorkScheduleRepository.findById(id);
+        if (UserWorkSchedulOptional.isEmpty()){
+            return "Schedule Not Found";
+        }
+        UserWorkSchedule userWorkSchedule = UserWorkSchedulOptional.get();
+
+        return userWorkSchedule.toString();
     }
 }
