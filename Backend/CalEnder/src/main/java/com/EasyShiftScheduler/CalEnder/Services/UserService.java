@@ -241,7 +241,7 @@ public class UserService {
 
     public String joinGroup(long userID, long groupID) {
         Optional<User> user = userRepository.findById(userID);
-        Optional<Group> groupToJoin = groupRepository.findById(userID);
+        Optional<Group> groupToJoin = groupRepository.findById(groupID);
         if (user.isEmpty())
             return "User not found";
         if (groupToJoin.isEmpty())
