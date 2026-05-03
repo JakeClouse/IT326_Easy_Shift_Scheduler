@@ -62,7 +62,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/user_timecard/worked_hours").hasAuthority("EMPLOYER")
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .anyRequest().hasAnyAuthority("EMPLOYER", "EMPLOYEE")
-                                .anyRequest().authenticated()
+
                 );
         // Add the JWT Token filter before the UsernamePasswordAuthenticationFilter
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
