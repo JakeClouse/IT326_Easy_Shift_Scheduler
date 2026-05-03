@@ -104,7 +104,13 @@ public class GroupService {
 
     }
 
-    public String publishSchedule(Group group) {
+    public String publishSchedule(Long groupID) {
+        Optional<Group> groupOptional = groupRepository.findById(groupID);
+        if (groupOptional.isEmpty()){
+            return "Group Not Found";
+        }
+        Group group = groupOptional.get();
+
         List<User> groupUsers = group.getUsers();
         for(User user : groupUsers){
             String msgBody = "Hello, " + user.getUsername() + "!\n\nYour next work schedule has been posted by your employer.\n\n" +
@@ -122,7 +128,13 @@ public class GroupService {
         return "Schedule notification email sent to all group members";
     }
 
-    public String generateReport(Group group) {
+    public String generateReport(Long groupID) {
+        Optional<Group> groupOptional = groupRepository.findById(groupID);
+        if (groupOptional.isEmpty()){
+            return "Group Not Found";
+        }
+        Group group = groupOptional.get();
+        
         List<User> groupUsers = group.getUsers();
         String report = "";
         double totalComp = 0.0;
@@ -136,4 +148,28 @@ public class GroupService {
 
         return report;
     }
+
+
+    public String getGroup(Long groupID){
+        Optional<Group> groupOptional = groupRepository.findById(groupID);
+        if (groupOptional.isEmpty()){
+            return "Group Not Found";
+        }
+        Group group = groupOptional.get();
+
+        return group.toString();
+    }
+
+    public String getGroups(){
+        List<Group> groupList = groupRepository.findAll();
+        String s = "";
+        for (Group g : groupList){
+            s += g.toString() + ", ";
+        }
+        return s;
+    }
+
+
+
+
 }

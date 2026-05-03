@@ -1,5 +1,6 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
+import com.EasyShiftScheduler.CalEnder.Repositories.PunchRepository;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.SerializationUtils;
 
 import com.EasyShiftScheduler.CalEnder.Entities.Group;
+import com.EasyShiftScheduler.CalEnder.Entities.Punch;
 import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
@@ -22,6 +24,7 @@ import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
 
 @Service
 public class UserService {
+    private final EasyShiftScheduler.CalEnder.Repositories.PunchRepository punchRepository;
     private final UserRepository userRepository;
     private final UserOperations userOperations;
     private final UserAvailabilityScheduleRepository availabilityScheduleRepository;
@@ -32,7 +35,7 @@ public class UserService {
     private final GroupService groupService;
 
 
-    public UserService(UserRepository userRepository, UserOperations userOperations, UserAvailabilityScheduleRepository availabilityScheduleRepository, UserWorkScheduleRepository userWorkScheduleRepository, PasswordEncoder encoder, EmailService emailService, GroupRepository groupRepository, GroupService groupService) {
+    public UserService(UserRepository userRepository, UserOperations userOperations, UserAvailabilityScheduleRepository availabilityScheduleRepository, UserWorkScheduleRepository userWorkScheduleRepository, PasswordEncoder encoder, EmailService emailService, GroupRepository groupRepository, GroupService groupService, EasyShiftScheduler.CalEnder.Repositories.PunchRepository punchRepository) {
         this.userRepository = userRepository;
         this.userOperations = userOperations;
         this.availabilityScheduleRepository = availabilityScheduleRepository;
@@ -41,6 +44,7 @@ public class UserService {
         this.emailService = emailService;
         this.groupRepository = groupRepository;
         this.groupService = groupService;
+        this.punchRepository = punchRepository;
     }
 
     public boolean existsByUsername(String username) {
@@ -120,6 +124,24 @@ public class UserService {
             return "User not found";
         }
     }
+
+    public String getPunchByUser(Long userId){
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()){
+            return "User Not Found";
+        }
+        User user = userOptional.get();
+        UserTimecard t = user.getUser_timecard();
+
+        List<Punch> punchList = t.getPunch_times();
+        String s = "";
+        for (Punch p : punchList){
+            s += p.toString() + ", ";
+        }
+        return s;
+    }
+
+
 
     public String submitTimeOffRequest(long userID, UserTimecard user_timecard) {
         Optional<User> user = userRepository.findById(userID);
@@ -245,5 +267,15 @@ public class UserService {
         userRepository.save(gotUser);
 
         return "Added user to group";
+    }
+
+    public String getAccount(Long id){
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()){
+            return "Punch Not Found";
+        }
+        User user = userOptional.get();
+
+        return user.toString();
     }
 }
