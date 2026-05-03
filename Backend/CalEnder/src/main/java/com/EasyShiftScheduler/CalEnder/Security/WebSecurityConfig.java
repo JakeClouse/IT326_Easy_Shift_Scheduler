@@ -47,23 +47,21 @@ public class WebSecurityConfig {
                         authorizeRequests
 
                                 // Add protected API URLs here
-                                .requestMatchers("/api/user/reason").hasAuthority("EMPLOYER")
-                                .requestMatchers("/api/group/remove-user-from-group").hasAuthority("EMPLOYER")
                                 .requestMatchers("/api/group/create-group").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/group/publishSchedule").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/group/generateReport").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/group/getGroups").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/schedule/work-schedule/delete").hasAuthority("EMPLOYER")
                                 .requestMatchers("/api/schedule/create-schedule").hasAuthority("EMPLOYER")
-                                .requestMatchers("/api/group/create-group").hasAnyAuthority("EMPLOYEE", "EMPLOYER")
-                                .requestMatchers("/api/auth/test").hasAuthority("EMPLOYER")
-                                .requestMatchers("/api/dropped-shift/drop-shift").hasAnyAuthority("EMPLOYEE", "EMPLOYER")
-                                .requestMatchers("/api/dropped-shift/view-dropped-shifts").hasAnyAuthority("EMPLOYEE", "EMPLOYER")
-                                .requestMatchers("/api/schedule/swap-shift").hasAnyAuthority("EMPLOYEE", "EMPLOYER")
-                                .requestMatchers("/api/schedule/pickup-shift").hasAnyAuthority("EMPLOYEE", "EMPLOYER")
-                                .requestMatchers("/api/auth/**").permitAll() // Use 'requestMatchers' instead of 'antMatchers'
-                                .requestMatchers("/api/user/avail-schedule/update").hasAnyAuthority("EMPLOYEE", "EMPLOYER")
-                                .requestMatchers("/api/user/avail-schedule").hasAnyAuthority("EMPLOYEE", "EMPLOYER")
-                                .requestMatchers("/api/time-off-request/request-time-off").hasAnyAuthority("EMPLOYEE", "EMPLOYER")
-                                .requestMatchers("/api/time-off-request/view-time-off-requests").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/schedule/update-schedule").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/schedule/work-schedule/auto").hasAuthority("EMPLOYER")
                                 .requestMatchers("/api/time-off-request/approve").hasAuthority("EMPLOYER")
                                 .requestMatchers("/api/time-off-request/deny").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/user/compensation-rate").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/user/user_timecard/update").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/user_timecard/worked_hours").hasAuthority("EMPLOYER")
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .anyRequest().hasAnyAuthority("EMPLOYER", "EMPLOYEE")
                                 .anyRequest().authenticated()
                 );
         // Add the JWT Token filter before the UsernamePasswordAuthenticationFilter
