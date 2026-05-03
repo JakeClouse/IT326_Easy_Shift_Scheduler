@@ -42,6 +42,9 @@ public class UserTimecard {
     @Override
     public String toString(){
         String s = "Id: " + this.id + "\nWorked_Hours: " + worked_hours + "\nPunches: ";
+        if (punch_times == null){
+            return s;
+        }
         for (int i = 0; i < punch_times.size(); i++){
             if (i == punch_times.size() - 1){
                 s += punch_times.get(i).getId();

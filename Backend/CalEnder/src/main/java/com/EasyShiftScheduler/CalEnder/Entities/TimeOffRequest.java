@@ -47,7 +47,7 @@ public class TimeOffRequest {
 
     @Override
     public String toString(){
-        String s = "Id: " + id + "\nstartDate: " + startDate + "\nendDate: " + endDate + "\nreason: " + reason + "\napproved: " + approved + "\nuserId: " + user_that_requested.getId();
+        String s = "Id: " + id + "\nstartDate: " + startDate + "\nendDate: " + endDate + "\nreason: " + reason + "\napproved: " + approved + "\nuserId: " + ((user_that_requested != null) ? user_that_requested.getId() : "null");
         return s;
     }
 

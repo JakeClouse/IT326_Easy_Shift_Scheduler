@@ -30,6 +30,9 @@ public class Group {
     @Override
     public String toString(){
         String s = "Id: " + id + "\nUser Ids: ";
+        if (users == null){
+            return s;
+        }
         for (User u : users){
             if (users.indexOf(u) == users.size() - 1){
                 s += u.getId() + "\n";
