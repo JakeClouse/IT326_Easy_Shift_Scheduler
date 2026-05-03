@@ -88,6 +88,22 @@ public class UserService {
         }
     }
 
+    public String updateAccountInfo(long userID, String newUsername, String newEmail){
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isPresent()){
+            User gotUser = user.get();
+
+            gotUser.setEmail(newEmail);
+            gotUser.setUsername(newUsername);
+            gotUser = userRepository.save(gotUser);
+            return "Account information updated, new email: " + newEmail + " new username: " + newUsername;
+
+        }
+        else {
+            return "User not found";
+        }
+    }
+
     public String getAvailabilitySchedule(long userID) {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()){
@@ -97,21 +113,6 @@ public class UserService {
             }else{
                 return availabilitySchedule.toString();
             }
-        }
-        else {
-            return "User not found";
-        }
-    }
-
-    public String updateAccountInfo(long userID, User newUser){
-        Optional<User> user = userRepository.findById(userID);
-        if (user.isPresent()){
-            User gotUser = user.get();
-
-            gotUser.setEmail(newUser.getEmail());
-            gotUser.setUsername(newUser.getUsername());
-            gotUser = userRepository.save(gotUser);
-            return "Account information updated, new email: " + newUser.getEmail() + " new username: " + newUser.getUsername() + " id: " + newUser.getId();
         }
         else {
             return "User not found";
