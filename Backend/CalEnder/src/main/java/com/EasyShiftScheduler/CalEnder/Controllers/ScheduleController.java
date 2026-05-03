@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
-import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
 import com.EasyShiftScheduler.CalEnder.Services.UserService;
 import com.EasyShiftScheduler.CalEnder.Services.UserWorkScheduleService;
 
@@ -35,12 +34,12 @@ public class ScheduleController {
     }
 
     @PostMapping("/create-schedule")
-    public UserWorkSchedule createSchedule(@RequestParam("userID") long userID, @RequestParam("times") List<LocalDateTime> times){
+    public String createSchedule(@RequestParam("userID") long userID, @RequestParam("times") List<LocalDateTime> times){
         return userWorkScheduleService.createSchedule(userID, times);
     }
 
     @PostMapping("/update-schedule")
-    public UserWorkSchedule updateSchedule(@RequestParam("UserWorkScheduleID") long UserWorkScheduleID, @RequestParam("times") List<LocalDateTime> times){
+    public String updateSchedule(@RequestParam("UserWorkScheduleID") long UserWorkScheduleID, @RequestParam("times") List<LocalDateTime> times){
         return userWorkScheduleService.updateSchedule(UserWorkScheduleID, times);
     }
 
