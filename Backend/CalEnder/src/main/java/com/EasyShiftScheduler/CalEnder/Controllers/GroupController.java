@@ -32,7 +32,7 @@ public class GroupController {
 
     @PostMapping("/create-group")
     public String createGroup(@RequestParam("userIDs") List<Long> userIDs){
-        return groupService.createGroup(userIDs);
+        return groupService.createGroup(userIDs).toString();
     }
 
     @GetMapping("/publishSchedule")

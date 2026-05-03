@@ -42,7 +42,7 @@ public class UserService {
         return userRepository.existsByUsername(username);
     }
 
-    public String save(User user) {
+    public User save(User user) {
         // Check if password is strong enough before saving user
         if (!userOperations.checkPasswordStrength(user.getPassword())) {
             return null;
@@ -57,7 +57,7 @@ public class UserService {
         user.setPassword(encoder.encode(user.getPassword()));
 
         // Saves user to DB
-        return userRepository.save(user).toString();
+        return userRepository.save(user);
     }
 
     public String deleteWorkSchedule(long userID) {

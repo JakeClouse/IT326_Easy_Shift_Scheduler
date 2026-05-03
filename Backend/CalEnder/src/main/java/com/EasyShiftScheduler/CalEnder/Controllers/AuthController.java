@@ -32,13 +32,13 @@ public class AuthController {
     @PostMapping("/employee_signup")
     public String registerEmployee(@RequestBody User user) {
         user.setRoles("EMPLOYEE");
-        return userService.save(user);
+        return userService.save(user).toString();
     }
 
     @PostMapping("/employer_signup")
     public String registerEmployer(@RequestBody User user) {
         user.setRoles("EMPLOYEE,EMPLOYER");
-        return userService.save(user);
+        return userService.save(user).toString();
     }
 
 }
