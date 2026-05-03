@@ -69,7 +69,7 @@ public class UserWorkScheduleService {
             throw new EntityNotFoundException("Schedule could not be found");
         }
 
-        if (times.size() % 2 != 0){
+        if (times.size() % 2 == 0){
             uws.get().setWork_schedule(times);
         }
         else{
