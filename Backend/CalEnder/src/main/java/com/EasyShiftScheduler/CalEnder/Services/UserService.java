@@ -172,7 +172,9 @@ public class UserService {
             return "No availability set for user";
 
         UserWorkSchedule newSchedule = new UserWorkSchedule();
-        newSchedule.setWork_schedule(avail.getAvailability_schedule());
+
+        newSchedule.setWork_schedule(List.copyOf(avail.getAvailability_schedule()));
+
         userWorkScheduleRepository.save(newSchedule);
 
         user.get().setWork_schedule(newSchedule);
