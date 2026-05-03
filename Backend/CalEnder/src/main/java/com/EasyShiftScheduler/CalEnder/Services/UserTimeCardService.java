@@ -1,18 +1,18 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.EasyShiftScheduler.CalEnder.Entities.Punch;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
 import com.EasyShiftScheduler.CalEnder.Repositories.PunchRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserTimecardRepository;
-import org.springframework.stereotype.Service;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserTimeCardService {

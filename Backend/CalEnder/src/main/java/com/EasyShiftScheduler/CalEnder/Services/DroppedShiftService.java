@@ -1,14 +1,14 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
-import com.EasyShiftScheduler.CalEnder.Entities.DroppedShift;
-import com.EasyShiftScheduler.CalEnder.Entities.User;
-import com.EasyShiftScheduler.CalEnder.Repositories.DroppedShiftsRepository;
-import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
-
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
+import com.EasyShiftScheduler.CalEnder.Entities.DroppedShift;
+import com.EasyShiftScheduler.CalEnder.Entities.User;
+import com.EasyShiftScheduler.CalEnder.Repositories.DroppedShiftsRepository;
+import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
 
 @Service
 public class DroppedShiftService {

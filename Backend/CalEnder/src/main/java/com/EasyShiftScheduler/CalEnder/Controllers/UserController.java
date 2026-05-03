@@ -37,7 +37,7 @@ public class UserController {
 
     // Get user_timecard
     @GetMapping("/user_timecard")
-    public UserTimecard getTimecard(@RequestParam long userID) {
+    public String getTimecard(@RequestParam long userID) {
         return userService.getTimecard(userID);
     }
   
