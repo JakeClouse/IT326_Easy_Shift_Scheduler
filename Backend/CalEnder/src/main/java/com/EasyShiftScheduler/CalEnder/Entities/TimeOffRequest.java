@@ -20,7 +20,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "time_off_request")
 @Getter
-@Data
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
