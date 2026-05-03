@@ -1,17 +1,15 @@
 package com.EasyShiftScheduler.CalEnder.Services;
 
-import com.EasyShiftScheduler.CalEnder.Repositories.PunchRepository;
 import java.util.List;
 import java.util.Optional;
 
-import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.SerializationUtils;
 
 import com.EasyShiftScheduler.CalEnder.Entities.Group;
-import com.EasyShiftScheduler.CalEnder.Entities.Punch;
 import com.EasyShiftScheduler.CalEnder.Entities.Notifications.EmailDetails;
+import com.EasyShiftScheduler.CalEnder.Entities.Punch;
 import com.EasyShiftScheduler.CalEnder.Entities.User;
 import com.EasyShiftScheduler.CalEnder.Entities.UserAvailabilitySchedule;
 import com.EasyShiftScheduler.CalEnder.Entities.UserTimecard;
@@ -19,9 +17,12 @@ import com.EasyShiftScheduler.CalEnder.Entities.UserWorkSchedule;
 import com.EasyShiftScheduler.CalEnder.Helpers.CompensationReport;
 import com.EasyShiftScheduler.CalEnder.Helpers.UserOperations;
 import com.EasyShiftScheduler.CalEnder.Repositories.GroupRepository;
+import com.EasyShiftScheduler.CalEnder.Repositories.PunchRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserAvailabilityScheduleRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
 import com.EasyShiftScheduler.CalEnder.Repositories.UserWorkScheduleRepository;
+
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -41,7 +42,7 @@ public class UserService {
         return userRepository.existsByUsername(username);
     }
 
-    public User save(User user) {
+    public String save(User user) {
         // Check if password is strong enough before saving user
         if (!userOperations.checkPasswordStrength(user.getPassword())) {
             return null;
@@ -56,7 +57,7 @@ public class UserService {
         user.setPassword(encoder.encode(user.getPassword()));
 
         // Saves user to DB
-        return userRepository.save(user);
+        return userRepository.save(user).toString();
     }
 
     public String deleteWorkSchedule(long userID) {
@@ -201,9 +202,9 @@ public class UserService {
     }
 
     // Return the user's user_timecard
-    public UserTimecard getTimecard(long userID) {
+    public String getTimecard(long userID) {
         Optional<User> user = userRepository.findById(userID);
-        return user.map(User::getUser_timecard).orElse(null);
+        return user.map(User::getUser_timecard).orElse(null).toString();
     }
   
     public String updatePassword(long userID, String newPassword) {

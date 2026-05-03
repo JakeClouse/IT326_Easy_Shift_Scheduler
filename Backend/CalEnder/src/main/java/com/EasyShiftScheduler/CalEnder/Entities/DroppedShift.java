@@ -11,7 +11,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "dropped_shift")
-@Data
 @Getter
 @Setter
 @AllArgsConstructor

@@ -19,7 +19,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "PUNCH")
-@Data
 @Getter
 @Setter
 @AllArgsConstructor

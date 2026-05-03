@@ -1,17 +1,14 @@
 package com.EasyShiftScheduler.CalEnder.Controllers;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.EasyShiftScheduler.CalEnder.Entities.User;
-import com.EasyShiftScheduler.CalEnder.Repositories.UserRepository;
-import com.EasyShiftScheduler.CalEnder.Security.JwtUtil;
 import com.EasyShiftScheduler.CalEnder.Services.AuthService;
 import com.EasyShiftScheduler.CalEnder.Services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.*;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
 @RestController
 
 @RequestMapping("/api/auth")
@@ -33,13 +30,13 @@ public class AuthController {
     }
 
     @PostMapping("/employee_signup")
-    public User registerEmployee(@RequestBody User user) {
+    public String registerEmployee(@RequestBody User user) {
         user.setRoles("EMPLOYEE");
         return userService.save(user);
     }
 
     @PostMapping("/employer_signup")
-    public User registerEmployer(@RequestBody User user) {
+    public String registerEmployer(@RequestBody User user) {
         user.setRoles("EMPLOYEE,EMPLOYER");
         return userService.save(user);
     }

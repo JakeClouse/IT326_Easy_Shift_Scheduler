@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Data
 @Table(name = "work_schedule")
 @Getter
 @Setter
