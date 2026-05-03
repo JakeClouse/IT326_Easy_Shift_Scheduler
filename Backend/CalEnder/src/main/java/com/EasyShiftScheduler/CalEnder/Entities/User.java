@@ -26,7 +26,6 @@ import lombok.Setter;
 @Table(name="users")
 @NoArgsConstructor
 @Getter
-@Data
 @Setter
 @AllArgsConstructor
 public class User {
