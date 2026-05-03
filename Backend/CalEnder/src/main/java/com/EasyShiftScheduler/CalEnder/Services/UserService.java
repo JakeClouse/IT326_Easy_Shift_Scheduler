@@ -180,7 +180,7 @@ public class UserService {
 
         newSchedule.setWork_schedule(List.copyOf(avail.getAvailability_schedule()));
 
-        userWorkScheduleRepository.save(newSchedule);
+        newSchedule = userWorkScheduleRepository.save(newSchedule);
 
         user.setWork_schedule(newSchedule);
         userRepository.save(user);
