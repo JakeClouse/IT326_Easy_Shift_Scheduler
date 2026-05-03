@@ -1,5 +1,6 @@
 package com.EasyShiftScheduler.CalEnder.Controllers;
 
+import jakarta.persistence.Entity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,8 +26,8 @@ public class UserController {
     private EmailService emailService;
 
     @PutMapping("/account/update")
-    public String updateAccountInfo(@RequestParam long userID, @RequestBody User user){
-        return userService.updateAccountInfo(userID, user);
+    public String updateAccountInfo(@RequestParam long userID, @RequestParam String newUsername, @RequestParam String newEmail){
+        return userService.updateAccountInfo(userID, newUsername, newEmail);
     }
 
     // Update compensation rate (employer action)
